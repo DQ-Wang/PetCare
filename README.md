@@ -4,8 +4,7 @@
 
 
 ## 一些提示
-
-1.<a url="https://uniapp.dcloud.net.cn/tutorial/page.html">创建页面</a>
+1. [创建页面](https://uniapp.dcloud.net.cn/tutorial/page.html).
 
 2.大概文件
 
