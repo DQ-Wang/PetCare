@@ -1,1 +1,0 @@
-<view class="container uni-flex uni-column"><view class="top-gradient"><image src="{{a}}" class=""></image></view><view class="box uni-flex-item"></view><view class="flex2 uni-flex"><view class="box uni-flex-item"></view><view class="box uni-flex-item"></view></view><view class="box uni-flex-item"></view><view class="box uni-flex-item"></view></view>

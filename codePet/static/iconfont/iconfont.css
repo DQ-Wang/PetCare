@@ -1,0 +1,79 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 4820451 */
+  src: url('iconfont.woff2?t=1738748299812') format('woff2'),
+       url('iconfont.woff?t=1738748299812') format('woff'),
+       url('iconfont.ttf?t=1738748299812') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-youjiantou:before {
+  content: "\e622";
+}
+
+.icon-qiandai:before {
+  content: "\e610";
+}
+
+.icon-licai:before {
+  content: "\e600";
+}
+
+.icon-hongbao:before {
+  content: "\e784";
+}
+
+.icon-tuiguangzhuanqian:before {
+  content: "\e609";
+}
+
+.icon-dizhi:before {
+  content: "\e60d";
+}
+
+.icon-yiwancheng:before {
+  content: "\e601";
+}
+
+.icon-yinhangka:before {
+  content: "\e8bf";
+}
+
+.icon-youhuiquan:before {
+  content: "\e8c0";
+}
+
+.icon-erweima1:before {
+  content: "\e602";
+}
+
+.icon-tuikuanshouhou:before {
+  content: "\e6bb";
+}
+
+.icon-pingjia:before {
+  content: "\e6fd";
+}
+
+.icon-dizhi1:before {
+  content: "\e814";
+}
+
+.icon-yiwancheng3:before {
+  content: "\e742";
+}
+
+.icon-hezi:before {
+  content: "\e624";
+}
+
+.icon-erweima:before {
+  content: "\e642";
+}
+
