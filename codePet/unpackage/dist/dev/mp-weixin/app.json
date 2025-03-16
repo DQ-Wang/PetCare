@@ -1,0 +1,53 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/master-list/master-list",
+    "pages/index/index",
+    "pages/mine1/mine1",
+    "pages/Commity/Commity"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarBackgroundColor": "#f8f8f8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#b2d76e",
+    "borderStyle": "white",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "iconPath": "/static/汪汪喵切图/公共/首页2icon.png",
+        "selectedIconPath": "/static/汪汪喵切图/公共/首页1icon.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/master-list/master-list",
+        "iconPath": "/static/汪汪喵切图/公共/师傅列表2icon.png",
+        "selectedIconPath": "/static/汪汪喵切图/公共/师傅列表1icon.png",
+        "text": "师傅列表"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "/static/汪汪喵切图/公共/需求icon@3x.png",
+        "selectedIconPath": "/static/汪汪喵切图/公共/需求icon@3x.png",
+        "text": "发布"
+      },
+      {
+        "pagePath": "pages/Commity/Commity",
+        "iconPath": "/static/汪汪喵切图/公共/分类2icon.png",
+        "selectedIconPath": "/static/汪汪喵切图/公共/分类1icon.png",
+        "text": "社区"
+      },
+      {
+        "pagePath": "pages/mine1/mine1",
+        "iconPath": "/static/汪汪喵切图/公共/我的2icon.png",
+        "selectedIconPath": "/static/汪汪喵切图/公共/我的1icon.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "usingComponents": {}
+}
