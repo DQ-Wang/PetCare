@@ -9,16 +9,16 @@
   flex: 1;
   text-align: center;
   min-width: 0;
-  padding: 7px 8px;
+  padding: 7rpx 10rpx;
   align-items: center;
 }
 
 .pet-pic-icon {
   position: absolute;
-  left: 82px;
-  top: 12px;
-  width: 10px;
-  height: 10px;
+  left: 160rpx;
+  top: 20rpx;
+  width: 20rpx;
+  height: 20rpx;
 }
 
 .pet-text-cut {
@@ -31,7 +31,7 @@
   /* 整个页面布局 */
   height: 90vh;
   background-color: #f4f5f9;
-  padding: 10px 0 20px 0;
+  padding: 20rpx 0 0 0;
   /* 已修改 */
   display: flex;
   flex-direction: column;
@@ -43,36 +43,36 @@
   /* 卡片盒子 */
   display: flex;
 
-  margin: 8px 8px 12px 8px;
+  margin: 8rpx 16rpx 8rpx 16rpx;
 
   background-color: white;
-  height: 100px;
-  border-radius: 16rpx;
+  height: 200rpx;
+  border-radius: 32rpx;
 }
 
 .pet-avatar {
   flex: 3;
-  margin: 20px 5px 20px 5px;
-  height: 60px;
-  width: 60px;
+  margin: 40rpx 10rpx 40rpx 10rpx;
+  height: 120rpx;
+  width: 120rpx;
 }
 
 .pet-introduction {
   flex: 10;
-  margin: 10px 15px 10px 5px;
+  margin: 20rpx 30rpx 20rpx 10rpx;
 }
 
 .pet-online {
   width: 3em;
   text-align: center;
-  border-radius: 10px;
-  height: 22px;
+  border-radius: 20rpx;
+  height: 44rpx;
   background-color: rgb(237, 246, 243);
 }
 
 .pet-distance-order {
   position: relative;
-  margin: 2px;
+  margin: 4rpx;
   flex: 2;
   display: flex;
   flex-direction: column;
@@ -85,7 +85,7 @@
 .pet-distance {
   /* position: absolute; */
   color: grey;
-  font-size: 15px;
+  font-size: 30rpx;
   text-align: center;
   padding-top: 15rpx;
   /* top: 15px */
@@ -95,14 +95,14 @@
 
 .pet-order {
   /*  position: absolute; */
-  width: 65px;
-  height: 25px;
+  width: 130rpx;
+  height: 50rpx;
   text-align: center;
   margin: 30rpx auto;
   /* padding-top: 5px; */
   font-weight: bold;
-  font-size: 14px;
-  border-radius: 20px;
+  font-size: 28rpx;
+  border-radius: 40rpx;
   background-color: #b2d76e;
 
   /* top: 50px;
@@ -116,26 +116,26 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 50px;
+  height: 100rpx;
   display: grid;
   background-color: white;
   grid-template-columns: 20% 20% 20% 20% 20%;
-  padding-bottom: 10px;
+  padding-bottom: 20rpx;
 }
 
 .pet-wizard-image {
-  height: 23px;
-  margin: 5px 0px 0px 25px;
+  height: 46rpx;
+  margin: 10rpx 0rpx 0rpx 50rpx;
 }
 
 .pet-wizard-text {
   text-align: center;
-  margin-right: 3px;
+  margin-right: 6rpx;
   color: rgb(219, 223, 232);
-  font-size: 12px;
+  font-size: 24rpx;
 }
 
 .pet-unique {
-  height: 56px;
-  margin: -26px 0px 0px 5px;
+  height: 112rpx;
+  margin: -52rpx 0rpx 0rpx 10rpx;
 }

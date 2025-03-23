@@ -22,11 +22,11 @@
       <image src="../../static/汪汪喵切图/师傅列表/头像.png" mode="aspectFit" class="pet-avatar"></image>
       <view class="pet-introduction">
         <view style="display:flex">
-          <view style="font-weight:bold;margin-right:8px">张女士</view>
-          <view class="pet-online" style="font-size:14px;margin-top:1px">在线</view>
+          <view style="font-weight:bold;margin-right:16rpx">张女士</view>
+          <view class="pet-online" style="font-size:28rpx;margin-top:2rpx">在线</view>
         </view>
-        <view style="margin-top:8px;font-size:14px">3年喂养经验丰富|猫狗双全</view>
-        <view style="margin-top:8px;font-size:16px;color:red;font-weight: 800;">￥49.9起</view>
+        <view style="margin-top:16rpx;font-size:28rpx">3年喂养经验丰富|猫狗双全</view>
+        <view style="margin-top:16rpx;font-size:32rpx;color:red;font-weight: 800;">￥49.9起</view>
       </view>
       <view class="pet-distance-order">
         <view class="pet-distance">13km</view>
