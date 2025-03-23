@@ -11,7 +11,7 @@
         </view>
 
         <view class="middle-section">
-          <text style="font-weight: bold; letter-spacing: 2rpx;">授权昵称</text>
+          <text style="font-size: 28rpx; font-weight: bold; letter-spacing: 2rpx;">授权昵称</text>
           <text class="title" style="font-size: 20rpx; font-weight: bold;">初级会员</text>
           <view class="level">
             <text style="font-size: 24rpx; color: #585858;">您已达到等级上限</text>

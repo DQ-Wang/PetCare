@@ -50,31 +50,31 @@
 
     "list": [{
         "pagePath": "pages/home/home",
-        "iconPath": "/static/汪汪喵切图/公共/首页2icon.png",
-        "selectedIconPath": "/static/汪汪喵切图/公共/首页1icon.png",
+        "iconPath": "/static/汪汪喵切图/导航栏图标/首页.png",
+        "selectedIconPath": "/static/汪汪喵切图/导航栏图标/首页_选中.png",
         "text": "首页"
       }, {
         "pagePath": "pages/master-list/master-list",
-        "iconPath": "/static/汪汪喵切图/公共/师傅列表2icon.png",
-        "selectedIconPath": "/static/汪汪喵切图/公共/师傅列表1icon.png",
+        "iconPath": "/static/汪汪喵切图/导航栏图标/师傅列表.png",
+        "selectedIconPath": "/static/汪汪喵切图/导航栏图标/师傅列表_选中.png",
         "text": "师傅列表"
       },
       {
         "pagePath": "pages/index/index",
-        "iconPath": "/static/汪汪喵切图/公共/需求icon@3x.png",
-        "selectedIconPath": "/static/汪汪喵切图/公共/需求icon@3x.png",
+        "iconPath": "/static/汪汪喵切图/导航栏图标/发布.png",
+        "selectedIconPath": "/static/汪汪喵切图/导航栏图标/发布_选中.png",
         "text": "发布"
       },
       {
         "pagePath": "pages/Commity/Commity",
-        "iconPath": "/static/汪汪喵切图/公共/分类2icon.png",
-        "selectedIconPath": "/static/汪汪喵切图/公共/分类1icon.png",
+        "iconPath": "/static/汪汪喵切图/导航栏图标/社区.png",
+        "selectedIconPath": "/static/汪汪喵切图/导航栏图标/社区_选中.png",
         "text": "社区"
       },
       {
         "pagePath": "pages/mine1/mine1",
-        "iconPath": "/static/汪汪喵切图/公共/我的2icon.png",
-        "selectedIconPath": "/static/汪汪喵切图/公共/我的1icon.png",
+        "iconPath": "/static/汪汪喵切图/导航栏图标/我的.png",
+        "selectedIconPath": "/static/汪汪喵切图/导航栏图标/我的_选中.png",
         "text": "我的"
       }
 
