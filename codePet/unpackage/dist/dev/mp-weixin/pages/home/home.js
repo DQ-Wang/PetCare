@@ -1,2 +1,25 @@
-"use strict";const r=require("../../common/assets.js"),_=require("../../common/vendor.js"),t={data(){return{}},methods:{}};function o(e,i,c,m,n,p){return{a:r._imports_0,b:r._imports_1,c:r._imports_2,d:r._imports_3,e:r._imports_4,f:r._imports_5,g:r._imports_6,h:r._imports_7,i:r._imports_8}}const s=_._export_sfc(t,[["render",o]]);wx.createPage(s);
+"use strict";
+const common_assets = require("../../common/assets.js");
+const common_vendor = require("../../common/vendor.js");
+const _sfc_main = {
+  data() {
+    return {};
+  },
+  methods: {}
+};
+function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return {
+    a: common_assets._imports_0,
+    b: common_assets._imports_1,
+    c: common_assets._imports_2,
+    d: common_assets._imports_3,
+    e: common_assets._imports_4,
+    f: common_assets._imports_5,
+    g: common_assets._imports_6,
+    h: common_assets._imports_7,
+    i: common_assets._imports_8
+  };
+}
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render]]);
+wx.createPage(MiniProgramPage);
 //# sourceMappingURL=../../../.sourcemap/mp-weixin/pages/home/home.js.map
