@@ -110,12 +110,12 @@
 
   .content {
     background-color: $grey-light-2;
-    padding: 0 0 20px 0;
+    padding: 0 0 40rpx 0;
   }
 
   .top-gradient {
     position: relative;
-    height: 200px;
+    height: 400rpx;
     background: linear-gradient(to bottom, $green-light-2, $grey-light-2);
     overflow: hidden;
 
@@ -125,8 +125,8 @@
       top: 70%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 250px;
-      height: 250px;
+      width: 500rpx;
+      height: 500rpx;
       background-image: url('/static/汪汪喵切图/我的/dog.png');
       background-repeat: no-repeat;
       background-size: contain;
@@ -137,61 +137,61 @@
   .user-card {
     display: flex;
     background: white;
-    margin: 15px;
-    padding: 20px;
-    margin-top: -40px;
+    margin: 30rpx;
+    padding: 40rpx;
+    margin-top: -80rpx;
     position: relative;
-    border-radius: 16rpx;
+    border-radius: 32rpx;
     align-items: center;
 
     .avatar {
-      width: 60px;
-      height: 60px;
+      width: 120rpx;
+      height: 120rpx;
       background: $green;
       background-image: url('/static/汪汪喵切图/我的/头像.png');
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
       border-radius: 50%;
-      margin-right: 15px;
+      margin-right: 30rpx;
     }
 
     .member-wrap {
-      margin-top: 5px;
+      margin-top: 10rpx;
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 5px;
+      gap: 20rpx;
+      margin-bottom: 10rpx;
 
       .tag {
         background: $yellow-light;
         color: black;
-        padding: 2px 8px;
-        border-radius: 8px;
-        font-size: 12px;
+        padding: 4rpx 16rpx;
+        border-radius: 16rpx;
+        font-size: 24rpx;
         font-weight: bold;
       }
 
       .name {
-        font-size: 18px;
+        font-size: 32rpx;
         font-weight: bold;
       }
     }
 
     .qr-code {
-      margin-top: -5px;
-      width: 70px;
-      height: 40px;
+      margin-top: -10rpx;
+      width: 140rpx;
+      height: 80rpx;
       position: absolute;
-      right: 20px;
+      right: 40rpx;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 17px;
+      font-size: 34rpx;
       color: #a1a1a1;
 
       .icon {
-        padding-left: 13px;
-        font-size: 30px;
+        padding-left: 26rpx;
+        font-size: 60rpx;
         color: #a1a1a1;
         font-weight: bold;
       }
@@ -199,33 +199,33 @@
   }
 
   .assets {
-    margin: 15px;
-    padding: 20px;
-    border-radius: 10px;
+    margin: 30rpx;
+    padding: 40rpx;
+    border-radius: 20rpx;
     background: white;
 
     .assets-title {
-      font-size: 16px;
+      font-size: 32rpx;
       font-weight: bold;
-      margin-bottom: 10px;
+      margin-bottom: 20rpx;
     }
 
     .assets-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       text-align: center;
-      margin-bottom: -10px;
+      margin-bottom: -20rpx;
 
       .assets-item {
-        padding: 10px;
+        padding: 20rpx;
 
         .number {
-          font-size: 20px;
+          font-size: 40rpx;
           font-weight: bold;
         }
 
         .label {
-          font-size: 14px;
+          font-size: 28rpx;
           color: #666;
         }
       }
@@ -233,15 +233,15 @@
   }
 
   .order-menu {
-    margin: 15px;
-    padding: 20px;
-    border-radius: 10px;
+    margin: 30rpx;
+    padding: 40rpx;
+    border-radius: 20rpx;
     background: white;
 
     .order-title {
-      font-size: 16px;
+      font-size: 32rpx;
       font-weight: bold;
-      margin-bottom: 20px;
+      margin-bottom: 40rpx;
     }
 
     .order-grid {
@@ -251,13 +251,13 @@
 
       .order-item {
         .icon {
-          font-size: 24px;
+          font-size: 48rpx;
           color: $yellow;
         }
 
         .label {
-          padding-top: 5px;
-          font-size: 14px;
+          padding-top: 10rpx;
+          font-size: 28rpx;
           color: #333;
         }
       }
@@ -265,26 +265,26 @@
   }
 
   .menu-list {
-    margin: 15px;
-    padding: 0 15px;
-    border-radius: 10px;
+    margin: 30rpx;
+    padding: 0 30rpx;
+    border-radius: 20rpx;
     background: white;
 
     .menu-item {
       display: flex;
       align-items: center;
-      padding: 15px 0;
-      border-bottom: 1px solid #f0f0f0;
+      padding: 30rpx 0;
+      border-bottom: 2rpx solid #f0f0f0;
 
       .icon {
-        margin-right: 10px;
-        font-size: 2em;
+        margin-right: 20rpx;
+        font-size: 64rpx;
         color: #000000;
       }
 
       .arrow {
-        margin-right: 10px;
-        font-size: 1em;
+        margin-right: 20rpx;
+        font-size: 32rpx;
         color: #cecece;
       }
 
@@ -299,16 +299,16 @@
   }
 
   .experience-bar-container {
-    margin-top: 3px;
+    margin-top: 6rpx;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 16rpx;
 
     .experience-bar {
       width: 100%;
-      height: 5px;
+      height: 10rpx;
       background-color: #ddd;
-      border-radius: 10px;
+      border-radius: 20rpx;
       overflow: hidden;
 
       .progress {
