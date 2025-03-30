@@ -54,6 +54,8 @@
 
 - **定位服务**：支持用户选择或手动输入地理位置，适用于线下活动、救助信息等场景。
 
+![社区](https://raw.githubusercontent.com/DQ-Wang/PetCare/refs/heads/main/codePet/static/%E8%A1%A5%E5%85%85/02%E7%A4%BE%E5%8C%BA.png)
+
 ## 一些提示
 1.[创建页面](https://uniapp.dcloud.net.cn/tutorial/page.html).
 
