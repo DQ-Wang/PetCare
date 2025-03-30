@@ -1,6 +1,6 @@
 <template>
   <view class="pet-container">
-    <view class="pet-box">请编写社区</view>
+
 
   </view>
 </template>
