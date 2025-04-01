@@ -1,0 +1,1 @@
+{"version":3,"file":"release.js","sources":["../../../software/HBuilderX/plugins/uniapp-cli-vite/uniPage:/cGFnZXMvcmVsZWFzZS9yZWxlYXNlLnZ1ZQ"],"sourcesContent":["import MiniProgramPage from 'D:/code/PetCare/codePet/pages/release/release.vue'\nwx.createPage(MiniProgramPage)"],"names":["MiniProgramPage"],"mappings":"+uBACA,GAAG,WAAWA,CAAe"}

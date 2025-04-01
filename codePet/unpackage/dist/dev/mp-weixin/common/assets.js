@@ -1,24 +1,2 @@
-"use strict";
-const _imports_0$1 = "/static/汪汪喵切图/首页/banner@3x.png";
-const _imports_1$1 = "/static/汪汪喵切图/首页/头像@3x.png";
-const _imports_2 = "/static/汪汪喵切图/我的/会员码@3x.png";
-const _imports_3 = "/static/汪汪喵切图/首页/洗护预约icon@3x.png";
-const _imports_4 = "/static/汪汪喵切图/首页/一键上门icon@3x.png";
-const _imports_5 = "/static/汪汪喵切图/首页/宠物寄养icon@3x.png";
-const _imports_6 = "/static/汪汪喵切图/首页/积分兑换icon@3x.png";
-const _imports_7 = "/static/汪汪喵切图/首页/优惠券icon@3x.png";
-const _imports_8 = "/static/汪汪喵切图/首页/热线icon@3x.png";
-const _imports_0 = "/static/汪汪喵切图/师傅列表/选择icon.png";
-const _imports_1 = "/static/汪汪喵切图/师傅列表/头像.png";
-exports._imports_0 = _imports_0$1;
-exports._imports_0$1 = _imports_0;
-exports._imports_1 = _imports_1$1;
-exports._imports_1$1 = _imports_1;
-exports._imports_2 = _imports_2;
-exports._imports_3 = _imports_3;
-exports._imports_4 = _imports_4;
-exports._imports_5 = _imports_5;
-exports._imports_6 = _imports_6;
-exports._imports_7 = _imports_7;
-exports._imports_8 = _imports_8;
+"use strict";const t="/static/汪汪喵切图/首页/banner@3x.png",s="/static/汪汪喵切图/首页/头像@3x.png",_="/static/汪汪喵切图/我的/会员码@3x.png",i="/static/汪汪喵切图/首页/洗护预约icon@3x.png",o="/static/汪汪喵切图/首页/一键上门icon@3x.png",p="/static/汪汪喵切图/首页/宠物寄养icon@3x.png",n="/static/汪汪喵切图/首页/积分兑换icon@3x.png",c="/static/汪汪喵切图/首页/优惠券icon@3x.png",r="/static/汪汪喵切图/首页/热线icon@3x.png",m="/static/汪汪喵切图/师傅列表/选择icon.png",a="/static/汪汪喵切图/师傅列表/头像.png",g="/static/汪汪喵切图/发布/左箭头.png",$="/static/汪汪喵切图/发布/标签.png",x="/static/汪汪喵切图/发布/位置.png",e="/static/汪汪喵切图/发布/右箭头.png",b="/static/汪汪喵切图/发布/发布.png",u="/static/汪汪喵切图/我的/进入icon.png";exports._imports_0=t;exports._imports_0$1=m;exports._imports_0$2=g;exports._imports_0$3=u;exports._imports_1=s;exports._imports_1$1=a;exports._imports_1$2=$;exports._imports_2=_;exports._imports_2$1=x;exports._imports_3=i;exports._imports_3$1=e;exports._imports_4=o;exports._imports_4$1=b;exports._imports_5=p;exports._imports_6=n;exports._imports_7=c;exports._imports_8=r;
 //# sourceMappingURL=../../.sourcemap/mp-weixin/common/assets.js.map

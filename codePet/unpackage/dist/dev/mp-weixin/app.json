@@ -4,7 +4,9 @@
     "pages/master-list/master-list",
     "pages/index/index",
     "pages/mine1/mine1",
-    "pages/Commity/Commity"
+    "pages/Commity/Commity",
+    "pages/release/release",
+    "pages/category/category"
   ],
   "window": {
     "navigationBarTextStyle": "black",
@@ -30,7 +32,7 @@
         "text": "师傅列表"
       },
       {
-        "pagePath": "pages/index/index",
+        "pagePath": "pages/release/release",
         "iconPath": "/static/汪汪喵切图/导航栏图标/发布.png",
         "selectedIconPath": "/static/汪汪喵切图/导航栏图标/发布_选中.png",
         "text": "发布"
