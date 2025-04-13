@@ -38,7 +38,7 @@
 								<image class="avatar" :src="item.avatar" />
 								<text class="name">{{ item.author }}</text>
 							</view>
-							<text class="like" @click="toggleLike(item)">♥ {{ item.likes }}</text>
+							<text class="like" :class="{ liked: item.liked }" @click="toggleLike(item)">♥ {{ item.likes }}</text>
 						</view>
 					</view>
 				</view>
