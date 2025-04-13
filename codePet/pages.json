@@ -31,6 +31,13 @@
       "style": {
         "navigationBarTitleText": "社区"
       }
+    },
+    {
+    	"path" : "pages/Washcare_details/Washcare_details",
+    	"style" : 
+    	{
+    		"navigationBarTitleText" : "洗护"
+    	}
     }
 
 
