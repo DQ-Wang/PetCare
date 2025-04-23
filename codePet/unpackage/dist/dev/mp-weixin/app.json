@@ -4,7 +4,8 @@
     "pages/master-list/master-list",
     "pages/index/index",
     "pages/mine1/mine1",
-    "pages/Commity/Commity"
+    "pages/Commity/Commity",
+    "pages/Washcare_details/Washcare_details"
   ],
   "window": {
     "navigationBarTextStyle": "black",

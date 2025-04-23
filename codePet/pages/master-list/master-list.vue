@@ -14,8 +14,9 @@
     </view>
     <view class="pet-list-ele">
       <image src="../../static/汪汪喵切图/师傅列表/选择icon.png" mode="aspectFit" class="pet-pic-icon"></image>
-      <view class="pet-text-cut" style="color:lightgreen">北京 西城XXX</view>
+      <view class="pet-text-cut" style="color:#b2d76e">北京 西城XXX</view>
     </view>
+	<view class="pet-takeup-ele"></view>
   </view>
   <view class="pet-master-list">
     <view class="pet-master" v-for="item in 4">
@@ -30,7 +31,6 @@
       </view>
       <view class="pet-distance-order">
         <view class="pet-distance">13km</view>
-        <view class="pet-order">下单</view>
       </view>
     </view>
 

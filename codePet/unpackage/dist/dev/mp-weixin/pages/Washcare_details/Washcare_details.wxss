@@ -1,0 +1,27 @@
+page {
+  font-family: "PingFang SC", sans-serif;
+
+
+  color: #000;
+}
+.pet-container {
+  background-color: #f4f5f9;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.pet-avatar {
+  /* 头像类 */
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.pet-box {
+  width: 690rpx;
+  /* 此处可修改margin距离 */
+  margin: 50px auto;
+  border: 1px solid #eee;
+  border-radius: 10rpx;
+  box-shadow: 0 0 30rpx rgba(0, 0, 0, 0.05);
+}
