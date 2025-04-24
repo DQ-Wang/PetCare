@@ -1,1 +1,0 @@
-{"version":3,"file":"Commity.js","sources":["../../../software/HBuilderX/plugins/uniapp-cli-vite/uniPage:/cGFnZXMvQ29tbWl0eS9Db21taXR5LnZ1ZQ"],"sourcesContent":["import MiniProgramPage from 'D:/code/PetCare/codePet/pages/Commity/Commity.vue'\nwx.createPage(MiniProgramPage)"],"names":["MiniProgramPage"],"mappings":"gMACA,GAAG,WAAWA,CAAe"}

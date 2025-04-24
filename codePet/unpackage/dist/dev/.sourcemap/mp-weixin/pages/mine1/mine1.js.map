@@ -1,1 +1,0 @@
-{"version":3,"file":"mine1.js","sources":["../../../software/HBuilderX/plugins/uniapp-cli-vite/uniPage:/cGFnZXMvbWluZTEvbWluZTEudnVl"],"sourcesContent":["import MiniProgramPage from 'D:/code/PetCare/codePet/pages/mine1/mine1.vue'\nwx.createPage(MiniProgramPage)"],"names":["MiniProgramPage"],"mappings":"6JACA,GAAG,WAAWA,CAAe"}
