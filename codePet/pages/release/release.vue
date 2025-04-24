@@ -29,7 +29,7 @@
 			</view>
 		</view>
 		
-		<view class="tag-contianer">
+		<view class="tag-container">
 			<view class="tag-title">
 				<image src="/static/汪汪喵切图/发布/标签.png" style="width: 28rpx; height: 28rpx;"></image>
 				<text>标签</text>				
@@ -46,7 +46,7 @@
 		
 		<view class="divider-line"></view>
 		
-		<view class="location-contianer">
+		<view class="location-container">
 			<view class="location-title">
 				<image src="/static/汪汪喵切图/发布/位置.png" style="width: 28rpx; height: 28rpx;"></image>
 				<text>位置</text>
@@ -167,7 +167,7 @@
 	}
 }
 
-.tag-contianer, .location-contianer{
+.tag-container, .location-container{
 	padding: 0 38rpx;
 	
 	.tag-title,.location-title{
