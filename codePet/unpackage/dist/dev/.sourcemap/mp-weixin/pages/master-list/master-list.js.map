@@ -1,1 +1,0 @@
-{"version":3,"file":"master-list.js","sources":["../../../software/HBuilderX/plugins/uniapp-cli-vite/uniPage:/cGFnZXMvbWFzdGVyLWxpc3QvbWFzdGVyLWxpc3QudnVl"],"sourcesContent":["import MiniProgramPage from 'D:/code/PetCare/codePet/pages/master-list/master-list.vue'\nwx.createPage(MiniProgramPage)"],"names":["MiniProgramPage"],"mappings":"+SACA,GAAG,WAAWA,CAAe"}

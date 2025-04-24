@@ -1,2 +1,0 @@
-"use strict";Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});const e=require("./common/vendor.js"),n={onLaunch:function(){e.index.__f__("log","at App.vue:4","App Launch")},onShow:function(){e.index.__f__("log","at App.vue:7","App Show")},onHide:function(){e.index.__f__("log","at App.vue:10","App Hide")}};function p(){return{app:e.createSSRApp(n)}}p().app.mount("#app");exports.createApp=p;
-//# sourceMappingURL=../.sourcemap/mp-weixin/app.js.map

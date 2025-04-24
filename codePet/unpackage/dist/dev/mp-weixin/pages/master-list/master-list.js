@@ -1,2 +1,0 @@
-"use strict";const t=require("../../common/vendor.js"),r=require("../../common/assets.js"),e={data(){return{}},methods:{}};function o(_,n,c,i,m,a){return{a:r._imports_0$1,b:r._imports_0$1,c:r._imports_0$1,d:r._imports_0$1,e:t.f(4,(p,$,u)=>({})),f:r._imports_1$1}}const s=t._export_sfc(e,[["render",o]]);wx.createPage(s);
-//# sourceMappingURL=../../../.sourcemap/mp-weixin/pages/master-list/master-list.js.map

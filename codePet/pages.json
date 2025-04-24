@@ -33,6 +33,13 @@
       }
     },
     {
+    	"path" : "pages/Washcare_details/Washcare_details",
+    	"style" : 
+    	{
+    		"navigationBarTitleText" : "洗护"
+    	}
+    },
+    {
     	"path" : "pages/release/release",
     	"style" : 
     	{

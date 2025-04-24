@@ -1,0 +1,72 @@
+.pet-item {
+	display: grid;
+	border-radius: 18rpx/18rpx;
+	background-color: white;
+	margin: 28rpx 30rpx 0 30rpx;
+}
+
+.pet-item-header {
+	grid:
+		'header';
+}
+
+.pet-item-complete {
+	grid:
+		'header header header header'
+		'main1 main2 main3 main4';
+	grid-template-rows: 100rpx 400rpx;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+
+.pet-title {
+	flex: 1;
+	padding: 35rpx 0rpx 35rpx 28rpx;
+	font-weight: 600;
+}
+
+.pet-unfold {
+	padding: 35rpx 24rpx 35rpx 0rpx;
+}
+
+.pet-omit {
+	/*overflow: hidden;
+	white-space: nowrap;
+	text-overflow: clip;*/
+	font-weight: 400;
+	font-size: 20rpx;
+	color: gray;
+	max-width: 120rpx;
+}
+
+.pet-main {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 30rpx 0rpx;
+}
+
+.pet-order-column {
+	height: 120rpx;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.pet-cost {
+	margin-left:25rpx;
+	font-size:35rpx;
+	font-weight:bold;
+}
+
+.pet-order-button {
+	display:flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color:#b2d76e;
+	height:85rpx;
+	padding:0 100rpx 0 100rpx;
+	border-radius: 36rpx/40rpx;
+	margin-right:32rpx;
+	font-weight:bolder;
+}
