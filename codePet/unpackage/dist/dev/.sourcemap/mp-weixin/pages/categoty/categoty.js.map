@@ -1,0 +1,1 @@
+{"version":3,"file":"categoty.js","sources":["../../../software/HBuilderX/plugins/uniapp-cli-vite/uniPage:/cGFnZXMvY2F0ZWdvdHkvY2F0ZWdvdHkudnVl"],"sourcesContent":["import MiniProgramPage from 'D:/code/PetCare/codePet/pages/categoty/categoty.vue'\nwx.createPage(MiniProgramPage)"],"names":["MiniProgramPage"],"mappings":"k8EACA,GAAG,WAAWA,CAAe"}

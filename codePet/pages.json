@@ -38,9 +38,23 @@
     	{
     		"navigationBarTitleText" : "洗护"
     	}
+    },
+    {
+    	"path" : "pages/release/release",
+    	"style" : 
+    	{
+    		"navigationBarTitleText" : "发布",
+			"navigationStyle": "custom"
+    	}
+    },
+    {
+    	"path" : "pages/category/category",
+    	"style" : 
+    	{
+    		"navigationBarTitleText" : "分类",
+			"navigationStyle": "custom"
+    	}
     }
-
-
   ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
@@ -67,7 +81,7 @@
         "text": "师傅列表"
       },
       {
-        "pagePath": "pages/index/index",
+        "pagePath": "pages/release/release",
         "iconPath": "/static/汪汪喵切图/导航栏图标/发布.png",
         "selectedIconPath": "/static/汪汪喵切图/导航栏图标/发布_选中.png",
         "text": "发布"
