@@ -1,2 +1,92 @@
-"use strict";const o=require("../../../../common/vendor.js"),s=e=>{const t=e.lastIndexOf("."),n=e.length;return{name:e.substring(0,t),ext:e.substring(t+1,n)}},m=e=>Array.isArray(e)?e:e.replace(/(\[|\])/g,"").split(","),g=(e,t)=>{let n=[],a=[];return!t||t.length===0?{filePaths:n,files:a}:(e.tempFiles.forEach(i=>{const h=s(i.name).ext.toLowerCase();t.indexOf(h)!==-1&&(a.push(i),n.push(i.path))}),a.length!==e.tempFiles.length&&o.index.showToast({title:`当前选择了${e.tempFiles.length}个文件 ，${e.tempFiles.length-a.length} 个文件格式不正确`,icon:"none",duration:5e3}),{filePaths:n,files:a})},r=e=>new Promise((t,n)=>{o.index.getImageInfo({src:e,success(a){t(a)},fail(a){n(a)}})}),u=async(e,t="image")=>{const a=s(e.name).ext.toLowerCase();let i={name:e.name,uuid:e.uuid,extname:a||"",cloudPath:e.cloudPath,fileType:e.fileType,thumbTempFilePath:e.thumbTempFilePath,url:e.path||e.path,size:e.size,image:{},path:e.path,video:{}};if(t==="image"){const l=await r(e.path);delete i.video,i.image.width=l.width,i.image.height=l.height,i.image.location=l.path}else delete i.image;return i};exports.get_extname=m;exports.get_file_data=u;exports.get_files_and_is_max=g;
+"use strict";
+const common_vendor = require("../../../../common/vendor.js");
+const get_file_ext = (name) => {
+  const last_len = name.lastIndexOf(".");
+  const len = name.length;
+  return {
+    name: name.substring(0, last_len),
+    ext: name.substring(last_len + 1, len)
+  };
+};
+const get_extname = (fileExtname) => {
+  if (!Array.isArray(fileExtname)) {
+    let extname = fileExtname.replace(/(\[|\])/g, "");
+    return extname.split(",");
+  } else {
+    return fileExtname;
+  }
+};
+const get_files_and_is_max = (res, _extname) => {
+  let filePaths = [];
+  let files = [];
+  if (!_extname || _extname.length === 0) {
+    return {
+      filePaths,
+      files
+    };
+  }
+  res.tempFiles.forEach((v) => {
+    let fileFullName = get_file_ext(v.name);
+    const extname = fileFullName.ext.toLowerCase();
+    if (_extname.indexOf(extname) !== -1) {
+      files.push(v);
+      filePaths.push(v.path);
+    }
+  });
+  if (files.length !== res.tempFiles.length) {
+    common_vendor.index.showToast({
+      title: `当前选择了${res.tempFiles.length}个文件 ，${res.tempFiles.length - files.length} 个文件格式不正确`,
+      icon: "none",
+      duration: 5e3
+    });
+  }
+  return {
+    filePaths,
+    files
+  };
+};
+const get_file_info = (filepath) => {
+  return new Promise((resolve, reject) => {
+    common_vendor.index.getImageInfo({
+      src: filepath,
+      success(res) {
+        resolve(res);
+      },
+      fail(err) {
+        reject(err);
+      }
+    });
+  });
+};
+const get_file_data = async (files, type = "image") => {
+  let fileFullName = get_file_ext(files.name);
+  const extname = fileFullName.ext.toLowerCase();
+  let filedata = {
+    name: files.name,
+    uuid: files.uuid,
+    extname: extname || "",
+    cloudPath: files.cloudPath,
+    fileType: files.fileType,
+    thumbTempFilePath: files.thumbTempFilePath,
+    url: files.path || files.path,
+    size: files.size,
+    //单位是字节
+    image: {},
+    path: files.path,
+    video: {}
+  };
+  if (type === "image") {
+    const imageinfo = await get_file_info(files.path);
+    delete filedata.video;
+    filedata.image.width = imageinfo.width;
+    filedata.image.height = imageinfo.height;
+    filedata.image.location = imageinfo.path;
+  } else {
+    delete filedata.image;
+  }
+  return filedata;
+};
+exports.get_extname = get_extname;
+exports.get_file_data = get_file_data;
+exports.get_files_and_is_max = get_files_and_is_max;
 //# sourceMappingURL=../../../../../.sourcemap/mp-weixin/uni_modules/uni-file-picker/components/uni-file-picker/utils.js.map

@@ -1,2 +1,173 @@
-"use strict";const i=require("../../../../common/vendor.js"),u={name:"uploadFile",emits:["uploadFiles","choose","delFile"],props:{filesList:{type:Array,default(){return[]}},delIcon:{type:Boolean,default:!0},limit:{type:[Number,String],default:9},showType:{type:String,default:""},listStyles:{type:Object,default(){return{border:!0,dividline:!0,borderStyle:{}}}},readonly:{type:Boolean,default:!1}},computed:{list(){let e=[];return this.filesList.forEach(r=>{e.push(r)}),e},styles(){return Object.assign({border:!0,dividline:!0,"border-style":{}},this.listStyles)},borderStyle(){let{borderStyle:e,border:r}=this.styles,o={};if(!r)o.border="none";else{let t=e&&e.width||1;t=this.value2px(t);let l=e&&e.radius||5;l=this.value2px(l),o={"border-width":t,"border-style":e&&e.style||"solid","border-color":e&&e.color||"#eee","border-radius":l}}let d="";for(let t in o)d+=`${t}:${o[t]};`;return d},borderLineStyle(){let e={},{borderStyle:r}=this.styles;if(r&&r.color&&(e["border-color"]=r.color),r&&r.width){let d=r&&r.width||1,t=r&&r.style||0;typeof d=="number"?d+="px":d=d.indexOf("px")?d:d+"px",e["border-width"]=d,typeof t=="number"?t+="px":t=t.indexOf("px")?t:t+"px",e["border-top-style"]=t}let o="";for(let d in e)o+=`${d}:${e[d]};`;return o}},methods:{uploadFiles(e,r){this.$emit("uploadFiles",{item:e,index:r})},choose(){this.$emit("choose")},delFile(e){this.$emit("delFile",e)},value2px(e){return typeof e=="number"?e+="px":e=e.indexOf("px")!==-1?e:e+"px",e}}};function a(e,r,o,d,t,l){return i.e({a:!o.readonly},o.readonly?{}:{b:i.o((...s)=>l.choose&&l.choose(...s))},{c:l.list.length>0},l.list.length>0?{d:i.f(l.list,(s,n,c)=>i.e({a:i.t(s.name)},o.delIcon&&!o.readonly?{b:i.o(y=>l.delFile(n),n)}:{},{c:s.progress&&s.progress!==100||s.progress===0},s.progress&&s.progress!==100||s.progress===0?{d:s.progress===-1?0:s.progress,e:s.errMsg?"#ff5a5f":"#EBEBEB"}:{},{f:s.status==="error"},s.status==="error"?{g:i.o(y=>l.uploadFiles(s,n),n)}:{},{h:n,i:n!==0&&l.styles.dividline?1:"",j:i.s(n!==0&&l.styles.dividline&&l.borderLineStyle)})),e:o.delIcon&&!o.readonly,f:i.s(l.borderStyle)}:{})}const f=i._export_sfc(u,[["render",a]]);wx.createComponent(f);
+"use strict";
+const common_vendor = require("../../../../common/vendor.js");
+const _sfc_main = {
+  name: "uploadFile",
+  emits: ["uploadFiles", "choose", "delFile"],
+  props: {
+    filesList: {
+      type: Array,
+      default() {
+        return [];
+      }
+    },
+    delIcon: {
+      type: Boolean,
+      default: true
+    },
+    limit: {
+      type: [Number, String],
+      default: 9
+    },
+    showType: {
+      type: String,
+      default: ""
+    },
+    listStyles: {
+      type: Object,
+      default() {
+        return {
+          // 是否显示边框
+          border: true,
+          // 是否显示分隔线
+          dividline: true,
+          // 线条样式
+          borderStyle: {}
+        };
+      }
+    },
+    readonly: {
+      type: Boolean,
+      default: false
+    }
+  },
+  computed: {
+    list() {
+      let files = [];
+      this.filesList.forEach((v) => {
+        files.push(v);
+      });
+      return files;
+    },
+    styles() {
+      let styles = {
+        border: true,
+        dividline: true,
+        "border-style": {}
+      };
+      return Object.assign(styles, this.listStyles);
+    },
+    borderStyle() {
+      let {
+        borderStyle,
+        border
+      } = this.styles;
+      let obj = {};
+      if (!border) {
+        obj.border = "none";
+      } else {
+        let width = borderStyle && borderStyle.width || 1;
+        width = this.value2px(width);
+        let radius = borderStyle && borderStyle.radius || 5;
+        radius = this.value2px(radius);
+        obj = {
+          "border-width": width,
+          "border-style": borderStyle && borderStyle.style || "solid",
+          "border-color": borderStyle && borderStyle.color || "#eee",
+          "border-radius": radius
+        };
+      }
+      let classles = "";
+      for (let i in obj) {
+        classles += `${i}:${obj[i]};`;
+      }
+      return classles;
+    },
+    borderLineStyle() {
+      let obj = {};
+      let {
+        borderStyle
+      } = this.styles;
+      if (borderStyle && borderStyle.color) {
+        obj["border-color"] = borderStyle.color;
+      }
+      if (borderStyle && borderStyle.width) {
+        let width = borderStyle && borderStyle.width || 1;
+        let style = borderStyle && borderStyle.style || 0;
+        if (typeof width === "number") {
+          width += "px";
+        } else {
+          width = width.indexOf("px") ? width : width + "px";
+        }
+        obj["border-width"] = width;
+        if (typeof style === "number") {
+          style += "px";
+        } else {
+          style = style.indexOf("px") ? style : style + "px";
+        }
+        obj["border-top-style"] = style;
+      }
+      let classles = "";
+      for (let i in obj) {
+        classles += `${i}:${obj[i]};`;
+      }
+      return classles;
+    }
+  },
+  methods: {
+    uploadFiles(item, index) {
+      this.$emit("uploadFiles", {
+        item,
+        index
+      });
+    },
+    choose() {
+      this.$emit("choose");
+    },
+    delFile(index) {
+      this.$emit("delFile", index);
+    },
+    value2px(value) {
+      if (typeof value === "number") {
+        value += "px";
+      } else {
+        value = value.indexOf("px") !== -1 ? value : value + "px";
+      }
+      return value;
+    }
+  }
+};
+function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return common_vendor.e({
+    a: !$props.readonly
+  }, !$props.readonly ? {
+    b: common_vendor.o((...args) => $options.choose && $options.choose(...args))
+  } : {}, {
+    c: $options.list.length > 0
+  }, $options.list.length > 0 ? {
+    d: common_vendor.f($options.list, (item, index, i0) => {
+      return common_vendor.e({
+        a: common_vendor.t(item.name)
+      }, $props.delIcon && !$props.readonly ? {
+        b: common_vendor.o(($event) => $options.delFile(index), index)
+      } : {}, {
+        c: item.progress && item.progress !== 100 || item.progress === 0
+      }, item.progress && item.progress !== 100 || item.progress === 0 ? {
+        d: item.progress === -1 ? 0 : item.progress,
+        e: item.errMsg ? "#ff5a5f" : "#EBEBEB"
+      } : {}, {
+        f: item.status === "error"
+      }, item.status === "error" ? {
+        g: common_vendor.o(($event) => $options.uploadFiles(item, index), index)
+      } : {}, {
+        h: index,
+        i: index !== 0 && $options.styles.dividline ? 1 : "",
+        j: common_vendor.s(index !== 0 && $options.styles.dividline && $options.borderLineStyle)
+      });
+    }),
+    e: $props.delIcon && !$props.readonly,
+    f: common_vendor.s($options.borderStyle)
+  } : {});
+}
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render]]);
+wx.createComponent(Component);
 //# sourceMappingURL=../../../../../.sourcemap/mp-weixin/uni_modules/uni-file-picker/components/uni-file-picker/upload-file.js.map

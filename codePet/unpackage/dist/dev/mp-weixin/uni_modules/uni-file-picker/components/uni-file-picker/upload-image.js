@@ -1,2 +1,183 @@
-"use strict";const i=require("../../../../common/vendor.js"),u={name:"uploadImage",emits:["uploadFiles","choose","delFile"],props:{filesList:{type:Array,default(){return[]}},disabled:{type:Boolean,default:!1},disablePreview:{type:Boolean,default:!1},limit:{type:[Number,String],default:9},imageStyles:{type:Object,default(){return{width:"auto",height:"auto",border:{}}}},delIcon:{type:Boolean,default:!0},readonly:{type:Boolean,default:!1}},computed:{styles(){return Object.assign({width:"auto",height:"auto",border:{}},this.imageStyles)},boxStyle(){const{width:e="auto",height:r="auto"}=this.styles;let t={};r==="auto"?e!=="auto"?(t.height=this.value2px(e),t["padding-top"]=0):t.height=0:(t.height=this.value2px(r),t["padding-top"]=0),e==="auto"?r!=="auto"?t.width=this.value2px(r):t.width="33.3%":t.width=this.value2px(e);let o="";for(let d in t)o+=`${d}:${t[d]};`;return o},borderStyle(){let{border:e}=this.styles,r={};const t=1,o=3;if(typeof e=="boolean")r.border=e?"1px #eee solid":"none";else{let s=e&&e.width||t;s=this.value2px(s);let l=e&&e.radius||o;l=this.value2px(l),r={"border-width":s,"border-style":e&&e.style||"solid","border-color":e&&e.color||"#eee","border-radius":l}}let d="";for(let s in r)d+=`${s}:${r[s]};`;return d}},methods:{uploadFiles(e,r){this.$emit("uploadFiles",e)},choose(){this.$emit("choose")},delFile(e){this.$emit("delFile",e)},prviewImage(e,r){let t=[];Number(this.limit)===1&&this.disablePreview&&!this.disabled&&this.$emit("choose"),!this.disablePreview&&(this.filesList.forEach(o=>{t.push(o.url)}),i.index.previewImage({urls:t,current:r}))},value2px(e){return typeof e=="number"?e+="px":e.indexOf("%")===-1&&(e=e.indexOf("px")!==-1?e:e+"px"),e}}};function n(e,r,t,o,d,s){return i.e({a:i.f(t.filesList,(l,a,c)=>i.e({a:l.url,b:i.o(h=>s.prviewImage(l,a),a)},t.delIcon&&!t.readonly?{c:i.o(h=>s.delFile(a),a)}:{},{d:l.progress&&l.progress!==100||l.progress===0},l.progress&&l.progress!==100||l.progress===0?{e:l.progress===-1?0:l.progress,f:l.errMsg?"#ff5a5f":"#EBEBEB"}:{},{g:l.errMsg},l.errMsg?{h:i.o(h=>s.uploadFiles(l,a),a)}:{},{i:a})),b:t.delIcon&&!t.readonly,c:i.s(s.borderStyle),d:i.s(s.boxStyle),e:t.filesList.length<t.limit&&!t.readonly},t.filesList.length<t.limit&&!t.readonly?{f:i.s(s.borderStyle),g:i.o((...l)=>s.choose&&s.choose(...l)),h:i.s(s.boxStyle)}:{})}const f=i._export_sfc(u,[["render",n]]);wx.createComponent(f);
+"use strict";
+const common_vendor = require("../../../../common/vendor.js");
+const _sfc_main = {
+  name: "uploadImage",
+  emits: ["uploadFiles", "choose", "delFile"],
+  props: {
+    filesList: {
+      type: Array,
+      default() {
+        return [];
+      }
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    disablePreview: {
+      type: Boolean,
+      default: false
+    },
+    limit: {
+      type: [Number, String],
+      default: 9
+    },
+    imageStyles: {
+      type: Object,
+      default() {
+        return {
+          width: "auto",
+          height: "auto",
+          border: {}
+        };
+      }
+    },
+    delIcon: {
+      type: Boolean,
+      default: true
+    },
+    readonly: {
+      type: Boolean,
+      default: false
+    }
+  },
+  computed: {
+    styles() {
+      let styles = {
+        width: "auto",
+        height: "auto",
+        border: {}
+      };
+      return Object.assign(styles, this.imageStyles);
+    },
+    boxStyle() {
+      const {
+        width = "auto",
+        height = "auto"
+      } = this.styles;
+      let obj = {};
+      if (height === "auto") {
+        if (width !== "auto") {
+          obj.height = this.value2px(width);
+          obj["padding-top"] = 0;
+        } else {
+          obj.height = 0;
+        }
+      } else {
+        obj.height = this.value2px(height);
+        obj["padding-top"] = 0;
+      }
+      if (width === "auto") {
+        if (height !== "auto") {
+          obj.width = this.value2px(height);
+        } else {
+          obj.width = "33.3%";
+        }
+      } else {
+        obj.width = this.value2px(width);
+      }
+      let classles = "";
+      for (let i in obj) {
+        classles += `${i}:${obj[i]};`;
+      }
+      return classles;
+    },
+    borderStyle() {
+      let {
+        border
+      } = this.styles;
+      let obj = {};
+      const widthDefaultValue = 1;
+      const radiusDefaultValue = 3;
+      if (typeof border === "boolean") {
+        obj.border = border ? "1px #eee solid" : "none";
+      } else {
+        let width = border && border.width || widthDefaultValue;
+        width = this.value2px(width);
+        let radius = border && border.radius || radiusDefaultValue;
+        radius = this.value2px(radius);
+        obj = {
+          "border-width": width,
+          "border-style": border && border.style || "solid",
+          "border-color": border && border.color || "#eee",
+          "border-radius": radius
+        };
+      }
+      let classles = "";
+      for (let i in obj) {
+        classles += `${i}:${obj[i]};`;
+      }
+      return classles;
+    }
+  },
+  methods: {
+    uploadFiles(item, index) {
+      this.$emit("uploadFiles", item);
+    },
+    choose() {
+      this.$emit("choose");
+    },
+    delFile(index) {
+      this.$emit("delFile", index);
+    },
+    prviewImage(img, index) {
+      let urls = [];
+      if (Number(this.limit) === 1 && this.disablePreview && !this.disabled) {
+        this.$emit("choose");
+      }
+      if (this.disablePreview)
+        return;
+      this.filesList.forEach((i) => {
+        urls.push(i.url);
+      });
+      common_vendor.index.previewImage({
+        urls,
+        current: index
+      });
+    },
+    value2px(value) {
+      if (typeof value === "number") {
+        value += "px";
+      } else {
+        if (value.indexOf("%") === -1) {
+          value = value.indexOf("px") !== -1 ? value : value + "px";
+        }
+      }
+      return value;
+    }
+  }
+};
+function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return common_vendor.e({
+    a: common_vendor.f($props.filesList, (item, index, i0) => {
+      return common_vendor.e({
+        a: item.url,
+        b: common_vendor.o(($event) => $options.prviewImage(item, index), index)
+      }, $props.delIcon && !$props.readonly ? {
+        c: common_vendor.o(($event) => $options.delFile(index), index)
+      } : {}, {
+        d: item.progress && item.progress !== 100 || item.progress === 0
+      }, item.progress && item.progress !== 100 || item.progress === 0 ? {
+        e: item.progress === -1 ? 0 : item.progress,
+        f: item.errMsg ? "#ff5a5f" : "#EBEBEB"
+      } : {}, {
+        g: item.errMsg
+      }, item.errMsg ? {
+        h: common_vendor.o(($event) => $options.uploadFiles(item, index), index)
+      } : {}, {
+        i: index
+      });
+    }),
+    b: $props.delIcon && !$props.readonly,
+    c: common_vendor.s($options.borderStyle),
+    d: common_vendor.s($options.boxStyle),
+    e: $props.filesList.length < $props.limit && !$props.readonly
+  }, $props.filesList.length < $props.limit && !$props.readonly ? {
+    f: common_vendor.s($options.borderStyle),
+    g: common_vendor.o((...args) => $options.choose && $options.choose(...args)),
+    h: common_vendor.s($options.boxStyle)
+  } : {});
+}
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render]]);
+wx.createComponent(Component);
 //# sourceMappingURL=../../../../../.sourcemap/mp-weixin/uni_modules/uni-file-picker/components/uni-file-picker/upload-image.js.map
