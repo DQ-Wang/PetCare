@@ -1,13 +1,14 @@
 {
-  "id": "uni-file-picker",
-  "displayName": "uni-file-picker 文件选择上传",
-  "version": "1.0.12",
-  "description": "文件选择上传组件，可以选择图片、视频等任意文件并上传到当前绑定的服务空间",
+  "id": "uni-forms",
+  "displayName": "uni-forms 表单",
+  "version": "1.4.13",
+  "description": "由输入框、选择器、单选框、多选框等控件组成，用以收集、校验、提交数据",
   "keywords": [
     "uni-ui",
-    "uniui",
-    "图片上传",
-    "文件上传"
+    "表单",
+    "校验",
+    "表单校验",
+    "表单验证"
 ],
   "repository": "https://github.com/dcloudio/uni-ui",
   "engines": {
@@ -37,7 +38,10 @@
     "type": "component-vue"
   },
   "uni_modules": {
-    "dependencies": ["uni-scss"],
+    "dependencies": [
+			"uni-scss",
+      "uni-icons"
+    ],
     "encrypt": [],
     "platforms": {
       "cloud": {
@@ -47,10 +51,8 @@
       },
       "client": {
         "App": {
-            "app-vue": "y",
-            "app-nvue": "n",
-            "app-harmony": "u",
-            "app-uvue": "u"
+          "app-vue": "y",
+          "app-nvue": "y"
         },
         "H5-mobile": {
           "Safari": "y",
@@ -70,7 +72,8 @@
           "阿里": "y",
           "百度": "y",
           "字节跳动": "y",
-          "QQ": "y"
+        "QQ": "y",
+        "京东": "u"
         },
         "快应用": {
           "华为": "u",

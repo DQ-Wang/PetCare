@@ -1,0 +1,72 @@
+// 文档教程: https://uniapp.dcloud.net.cn/uniCloud/schema
+{
+  "bsonType": "object",
+  "required": ["name"],
+  "permission": { //用于规定对该数据表的权限
+    "read": true, //查
+    "create": true, //改
+    "update": true, //增
+    "delete": true //删
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "avater": {
+      "title": "头像",
+      "bsonType": "file"
+    },
+    "name": {
+      "title": "昵称",
+      "label": "昵称",
+      "description": "请输入昵称",
+      "bsonType": "string",
+      "minLength": 2,
+      "maxLength": 17,
+      "errorMessage": {
+        "required": "{label}不能为空",
+        "minLength": "{label}不能小于{minLength}个字符~~",
+        "maxLength": "{labe;}不能大于{maxLength}个字符~~"
+
+      }
+    },
+    "age": {
+      "title": "年龄",
+      "description": "请输入年龄",
+      "bsonType": "string"
+    },
+    "gender": {
+      "title": "性别",
+      "bsonType": "int",
+      // "defaultValue": 0,
+      "enum": [{
+          "text": "保密",
+          "value": 0
+        },
+        {
+          "text": "男",
+          "value": 1
+        },
+        {
+          "text": "女",
+          "value": 2
+        }
+      ]
+    },
+    "createtime": {
+      "title": "时间",
+      "bsonType": "timestamp",
+      "forceDefaultValue": {
+        "$env": "now"
+      }
+    },
+    "ip": {
+      "title": "ip地址",
+      "bsonType": "string",
+
+      "forceDefaultValue": {
+        "$env": "clientIP"
+      }
+    }
+  }
+}

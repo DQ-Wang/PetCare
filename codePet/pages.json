@@ -55,7 +55,45 @@
 			"navigationStyle": "custom"
     	}
     }
-  ],
+  ,{
+    "path": "pages/users/add",
+    "style": {
+        "navigationBarTitleText": "新增"
+    }
+}
+,{
+    "path": "pages/users/edit",
+    "style": {
+        "navigationBarTitleText": "编辑"
+    }
+}
+,{
+    "path": "pages/users/list",
+    "style": {
+        "navigationBarTitleText": "列表"
+    }
+}
+,{
+    "path": "pages/users/detail",
+    "style": {
+        "navigationBarTitleText": "详情"
+    }
+},
+{
+  "path" : "pages/demo1/demo1",
+  "style" : 
+  {
+    "navigationBarTitleText" : ""
+  }
+},
+{
+  "path" : "pages/demo1/list",
+  "style" : 
+  {
+    "navigationBarTitleText" : "列表"
+  }
+}
+],
   "globalStyle": {
     "navigationBarTextStyle": "black",
 

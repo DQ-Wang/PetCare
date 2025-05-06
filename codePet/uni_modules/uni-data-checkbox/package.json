@@ -1,17 +1,18 @@
 {
-  "id": "uni-file-picker",
-  "displayName": "uni-file-picker 文件选择上传",
-  "version": "1.0.12",
-  "description": "文件选择上传组件，可以选择图片、视频等任意文件并上传到当前绑定的服务空间",
+  "id": "uni-data-checkbox",
+  "displayName": "uni-data-checkbox 数据选择器",
+  "version": "1.0.6",
+  "description": "通过数据驱动的单选框和复选框",
   "keywords": [
     "uni-ui",
-    "uniui",
-    "图片上传",
-    "文件上传"
+    "checkbox",
+    "单选",
+    "多选",
+    "单选多选"
 ],
   "repository": "https://github.com/dcloudio/uni-ui",
   "engines": {
-    "HBuilderX": ""
+    "HBuilderX": "^3.1.1"
   },
   "directories": {
     "example": "../../temps/example_temps"
@@ -37,7 +38,7 @@
     "type": "component-vue"
   },
   "uni_modules": {
-    "dependencies": ["uni-scss"],
+    "dependencies": ["uni-load-more","uni-scss"],
     "encrypt": [],
     "platforms": {
       "cloud": {
@@ -48,7 +49,7 @@
       "client": {
         "App": {
             "app-vue": "y",
-            "app-nvue": "n",
+            "app-nvue": "y",
             "app-harmony": "u",
             "app-uvue": "u"
         },

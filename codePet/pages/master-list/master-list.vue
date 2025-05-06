@@ -19,7 +19,7 @@
     <view class="pet-takeup-ele"></view>
   </view>
   <view class="pet-master-list">
-    <navigator url="/pages/Washcare_details/Washcare_details" hover-class="navigator-hover">
+    <navigator url="/pages/category/category" hover-class="navigator-hover"><!-- 跳转4.25（后面要修改） -->
       <view class="pet-master" v-for="item in 4">
 
         <image src="../../static/汪汪喵切图/师傅列表/头像.png" mode="aspectFit" class="pet-avatar"></image>
