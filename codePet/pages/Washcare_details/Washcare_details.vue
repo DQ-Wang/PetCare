@@ -4,7 +4,7 @@
 			<view style="display:flex;grid-area:header">
 				<text class="pet-title">门店</text>
 				<text class="pet-unfold">
-					<text style="margin-right:18rpx">思北路</text>
+					<text style="margin-right:18rpx">思北店</text>
 					<img src="../../static/汪汪喵切图/洗护详情/箭头icon@3x.png" width="10rpx" height="10rpx">
 				</text>
 			</view>

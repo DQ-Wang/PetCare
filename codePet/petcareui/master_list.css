@@ -55,7 +55,7 @@
 
 .pet-avatar {
   flex: 2.8;
-  margin: 40rpx 10rpx 40rpx 10rpx;
+  margin: 40rpx 0px 40rpx 0rpx;
   height: 120rpx;
   width: 120rpx;
 }
@@ -65,32 +65,21 @@
   margin: 20rpx 30rpx 20rpx 10rpx;
 }
 
-.pet-online {
-  width: 3em;
+.pet-status {
+  width: auto;
+  padding:0rpx 20rpx 0rpx 20rpx;
   text-align: center;
   border-radius: 20rpx;
   height: 44rpx;
-  background-color: rgb(237, 246, 243);
 }
 
-.pet-distance-order {
-  position: relative;
-  margin: 4rpx;
-  flex: 3;
-  display: flex;
-  flex-direction: column;
-  margin-right: 20rpx;
 
-  /* border: 1px solid red; */
-
-}
 
 .pet-distance {
   /* position: absolute; */
   color: grey;
   font-size: 30rpx;
   text-align: center;
-  padding-top: 25rpx;
   /* top: 15px */
   /* border: 1px solid red; */
 
@@ -142,3 +131,35 @@
   height: 112rpx;
   margin: -52rpx 0rpx 0rpx 10rpx;
 }
+
+.pet-text-green {
+		background-color: #edf6f3;
+	}
+
+	.pet-text-yellow {
+		background-color: #fff6ab;
+	}
+
+	.pet-text-gray {
+		background-color: #e5e5e5;
+	}
+
+	.pet-score {
+		font-size: 27rpx;
+		margin-right: 10rpx;
+		margin-top: 5rpx;
+		color: red;
+		font-weight: bold;
+	}
+
+	.pet-label {
+		width: auto;
+		font-size: 10rpx;
+		padding:0 3rpx 0 3rpx;
+		margin-right: 15rpx;
+		text-align: center;
+		border-radius: 12rpx;
+		height: 42rpx;
+		color:#456714;
+		background-color: #cee5ae;
+	}
