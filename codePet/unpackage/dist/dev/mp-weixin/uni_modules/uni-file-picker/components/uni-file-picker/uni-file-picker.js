@@ -166,9 +166,9 @@ const _sfc_main = {
     }
   },
   created() {
-    if (!(common_vendor.nr.config && common_vendor.nr.config.provider)) {
+    if (!(common_vendor.er.config && common_vendor.er.config.provider)) {
       this.noSpace = true;
-      common_vendor.nr.chooseAndUploadFile = uni_modules_uniFilePicker_components_uniFilePicker_chooseAndUploadFile.chooseAndUploadFile;
+      common_vendor.er.chooseAndUploadFile = uni_modules_uniFilePicker_components_uniFilePicker_chooseAndUploadFile.chooseAndUploadFile;
     }
     this.form = this.getForm("uniForms");
     this.formItem = this.getForm("uniFormsItem");
@@ -268,7 +268,7 @@ const _sfc_main = {
      */
     chooseFiles() {
       const _extname = uni_modules_uniFilePicker_components_uniFilePicker_utils.get_extname(this.fileExtname);
-      common_vendor.nr.chooseAndUploadFile({
+      common_vendor.er.chooseAndUploadFile({
         type: this.fileMediatype,
         compressed: false,
         sizeType: this.sizeType,
@@ -284,7 +284,7 @@ const _sfc_main = {
       }).then((result) => {
         this.setSuccessAndError(result.tempFiles);
       }).catch((err) => {
-        common_vendor.index.__f__("log", "at uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker.vue:364", "选择失败", err);
+        console.log("选择失败", err);
       });
     },
     /**
@@ -347,7 +347,7 @@ const _sfc_main = {
         this.setSuccessAndError(result);
         return result;
       }).catch((err) => {
-        common_vendor.index.__f__("log", "at uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker.vue:437", err);
+        console.log(err);
       });
     },
     /**
@@ -492,7 +492,7 @@ const _sfc_main = {
       fileList = {
         fileList: [].concat(fileList)
       };
-      const urls = await common_vendor.nr.getTempFileURL(fileList);
+      const urls = await common_vendor.er.getTempFileURL(fileList);
       return urls.fileList[0].tempFileURL || "";
     },
     /**
@@ -554,4 +554,3 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
 }
 const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render]]);
 wx.createComponent(Component);
-//# sourceMappingURL=../../../../../.sourcemap/mp-weixin/uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker.js.map

@@ -40,7 +40,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       ["image-styles"]: $data.imageStyles
     }),
     c: -1,
-    d: common_assets._imports_1$3,
+    d: common_assets._imports_1$2,
     e: common_vendor.f($data.tags, (tag, index, i0) => {
       return {
         a: common_vendor.t(tag),
@@ -60,4 +60,3 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render]]);
 wx.createPage(MiniProgramPage);
-//# sourceMappingURL=../../../.sourcemap/mp-weixin/pages/release/release.js.map

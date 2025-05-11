@@ -141,7 +141,7 @@ function uploadCloudFiles(files, max = 5, onUploadProgress) {
       const index = self.files.findIndex((v) => v.uuid === fileItem.uuid);
       fileItem.url = "";
       delete fileItem.errMsg;
-      common_vendor.nr.uploadFile({
+      common_vendor.er.uploadFile({
         filePath: fileItem.path,
         cloudPath: fileItem.cloudPath,
         fileType: fileItem.fileType,
@@ -200,4 +200,3 @@ function chooseAndUploadFile(opts = {
 }
 exports.chooseAndUploadFile = chooseAndUploadFile;
 exports.uploadCloudFiles = uploadCloudFiles;
-//# sourceMappingURL=../../../../../.sourcemap/mp-weixin/uni_modules/uni-file-picker/components/uni-file-picker/choose-and-upload-file.js.map

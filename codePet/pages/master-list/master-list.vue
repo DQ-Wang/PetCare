@@ -63,7 +63,7 @@
 			status: '在线',
 			distance: '13km',
 			score: 4.9,
-			comments: ['"师傅人很好，非常细心！"', '"上门很快"'],
+			comments: ['“师傅人很好，非常细心！”', '“上门很快”'],
 			experience: '3年喂养经验 | 猫狗双全',
 			price: '¥49.9起'
 		},
@@ -72,7 +72,7 @@
 			status: '服务中',
 			distance: '15km',
 			score: 4.6,
-			comments: ['"师傅人很好，非常细心！"', '"上门很快"'],
+			comments: ['“师傅人很好，非常细心！”', '“上门很快”'],
 			experience: '洗护经验丰富 | 不接大型犬',
 			price: '¥39.9起'
 		},
@@ -81,7 +81,7 @@
 			status: '休息中',
 			distance: '15km',
 			score: 3.8,
-			comments: ['"我的猫被洗感冒了"', '"上门很快"'],
+			comments: ['“我的猫被洗感冒了”', '“上门很快”'],
 			experience: '洗护经验丰富 | 不接大型犬',
 			price: '¥39.9起'
 		}

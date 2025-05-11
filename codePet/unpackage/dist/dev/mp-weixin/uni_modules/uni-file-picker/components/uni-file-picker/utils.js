@@ -89,4 +89,3 @@ const get_file_data = async (files, type = "image") => {
 exports.get_extname = get_extname;
 exports.get_file_data = get_file_data;
 exports.get_files_and_is_max = get_files_and_is_max;
-//# sourceMappingURL=../../../../../.sourcemap/mp-weixin/uni_modules/uni-file-picker/components/uni-file-picker/utils.js.map
