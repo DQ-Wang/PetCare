@@ -146,7 +146,7 @@ const _sfc_main = {
         h: -1,
         i: content.value,
         j: common_vendor.o(($event) => content.value = $event.detail.value),
-        k: common_assets._imports_1$3,
+        k: common_assets._imports_1$2,
         l: common_vendor.f(tags.value, (tag, index, i0) => {
           return {
             a: common_vendor.t(tag),

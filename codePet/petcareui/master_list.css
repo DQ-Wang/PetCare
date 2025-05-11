@@ -12,9 +12,10 @@
   padding: 10rpx 10rpx;
   align-items: center;
 }
-.pet-takeup-ele{
-	position:ralative;
-	flex:0.15;
+
+.pet-takeup-ele {
+  position: ralative;
+  flex: 0.15;
 }
 
 .pet-pic-icon {
@@ -30,6 +31,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
 .pet-master-list {
   /* 整个页面布局 */
   height: 90vh;
@@ -67,7 +69,7 @@
 
 .pet-status {
   width: auto;
-  padding:0rpx 20rpx 0rpx 20rpx;
+  padding: 0rpx 20rpx 0rpx 20rpx;
   text-align: center;
   border-radius: 20rpx;
   height: 44rpx;
@@ -133,33 +135,36 @@
 }
 
 .pet-text-green {
-		background-color: #edf6f3;
-	}
+  background-color: #edf6f3;
+}
 
-	.pet-text-yellow {
-		background-color: #fff6ab;
-	}
+.pet-text-yellow {
+  background-color: #fff6ab;
+}
 
-	.pet-text-gray {
-		background-color: #e5e5e5;
-	}
+.pet-text-gray {
+  background-color: #e5e5e5;
+}
 
-	.pet-score {
-		font-size: 27rpx;
-		margin-right: 10rpx;
-		margin-top: 5rpx;
-		color: red;
-		font-weight: bold;
-	}
+.pet-score {
+  font-size: 27rpx;
+  margin-right: 10rpx;
+  margin-top: 5rpx;
+  color: red;
+  font-weight: bold;
+}
 
-	.pet-label {
-		width: auto;
-		font-size: 10rpx;
-		padding:0 3rpx 0 3rpx;
-		margin-right: 15rpx;
-		text-align: center;
-		border-radius: 12rpx;
-		height: 42rpx;
-		color:#456714;
-		background-color: #cee5ae;
-	}
+.pet-label {
+  width: auto;
+  font-size: 20rpx;
+  padding: 0 10rpx 0 10rpx;
+  margin-right: 15rpx;
+  border-radius: 12rpx;
+  height: 42rpx;
+  color: #456714;
+  background-color: #cee5ae;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
