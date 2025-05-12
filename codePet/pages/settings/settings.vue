@@ -61,7 +61,7 @@
 	// 日期范围计算（参考网页7、8）
 	const endDate = computed(() => {
 		const date = new Date();
-		const year = date.getFullYear() + 2;
+		const year = date.getFullYear();
 		const month = (date.getMonth() + 1).toString().padStart(2, '0');
 		const day = date.getDate().toString().padStart(2, '0');
 		return `${year}-${month}-${day}`;
