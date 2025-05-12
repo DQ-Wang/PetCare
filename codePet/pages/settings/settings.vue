@@ -222,15 +222,5 @@
 		}
 	}
 
-	/* 日期选择器样式 */
-	.uni-datetime-picker {
-		z-index: 999;
-		position: fixed;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		background: #fff;
-		border-radius: 16rpx 16rpx 0 0;
-		box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.1);
-	}
+
 </style>
