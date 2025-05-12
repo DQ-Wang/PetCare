@@ -63,6 +63,20 @@
     		"navigationBarTitleText" : "",
 			"navigationStyle": "custom"
     	}
+    },
+    {
+    	"path" : "pages/OrderPage/OrderPage",
+    	"style" : 
+    	{
+    		"navigationBarTitleText" : "我的订单"
+    	}
+    },
+    {
+    	"path" : "pages/settings/settings",
+    	"style" : 
+    	{
+    		"navigationBarTitleText" : "个人设置"
+    	}
     }
   ],
   "globalStyle": {
