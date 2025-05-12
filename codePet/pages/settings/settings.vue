@@ -109,22 +109,32 @@
 
 	// 修改昵称
 	const editNickname = () => {
-		uni.showModal({
-			title: '修改昵称',
-			content: nickname.value,
-			editable: true,
-			success: (res) => {
-				if (res.confirm && res.content) {
-					nickname.value = res.content;
-					uni.showToast({
-						title: '昵称修改成功',
-						icon: 'none'
-					});
-				}
-			}
-		});
+	  uni.showModal({
+	    title: '修改昵称',
+	    content: nickname.value,
+	    editable: true,
+	    success: (res) => {
+	      if (res.confirm) {
+	        // 昵称校验逻辑
+	        const newName = res.content?.trim() || ''
+	        if (!newName) {
+	          uni.showToast({ 
+	            title: '昵称不能为空', 
+	            icon: 'none',
+	            duration: 2000
+	          })
+	          return
+	        }
+	        
+	        nickname.value = newName
+	        uni.showToast({ 
+	          title: '昵称修改成功',
+	          icon: 'none'
+	        })
+	      }
+	    }
+	  })
 	};
-
 	// 选择性别
 	const chooseGender = () => {
 		uni.showActionSheet({
