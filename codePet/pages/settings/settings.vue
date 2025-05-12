@@ -58,7 +58,7 @@
 	const gender = ref('未知');
 	const birthday = ref('');
 
-	// 日期范围计算（参考网页7、8）
+	// 日期范围计算
 	const endDate = computed(() => {
 		const date = new Date();
 		const year = date.getFullYear();
