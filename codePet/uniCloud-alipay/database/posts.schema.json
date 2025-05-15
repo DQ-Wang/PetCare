@@ -1,0 +1,76 @@
+// 文档教程: https://uniapp.dcloud.net.cn/uniCloud/schema
+{
+  "bsonType": "object",
+  "required": ["user_id"],
+  "permission": {
+    "read": true,
+    "create": true,
+    "update": true,
+    "delete": true
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "user_id": {
+      "type": "String",
+      "description": "发布用户 ID (外键，关联 users._id)"
+    },
+    "category": {
+      "type": "String",
+      "description": "帖子分类，例如 '推荐', '日常', '宠粮', '洗护', '代看', '救助' 等"
+    },
+    "content": {
+      "type": "String",
+      "description": "帖子内容"
+    },
+    "images": {
+      "type": "Array",
+      "description": "图片 URL 列表 (可选)"
+    },
+
+    "create_date": {
+      "type": "Timestamp",
+      "description": "发布时间"
+    },
+    "update_date": {
+      "type": "Timestamp",
+      "description": "最后更新时间 (可选)"
+    },
+    "like_count": {
+      "type": "Number",
+      "description": "点赞数量 (冗余，方便查询)"
+    },
+    "comment_count": {
+      "type": "Number",
+      "description": "评论数量 (冗余，方便查询)"
+    },
+    "share_count": {
+      "type": "Number",
+      "description": "分享数量 (冗余，方便查询)"
+    },
+    "is_top": {
+      "type": "Boolean",
+      "description": "是否置顶 (可选，用于运营管理)",
+      "default": false
+    },
+    "tags": {
+      "type": "Array",
+      "description": "标签列表 (可选)"
+    },
+    "location": {
+      "type": "Object",
+      "description": "地理位置信息 (可选)",
+      "properties": {
+
+        "address": {
+          "type": "String",
+          "description": "详细地址"
+        }
+      }
+    }
+
+
+
+  }
+}
