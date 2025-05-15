@@ -14,7 +14,7 @@
           <text style="font-size: 28rpx; font-weight: bold; letter-spacing: 2rpx;">授权昵称</text>
           <text class="title" style="font-size: 20rpx; font-weight: bold;">初级会员</text>
           <view class="level">
-            <text style="font-size: 24rpx; color: #585858;">您已达到等级上限</text>
+            <text style="font-size: 24rpx; color: #585858;">您已达等级上限</text>
             <view class="progress-box">
               <progress :percent="0" background-color="#e3e8e7" style="height:5rpx;width:100%" stroke-width="3" />
               <text style="font-size: 26rpx;">0/0</text>
