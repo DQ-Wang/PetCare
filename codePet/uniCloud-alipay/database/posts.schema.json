@@ -1,7 +1,6 @@
-// 文档教程: https://uniapp.dcloud.net.cn/uniCloud/schema
 {
   "bsonType": "object",
-  "required": ["user_id"],
+  "required": ["header", "content"],
   "permission": {
     "read": true,
     "create": true,
@@ -10,67 +9,88 @@
   },
   "properties": {
     "_id": {
-      "description": "ID，系统自动生成"
+      "bsonType": "objectId",
+      "description": "ID，系统自动生成",
+      "readOnly": true
     },
     "user_id": {
-      "type": "String",
-      "description": "发布用户 ID (外键，关联 users._id)"
-    },
-    "category": {
-      "type": "String",
-      "description": "帖子分类，例如 '推荐', '日常', '宠粮', '洗护', '代看', '救助' 等"
-    },
-    "content": {
-      "type": "String",
-      "description": "帖子内容"
+      "bsonType": "string",
+      "title": "用户id",
+      "foreignKey": "users._id",
+      "description": "发布用户 ID（外键，关联 users._id）"
     },
     "images": {
-      "type": "Array",
-      "description": "图片 URL 列表 (可选)"
+      "bsonType": "array",
+      "title": "图片",
+      "description": "图片 URL 列表（可选）",
+      "items": {
+        "bsonType": "string"
+      }
     },
-
+    "header": {
+      "bsonType": "string",
+      "title": "标题",
+      "description": "帖子的标题"
+    },
+    "content": {
+      "bsonType": "string",
+      "title": "正文",
+      "description": "帖子内容"
+    },
+    "category_id": {
+      "title": "标签",
+      "bsonType": "array",
+      "description": "所选标签的 ID 列表（可选）",
+      "items": {
+        "bsonType": "objectId",
+        "foreignKey": "categories._id"
+      }
+    },
     "create_date": {
-      "type": "Timestamp",
-      "description": "发布时间"
-    },
-    "update_date": {
-      "type": "Timestamp",
-      "description": "最后更新时间 (可选)"
+      "bsonType": "timestamp",
+      "description": "发布时间",
+      "forceDefaultValue": {
+        "$env": "now"
+      }
     },
     "like_count": {
-      "type": "Number",
-      "description": "点赞数量 (冗余，方便查询)"
+      "bsonType": "int",
+      "description": "点赞数量（冗余字段，便于查询）",
+      "default": 0
     },
     "comment_count": {
-      "type": "Number",
-      "description": "评论数量 (冗余，方便查询)"
+      "bsonType": "int",
+      "description": "评论数量（冗余字段，便于查询）",
+      "default": 0
     },
     "share_count": {
-      "type": "Number",
-      "description": "分享数量 (冗余，方便查询)"
+      "bsonType": "int",
+      "description": "分享数量（冗余字段，便于查询）",
+      "default": 0
     },
     "is_top": {
-      "type": "Boolean",
-      "description": "是否置顶 (可选，用于运营管理)",
+      "bsonType": "bool",
+      "description": "是否置顶（可选，用于运营管理）",
       "default": false
     },
-    "tags": {
-      "type": "Array",
-      "description": "标签列表 (可选)"
-    },
     "location": {
-      "type": "Object",
-      "description": "地理位置信息 (可选)",
+      "bsonType": "object",
+      "title": "地理位置",
+      "description": "地理位置信息（可选）",
       "properties": {
-
         "address": {
-          "type": "String",
+          "bsonType": "string",
           "description": "详细地址"
         }
       }
+    },
+    "ip": {
+      "bsonType": "string",
+      "title": "IP地址",
+      "description": "客户端IP地址",
+      "forceDefaultValue": {
+        "$env": "clientIP"
+      }
     }
-
-
-
   }
 }

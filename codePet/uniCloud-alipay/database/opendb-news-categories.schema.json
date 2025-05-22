@@ -1,0 +1,54 @@
+{
+  "bsonType": "object",
+  "required": ["name"],
+  "permission": {
+    "read": true,
+    "create": false,
+    "update": false,
+    "delete": false
+  },
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+      "description": "系统自动生成的文档 ID"
+    },
+    "name": {
+      "bsonType": "string",
+      "description": "类别名称，例如 '美食' 或 '搞笑'",
+      "label": "名称",
+      "trim": "both"
+    },
+    "description": {
+      "bsonType": "string",
+      "description": "类别的简单描述，例如 '校园日常的帖子合集'",
+      "label": "描述",
+      "trim": "both"
+    },
+    "icon": {
+      "bsonType": "string",
+      "description": "图标地址，支持 http/https、相对路径或别名",
+      "label": "图标地址",
+      "pattern": "^(http://|https://|/|./|@/)\\S",
+      "trim": "both"
+    },
+    "sort": {
+      "bsonType": "int",
+      "description": "排序权重，数值越小越靠前",
+      "label": "排序",
+      "default": 0
+    },
+    "article_count": {
+      "bsonType": "int",
+      "description": "该类别下的文章数量（由系统维护）",
+      "default": 0
+    },
+    "create_date": {
+      "bsonType": "date",
+      "description": "记录创建时间",
+      "forceDefaultValue": {
+        "$env": "now"
+      }
+    }
+  },
+  "version": "0.0.1"
+}
