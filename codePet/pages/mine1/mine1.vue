@@ -3,7 +3,7 @@
     <view class="top-gradient">
     </view>
     <view class="user-card">
-      <view class="avatar"></view>
+      <view class="avatar" @click=""></view>
       <view>
         <view class="member-wrap">
           <text class="name">授权昵称</text>
