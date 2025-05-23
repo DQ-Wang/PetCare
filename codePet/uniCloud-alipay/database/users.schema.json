@@ -14,7 +14,7 @@
     },
     "avater": {
       "title": "头像",
-      "bsonType": "file"
+      "bsonType": "array"
     },
     "name": {
       "title": "昵称",
@@ -33,7 +33,7 @@
     "age": {
       "title": "年龄",
       "description": "请输入年龄",
-      "bsonType": "int"
+      "bsonType": "string"
     },
     "gender": {
       "title": "性别",
