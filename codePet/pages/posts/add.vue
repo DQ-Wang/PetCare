@@ -128,7 +128,7 @@
         header: formData.header,
         content: formData.content,
         category_id: formData.category_id,
-        images: formData.images, // 如果你上传了图片
+        images: formData.images, // 如果上传了图片
         location: formData.location
       })
 
@@ -137,8 +137,8 @@
         icon: 'none'
       })
 
-      const eventChannel = uni.getOpenerEventChannel()
-      eventChannel.emit('refreshData')
+      // const eventChannel = uni.getOpenerEventChannel()
+      // eventChannel.emit('refreshData')
       setTimeout(() => uni.navigateBack(), 500)
     } catch (err) {
       uni.showModal({
