@@ -116,11 +116,20 @@
   // 实际提交数据：手动上传图片，提交表单
   const submitForm = async () => {
     try {
-      // 1. 上传图片，获取上传结果（含 fileID）
+      // 1. 上传图片
       const uploadResult = await file.value.upload()
 
-      // 2. 提取上传后的 fileID（或 url）填入 formData.images
-      formData.images = uploadResult.map(item => item.url || item.fileID)
+      // 2. 将 fileID 转为 http 链接
+      const fileIDs = uploadResult.map(item => item.fileID || item.url)
+      const tempURLsRes = await uniCloud.getTempFileURL({
+        fileList: fileIDs
+      })
+      formData.images = tempURLsRes.fileList.map(item => item.tempFileURL)
+      // // 1. 上传图片，获取上传结果（含 fileID）
+      // const uploadResult = await file.value.upload()
+
+      // // 2. 提取上传后的 fileID（或 url）填入 formData.images
+      // formData.images = uploadResult.map(item => item.url || item.fileID)
 
       // 3. 提交到数据库
 

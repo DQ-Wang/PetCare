@@ -60,33 +60,10 @@
   const db = uniCloud.database();
   const dataList = ref([])
   const getData = async () => {
-
-
-    // 收集所有 fileID
-    let res = await db.collection("posts").get();
-    let data = res.result.data;
-
-    // 收集所有 fileID
-    const fileList = data.flatMap(item => item.images || []);
-    if (fileList.length > 0) {
-      const tempUrls = await uniCloud.getTempFileURL({
-        fileList
-      });
-      const fileMap = {};
-      tempUrls.fileList.forEach(f => {
-        fileMap[f.fileID] = f.tempFileURL;
-      });
-
-      // 替换 images 数组中的 fileID 为真实 URL
-      data.forEach(item => {
-        item.images = (item.images || []).map(id => fileMap[id]);
-      });
-    }
-
-    dataList.value = data;
-    console.log(res);
-
-
+    let res = await db.collection("posts").get()
+    let data = res.result.data
+    // 直接使用数据库中 images 数组的 HTTP 图片链接
+    dataList.value = data
   };
   getData();
 
