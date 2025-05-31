@@ -1,241 +1,287 @@
 <template>
-  <view class="pet-container">
-    <image class="back-arrow" src="/static/汪汪喵切图/发布/左箭头.png" @click="goBack"></image>
+	<view class="pet-container">
+		<image class="back-arrow" src="/static/汪汪喵切图/发布/左箭头.png" @click="goBack"></image>
 
-    <view class="edit-area">
-      <view class="pic-upload">
-        <view class="upload-container">
-          <!-- 已上传的图片预览 -->
-          <view v-for="(file, index) in previewImages" :key="index" class="image-preview">
-            <image :src="file.url" mode="aspectFill" class="preview-img"></image>
-            <view class="delete-icon" @click="handleDeleteImage(index)">×</view>
-          </view>
-          <!-- 上传按钮 -->
-          <view class="upload-box" v-if="previewImages.length < 4" @click="chooseImage">
-            <view class="upload-icon">+</view>
-          </view>
-        </view>
-      </view>
+		<view class="edit-area">
+			<view class="pic-upload">
+				<uni-file-picker
+					v-model="imageValue"
+					fileMediatype="image"
+					mode="grid"
+					:limit="4"
+					:image-styles="imageStyles"
+					:autoUpload="false"
+					ref="files"
+					@select="select" 
+					@progress="progress" 
+					@success="success" 
+					@fail="fail"
+				/>
+			</view>
 
-      <view class="text-upload">
-        <input v-model="title" placeholder="添加标题" maxlength="10" placeholder-class="title-placeholder"
-          class="title-area" />
+			<view class="text-upload">
+				<input v-model="title" placeholder="添加标题" maxlength="10" placeholder-class="title-placeholder"
+					class="title-area" />
 
-        <textarea v-model="content" placeholder="添加正文" placeholder-class="main-placeholder" class="main-area"
-          auto-height :maxlength="-1" />
-      </view>
-    </view>
+				<textarea v-model="content" placeholder="添加正文" placeholder-class="main-placeholder" class="main-area"
+					auto-height :maxlength="-1" />
+			</view>
+		</view>
 
-    <view class="tag-container">
-      <view class="tag-title">
-        <image src="/static/汪汪喵切图/发布/标签.png" style="width: 28rpx; height: 28rpx;"></image>
-        <text>标签</text>
-      </view>
+		<view class="tag-container">
+			<view class="tag-title">
+				<image src="/static/汪汪喵切图/发布/标签.png" style="width: 28rpx; height: 28rpx;"></image>
+				<text>标签</text>
+			</view>
 
-      <view class="tags-wrap">
-        <!--        <view v-for="item in tagList" :key="item._id"> {{item.name}}</view>5.22修改，连接数据库记录 -->
-        <view v-for="(tag,index) in tags" :key="index">
-          <view class="tag" :class="{'tag-selected': selectedTags.includes(tag)}" @click="handleTagSelect(tag)">
-            {{tag}}
-          </view>
-        </view>
-      </view>
-    </view>
+			<view class="tags-wrap">
+				<view v-for="item in tagList" :key="item._id">
+					<view 
+						class="tag"
+						:class="{'tag-selected': selectedTags.includes(item._id)}"
+						@click="handleTagSelect(item._id)"
+					>
+						{{item.name}}
+					</view>
+				</view>
+			</view>
+		</view>
 
-    <view class="divider-line"></view>
+		<view class="divider-line"></view>
 
-    <view class="location-container">
-      <view class="location-title">
-        <image src="/static/汪汪喵切图/发布/位置.png" style="width: 28rpx; height: 28rpx;"></image>
-        <text>位置</text>
-        <view class="spacer"></view>
-        <image class="right-arrow" src="/static/汪汪喵切图/发布/右箭头.png" style="width: 11.22rpx; height: 19.36rpx;"></image>
-      </view>
+		<view class="location-container">
+			<view class="location-title">
+				<image src="/static/汪汪喵切图/发布/位置.png" style="width: 28rpx; height: 28rpx;"></image>
+				<text>位置</text>
+				<view class="spacer"></view>
+				<image class="right-arrow" src="/static/汪汪喵切图/发布/右箭头.png" style="width: 11.22rpx; height: 19.36rpx;"></image>
+			</view>
 
-      <scroll-view class="locations-wrap" scroll-x enable-flex>
-        <view v-for="(loc,index) in locations" :key="index">
-          <view class="location" :class="{'location-selected': selectedLocation === loc}"
-            @click="handleLocationSelect(loc)">
-            {{loc}}
-          </view>
-        </view>
-      </scroll-view>
-    </view>
+			<scroll-view class="locations-wrap" scroll-x enable-flex>
+				<view v-for="(loc,index) in locations" :key="index">
+					<view class="location" :class="{'location-selected': selectedLocation === loc}"
+						@click="handleLocationSelect(loc)">
+							{{loc}}
+					</view>
+				</view>
+			</scroll-view>
+		</view>
 
-    <button class="release-button" @click="handleRelease">
-      <image src="/static/汪汪喵切图/发布/发布.png" style="width: 47rpx; height: 47rpx;"></image>
-      <view class="release-text">
-        发布笔记
-      </view>
-    </button>
-  </view>
+		<button class="release-button" @click="handleRelease">
+			<image src="/static/汪汪喵切图/发布/发布.png" style="width: 47rpx; height: 47rpx;"></image>
+			<view class="release-text">
+				发布笔记
+			</view>
+		</button>
+	</view>
 
 </template>
 
 <script setup>
-  import {
-    ref
-  } from 'vue'
+import { ref, onMounted } from 'vue'
 
-  const db = uniCloud.database();
-  const tagList = ref([]) //用来存放接收到的标签的数组,
-
-  const getData = async () => { //获取数据库标签表的内容
-    let res = await db.collection("opendb-news-categories").get();
-    tagList.value = res.result.data
-    console.log(res)
-  }
-  getData(); //调用获取函数
-
-  // 响应式变量声明
-  const title = ref('')
-  const content = ref('')
-  const selectedFiles = ref([])
-  const selectedTags = ref([])
-  const selectedLocation = ref('')
-  const previewImages = ref([])
-
-  // 标签和位置数据
-  const tags = ref(['日常', '宠粮', '洗护', '代看', '救助', '领养', '知识', '经验'])
-  const locations = ref([
+const db = uniCloud.database();
+    
+//文件上传相关
+const files = ref(null)
+const imageValue = ref([])
+    
+//表单数据
+const title = ref('')
+const content = ref('')
+const selectedTags = ref([])
+const selectedLocation = ref('') 
+    
+//标签数据（从数据库获取）
+const tagList = ref([]) 
+    
+//位置数据
+const locations = ref([
     '厦门大学翔安校区',
     '香山郊野公园',
     '厦门大学翔安校区丰庭食堂',
     '厦门大学信息学院',
     '查看更多'
-  ])
-
-  // 选择图片
-  const chooseImage = () => {
-    const remainCount = 4 - previewImages.value.length
-    if (remainCount <= 0) {
-      uni.showToast({
-        title: '最多只能上传4张图片',
-        icon: 'none'
-      })
-      return
+])
+    
+//图片上传的配置
+const imageStyles = ref({
+    width: 95,
+    height: 95,
+    border: {
+        color: "#eee", 
+        width: "1px",  
+        style: "solid",
+        radius: "13rpx"
     }
-
-    uni.chooseImage({
-      count: remainCount,
-      sizeType: ['compressed'],
-      sourceType: ['album', 'camera'],
-      success: (res) => {
-        const tempFilePaths = res.tempFilePaths
-        const tempFiles = res.tempFiles
-
-        // 添加到预览列表
-        tempFilePaths.forEach((path, index) => {
-          previewImages.value.push({
-            url: path,
-            file: tempFiles[index]
-          })
-        })
-
-        // 更新selectedFiles用于表单提交
-        selectedFiles.value = tempFiles
-      },
-      fail: (err) => {
-        console.error('选择图片失败：', err)
-      }
-    })
-  }
-
-  // 删除图片
-  const handleDeleteImage = (index) => {
-    previewImages.value.splice(index, 1)
-    selectedFiles.value.splice(index, 1)
-  }
-
-  // 处理标签选择
-  const handleTagSelect = (tag) => {
-    const index = selectedTags.value.indexOf(tag)
+})
+    
+//获取标签数据
+const getTags = async() => {
+    try {
+        const res = await db.collection('opendb-news-categories')
+            .orderBy('sort', 'asc')
+            .get()
+        
+        if(res.result && res.result.data) {
+            tagList.value = res.result.data
+        } else {
+            console.error('标签数据获取失败', res)
+            uni.showToast({ title: '标签加载失败', icon: 'none' })
+        }
+    } catch(e) {
+        console.error('获取标签错误:', e)
+        uni.showToast({ title: '标签加载失败', icon: 'none' })
+    }
+}
+    
+//处理标签选择
+const handleTagSelect = (tagId) => {
+    const MAX_TAGS = 3;
+    const index = selectedTags.value.indexOf(tagId);
+    
     if (index === -1) {
-      selectedTags.value.push(tag)
+        if (selectedTags.value.length >= MAX_TAGS) {
+            return uni.showToast({ title: `最多选择${MAX_TAGS}个标签`, icon: 'none' });
+        }
+        selectedTags.value.push(tagId);
     } else {
-      selectedTags.value.splice(index, 1)
+        selectedTags.value.splice(index, 1);
     }
-  }
-
-  // 处理位置选择
-  const handleLocationSelect = (location) => {
-    selectedLocation.value = location
-  }
-
-  // 返回上一页
-  const goBack = () => {
-    // 切换到首页tab
+}
+    
+//处理位置选择
+const handleLocationSelect = (location) => {
+    if (location === '查看更多') {
+        // 实际项目中接入位置API
+        uni.showToast({ title: '位置功能待实现', icon: 'none' });
+    } else {
+        selectedLocation.value = location;
+    }
+}
+    
+//返回上一页
+const goBack = () => {
     uni.switchTab({
-      url: '/pages/home/home'
+        url: '/pages/home/home'
     })
-  }
+}
+    
+// 文件上传相关事件
+function select(e) {
+    console.log('选择文件：', e)
+    console.log(imageValue)
+}
 
-  // 发布函数，使用uni.uploadFile上传
-  const handleRelease = async () => {
-    if (!title.value.trim()) {
-      uni.showToast({
-        title: '请输入标题',
-        icon: 'none'
-      })
-      return
-    }
+function progress(e) {
+    console.log('上传进度：', e)
+}
 
-    if (!content.value.trim()) {
-      uni.showToast({
-        title: '请输入正文内容',
-        icon: 'none'
-      })
-      return
-    }
+function success(e) {
+    console.log('上传成功', e)
+}
+
+function fail(e) {
+    console.log('上传失败：', e)
+}
+
+//发布功能
+const handleRelease = async () => {
+    //表单验证
+    if (!title.value.trim()) return uni.showToast({ title: '请输入标题', icon: 'none' })
+    if (!content.value.trim()) return uni.showToast({ title: '请输入正文内容', icon: 'none' })
+    if (selectedTags.value.length === 0) return uni.showToast({ title: '请选择至少一个标签', icon: 'none' })
+
+    uni.showLoading({ title: '发布中...', mask: true })
 
     try {
-      const formData = {
-        title: title.value,
-        content: content.value,
-        tags: JSON.stringify(selectedTags.value),
-        location: selectedLocation.value
-      }
+        let imageUrls = []      //图片访问URL
+        let imageFileIDs = []   //图片文件ID
 
-      // 上传图片和数据
-      if (selectedFiles.value.length > 0) {
-        const uploadTasks = selectedFiles.value.map((file, index) => {
-          return new Promise((resolve, reject) => {
-            uni.uploadFile({
-              url: 'YOUR_API_ENDPOINT',
-              filePath: file.path,
-              name: `image${index}`,
-              formData: formData,
-              success: (res) => {
-                if (res.statusCode === 200) {
-                  resolve(res.data)
-                } else {
-                  reject(new Error('上传失败'))
+        //处理图片上传
+        if (imageValue.value.length > 0) {
+            console.log('开始上传图片...', imageValue.value)
+
+            try {
+                //触发上传
+                await files.value.upload()
+
+                //获取上传结果
+                const uploadedFiles = files.value.getFiles ? 
+                files.value.getFiles() : 
+                imageValue.value
+
+                //提取有效的fileID
+                const validFiles = uploadedFiles.filter(item => {
+                    if (item.response && item.response.fileID) {
+                        //存储文件ID
+                        imageFileIDs.push(item.response.fileID)
+                        return true
+                    }
+                    if (item.path) {
+                        //使用临时路径作为替代
+                        imageUrls.push(item.path)
+                        return true
+                    }
+                    return false
+                })
+
+                //对于成功上传的文件，如果获取到fileID但无法生成临时URL
+                //使用fileID直接访问（可能需要前端特殊处理）
+                if (imageFileIDs.length > 0 && imageUrls.length === 0) {
+                    imageUrls = imageFileIDs.map(id => {
+                        //在fileID前添加前缀以便识别
+                        return `cloudfile:${id}`
+                    })
                 }
-              },
-              fail: (err) => {
-                reject(err)
-              }
-            })
-          })
-        })
 
-        await Promise.all(uploadTasks)
+            } catch (uploadError) {
+                console.error('文件上传失败:', uploadError)
+                throw new Error('图片上传失败，请重试')
+            }
+        }
 
-        uni.showToast({
-          title: '发布成功',
-          icon: 'success'
-        })
+        //构造提交数据
+        const postData = {
+            header: title.value,
+            content: content.value,
+            category_id: selectedTags.value,
+            images: imageUrls,
+        }
+
+        //添加位置信息
+        if (selectedLocation.value) {
+            postData.location = {
+                name: selectedLocation.value,
+                latitude: 0,
+                longitude: 0
+            }
+        }
+
+        //提交到数据库
+        await db.collection('posts').add(postData)
+
+        uni.showToast({ title: '发布成功', icon: 'success' })
         setTimeout(() => {
-          uni.navigateBack()
+            uni.switchTab({ url: '/pages/home/home' })
         }, 1500)
-      }
-    } catch (error) {
-      uni.showToast({
-        title: error.message || '发布失败',
-        icon: 'none'
-      })
+
+    } catch (err) {
+        console.error('发布失败:', err)
+        uni.showToast({ 
+            title: '发布失败: ' + (err.message || '请检查网络'), 
+            icon: 'none',
+            duration: 3000
+        })
+    } finally {
+        uni.hideLoading()
     }
-  }
+}
+    
+//页面加载时获取标签
+onMounted(() => {
+    getTags()
+})
 </script>
 
 <style lang="scss">
@@ -253,17 +299,29 @@
   }
 
   .pic-upload {
-    padding: 0 31rpx;
-    margin-top: 51rpx;
-
-    ::v-deep .file-picker__box-content {
-      background-color: rgba(229, 229, 229, 1);
-    }
-
-    ::v-deep .icon-add {
-      width: 55rpx;
-      background-color: rgba(166, 166, 166, 1) !important;
-    }
+	padding: 0 31rpx;
+	margin-top: 51rpx;
+	    
+	/* 自定义uni-file-picker样式 */
+	::v-deep .uni-file-picker {
+	    .uni-file-picker__header {
+			display: none; /* 隐藏标题 */
+	    }
+	      
+	    .uni-file-picker__container {
+	        margin-top: 0;
+	    }
+		
+		.file-picker__box-content {
+			background-color: #e5e5e5;
+		} 
+	      
+	    .icon-add {
+			width: 60rpx;
+	        background-color: #a6a6a6 !important;
+	        border-radius: 13rpx;
+	    }
+	}
   }
 
   .text-upload {
@@ -398,64 +456,5 @@
       line-height: 54.3rpx;
       color: $p-text-color;
     }
-  }
-
-  .upload-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20rpx;
-    padding: 20rpx;
-  }
-
-  .image-preview {
-    position: relative;
-    width: 180rpx;
-    height: 180rpx;
-    border-radius: 13rpx;
-    overflow: hidden;
-  }
-
-  .preview-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .delete-icon {
-    position: absolute;
-    top: 6rpx;
-    right: 6rpx;
-    width: 40rpx;
-    height: 40rpx;
-    background: rgba(0, 0, 0, 0.4);
-    color: #fff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24rpx;
-  }
-
-  .upload-box {
-    width: 180rpx;
-    height: 180rpx;
-    background: rgba(229, 229, 229, 1);
-    border-radius: 13rpx;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-    outline: none;
-
-    &:active,
-    &:focus {
-      background: rgba(229, 229, 229, 1);
-    }
-  }
-
-  .upload-icon {
-    font-size: 140rpx;
-    color: rgba(166, 166, 166, 1);
-    line-height: 160rpx;
-    text-align: center;
-    user-select: none;
   }
 </style>

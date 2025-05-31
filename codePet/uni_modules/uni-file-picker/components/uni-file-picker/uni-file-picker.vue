@@ -356,8 +356,11 @@
 						}
 					})
 					.then(result => {
-						this.setSuccessAndError(result.tempFiles)
-					})
+											this.$nextTick(() => {
+												this.setEmit()
+											})
+											this.setSuccessAndError(result.tempFiles)
+										})
 					.catch(err => {
 						console.log('选择失败', err)
 					})

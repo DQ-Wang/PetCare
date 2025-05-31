@@ -1,16 +1,25 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
 const common_assets = require("../../common/assets.js");
+if (!Array) {
+  const _easycom_uni_file_picker2 = common_vendor.resolveComponent("uni-file-picker");
+  _easycom_uni_file_picker2();
+}
+const _easycom_uni_file_picker = () => "../../uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker.js";
+if (!Math) {
+  _easycom_uni_file_picker();
+}
 const _sfc_main = {
   __name: "release",
   setup(__props) {
+    const db = common_vendor.nr.database();
+    const files = common_vendor.ref(null);
+    const imageValue = common_vendor.ref([]);
     const title = common_vendor.ref("");
     const content = common_vendor.ref("");
-    const selectedFiles = common_vendor.ref([]);
     const selectedTags = common_vendor.ref([]);
     const selectedLocation = common_vendor.ref("");
-    const previewImages = common_vendor.ref([]);
-    const tags = common_vendor.ref(["日常", "宠粮", "洗护", "代看", "救助", "领养", "知识", "经验"]);
+    const tagList = common_vendor.ref([]);
     const locations = common_vendor.ref([
       "厦门大学翔安校区",
       "香山郊野公园",
@@ -18,146 +27,173 @@ const _sfc_main = {
       "厦门大学信息学院",
       "查看更多"
     ]);
-    const chooseImage = () => {
-      const remainCount = 4 - previewImages.value.length;
-      if (remainCount <= 0) {
-        common_vendor.index.showToast({
-          title: "最多只能上传4张图片",
-          icon: "none"
-        });
-        return;
+    const imageStyles = common_vendor.ref({
+      width: 95,
+      height: 95,
+      border: {
+        color: "#eee",
+        width: "1px",
+        style: "solid",
+        radius: "13rpx"
       }
-      common_vendor.index.chooseImage({
-        count: remainCount,
-        sizeType: ["compressed"],
-        sourceType: ["album", "camera"],
-        success: (res) => {
-          const tempFilePaths = res.tempFilePaths;
-          const tempFiles = res.tempFiles;
-          tempFilePaths.forEach((path, index) => {
-            previewImages.value.push({
-              url: path,
-              file: tempFiles[index]
-            });
-          });
-          selectedFiles.value = tempFiles;
-        },
-        fail: (err) => {
-          common_vendor.index.__f__("error", "at pages/release/release.vue:148", "选择图片失败：", err);
+    });
+    const getTags = async () => {
+      try {
+        const res = await db.collection("opendb-news-categories").orderBy("sort", "asc").get();
+        if (res.result && res.result.data) {
+          tagList.value = res.result.data;
+        } else {
+          common_vendor.index.__f__("error", "at pages/release/release.vue:129", "标签数据获取失败", res);
+          common_vendor.index.showToast({ title: "标签加载失败", icon: "none" });
         }
-      });
+      } catch (e) {
+        common_vendor.index.__f__("error", "at pages/release/release.vue:133", "获取标签错误:", e);
+        common_vendor.index.showToast({ title: "标签加载失败", icon: "none" });
+      }
     };
-    const handleDeleteImage = (index) => {
-      previewImages.value.splice(index, 1);
-      selectedFiles.value.splice(index, 1);
-    };
-    const handleTagSelect = (tag) => {
-      const index = selectedTags.value.indexOf(tag);
+    const handleTagSelect = (tagId) => {
+      const MAX_TAGS = 3;
+      const index = selectedTags.value.indexOf(tagId);
       if (index === -1) {
-        selectedTags.value.push(tag);
+        if (selectedTags.value.length >= MAX_TAGS) {
+          return common_vendor.index.showToast({ title: `最多选择${MAX_TAGS}个标签`, icon: "none" });
+        }
+        selectedTags.value.push(tagId);
       } else {
         selectedTags.value.splice(index, 1);
       }
     };
     const handleLocationSelect = (location) => {
-      selectedLocation.value = location;
+      if (location === "查看更多") {
+        common_vendor.index.showToast({ title: "位置功能待实现", icon: "none" });
+      } else {
+        selectedLocation.value = location;
+      }
     };
     const goBack = () => {
       common_vendor.index.switchTab({
         url: "/pages/home/home"
       });
     };
+    function select(e) {
+      common_vendor.index.__f__("log", "at pages/release/release.vue:172", "选择文件：", e);
+      common_vendor.index.__f__("log", "at pages/release/release.vue:173", imageValue);
+    }
+    function progress(e) {
+      common_vendor.index.__f__("log", "at pages/release/release.vue:177", "上传进度：", e);
+    }
+    function success(e) {
+      common_vendor.index.__f__("log", "at pages/release/release.vue:181", "上传成功", e);
+    }
+    function fail(e) {
+      common_vendor.index.__f__("log", "at pages/release/release.vue:185", "上传失败：", e);
+    }
     const handleRelease = async () => {
-      if (!title.value.trim()) {
-        common_vendor.index.showToast({
-          title: "请输入标题",
-          icon: "none"
-        });
-        return;
-      }
-      if (!content.value.trim()) {
-        common_vendor.index.showToast({
-          title: "请输入正文内容",
-          icon: "none"
-        });
-        return;
-      }
+      if (!title.value.trim())
+        return common_vendor.index.showToast({ title: "请输入标题", icon: "none" });
+      if (!content.value.trim())
+        return common_vendor.index.showToast({ title: "请输入正文内容", icon: "none" });
+      if (selectedTags.value.length === 0)
+        return common_vendor.index.showToast({ title: "请选择至少一个标签", icon: "none" });
+      common_vendor.index.showLoading({ title: "发布中...", mask: true });
       try {
-        const formData = {
-          title: title.value,
-          content: content.value,
-          tags: JSON.stringify(selectedTags.value),
-          location: selectedLocation.value
-        };
-        if (selectedFiles.value.length > 0) {
-          const uploadTasks = selectedFiles.value.map((file, index) => {
-            return new Promise((resolve, reject) => {
-              common_vendor.index.uploadFile({
-                url: "YOUR_API_ENDPOINT",
-                filePath: file.path,
-                name: `image${index}`,
-                formData,
-                success: (res) => {
-                  if (res.statusCode === 200) {
-                    resolve(res.data);
-                  } else {
-                    reject(new Error("上传失败"));
-                  }
-                },
-                fail: (err) => {
-                  reject(err);
-                }
-              });
+        let imageUrls = [];
+        let imageFileIDs = [];
+        if (imageValue.value.length > 0) {
+          common_vendor.index.__f__("log", "at pages/release/release.vue:203", "开始上传图片...", imageValue.value);
+          try {
+            await files.value.upload();
+            const uploadedFiles = files.value.getFiles ? files.value.getFiles() : imageValue.value;
+            const validFiles = uploadedFiles.filter((item) => {
+              if (item.response && item.response.fileID) {
+                imageFileIDs.push(item.response.fileID);
+                return true;
+              }
+              if (item.path) {
+                imageUrls.push(item.path);
+                return true;
+              }
+              return false;
             });
-          });
-          await Promise.all(uploadTasks);
-          common_vendor.index.showToast({
-            title: "发布成功",
-            icon: "success"
-          });
-          setTimeout(() => {
-            common_vendor.index.navigateBack();
-          }, 1500);
+            if (imageFileIDs.length > 0 && imageUrls.length === 0) {
+              imageUrls = imageFileIDs.map((id) => {
+                return `cloudfile:${id}`;
+              });
+            }
+          } catch (uploadError) {
+            common_vendor.index.__f__("error", "at pages/release/release.vue:239", "文件上传失败:", uploadError);
+            throw new Error("图片上传失败，请重试");
+          }
         }
-      } catch (error) {
+        const postData = {
+          header: title.value,
+          content: content.value,
+          category_id: selectedTags.value,
+          images: imageUrls
+        };
+        if (selectedLocation.value) {
+          postData.location = {
+            name: selectedLocation.value,
+            latitude: 0,
+            longitude: 0
+          };
+        }
+        await db.collection("posts").add(postData);
+        common_vendor.index.showToast({ title: "发布成功", icon: "success" });
+        setTimeout(() => {
+          common_vendor.index.switchTab({ url: "/pages/home/home" });
+        }, 1500);
+      } catch (err) {
+        common_vendor.index.__f__("error", "at pages/release/release.vue:270", "发布失败:", err);
         common_vendor.index.showToast({
-          title: error.message || "发布失败",
-          icon: "none"
+          title: "发布失败: " + (err.message || "请检查网络"),
+          icon: "none",
+          duration: 3e3
         });
+      } finally {
+        common_vendor.index.hideLoading();
       }
     };
+    common_vendor.onMounted(() => {
+      getTags();
+    });
     return (_ctx, _cache) => {
-      return common_vendor.e({
+      return {
         a: common_assets._imports_0$3,
         b: common_vendor.o(goBack),
-        c: common_vendor.f(previewImages.value, (file, index, i0) => {
+        c: common_vendor.sr(files, "4c7048b1-0", {
+          "k": "files"
+        }),
+        d: common_vendor.o(select),
+        e: common_vendor.o(progress),
+        f: common_vendor.o(success),
+        g: common_vendor.o(fail),
+        h: common_vendor.o(($event) => imageValue.value = $event),
+        i: common_vendor.p({
+          fileMediatype: "image",
+          mode: "grid",
+          limit: 4,
+          ["image-styles"]: imageStyles.value,
+          autoUpload: false,
+          modelValue: imageValue.value
+        }),
+        j: title.value,
+        k: common_vendor.o(($event) => title.value = $event.detail.value),
+        l: -1,
+        m: content.value,
+        n: common_vendor.o(($event) => content.value = $event.detail.value),
+        o: common_assets._imports_1$2,
+        p: common_vendor.f(tagList.value, (item, k0, i0) => {
           return {
-            a: file.url,
-            b: common_vendor.o(($event) => handleDeleteImage(index), index),
-            c: index
+            a: common_vendor.t(item.name),
+            b: selectedTags.value.includes(item._id) ? 1 : "",
+            c: common_vendor.o(($event) => handleTagSelect(item._id), item._id),
+            d: item._id
           };
         }),
-        d: previewImages.value.length < 4
-      }, previewImages.value.length < 4 ? {
-        e: common_vendor.o(chooseImage)
-      } : {}, {
-        f: title.value,
-        g: common_vendor.o(($event) => title.value = $event.detail.value),
-        h: -1,
-        i: content.value,
-        j: common_vendor.o(($event) => content.value = $event.detail.value),
-        k: common_assets._imports_1$2,
-        l: common_vendor.f(tags.value, (tag, index, i0) => {
-          return {
-            a: common_vendor.t(tag),
-            b: selectedTags.value.includes(tag) ? 1 : "",
-            c: common_vendor.o(($event) => handleTagSelect(tag), index),
-            d: index
-          };
-        }),
-        m: common_assets._imports_2$2,
-        n: common_assets._imports_3$2,
-        o: common_vendor.f(locations.value, (loc, index, i0) => {
+        q: common_assets._imports_2$2,
+        r: common_assets._imports_3$2,
+        s: common_vendor.f(locations.value, (loc, index, i0) => {
           return {
             a: common_vendor.t(loc),
             b: selectedLocation.value === loc ? 1 : "",
@@ -165,9 +201,9 @@ const _sfc_main = {
             d: index
           };
         }),
-        p: common_assets._imports_4$2,
-        q: common_vendor.o(handleRelease)
-      });
+        t: common_assets._imports_4$2,
+        v: common_vendor.o(handleRelease)
+      };
     };
   }
 };
