@@ -97,31 +97,22 @@ const _sfc_main = {
         return common_vendor.index.showToast({ title: "请选择至少一个标签", icon: "none" });
       common_vendor.index.showLoading({ title: "发布中...", mask: true });
       try {
-        let imageUrls = [];
         let imageFileIDs = [];
+        let imageUrls = [];
         if (imageValue.value.length > 0) {
-          common_vendor.index.__f__("log", "at pages/release/release.vue:203", "开始上传图片...", imageValue.value);
           try {
-            await files.value.upload();
-            const uploadedFiles = files.value.getFiles ? files.value.getFiles() : imageValue.value;
-            const validFiles = uploadedFiles.filter((item) => {
-              if (item.response && item.response.fileID) {
-                imageFileIDs.push(item.response.fileID);
-                return true;
-              }
-              if (item.path) {
-                imageUrls.push(item.path);
-                return true;
-              }
-              return false;
+            const uploadResult = await files.value.upload();
+            common_vendor.index.__f__("log", "at pages/release/release.vue:206", "上传结果:", uploadResult);
+            const fileIDs = uploadResult.map((item) => item.fileID || item.url);
+            common_vendor.index.__f__("log", "at pages/release/release.vue:210", "提取的fileID:", fileIDs);
+            const tempURLsRes = await common_vendor.nr.getTempFileURL({
+              fileList: fileIDs
             });
-            if (imageFileIDs.length > 0 && imageUrls.length === 0) {
-              imageUrls = imageFileIDs.map((id) => {
-                return `cloudfile:${id}`;
-              });
-            }
+            common_vendor.index.__f__("log", "at pages/release/release.vue:216", "临时URL转换结果:", tempURLsRes);
+            imageUrls = tempURLsRes.fileList.map((item) => item.tempFileURL);
+            common_vendor.index.__f__("log", "at pages/release/release.vue:220", "转换后的图片URL:", imageUrls);
           } catch (uploadError) {
-            common_vendor.index.__f__("error", "at pages/release/release.vue:239", "文件上传失败:", uploadError);
+            common_vendor.index.__f__("error", "at pages/release/release.vue:222", "文件上传失败:", uploadError);
             throw new Error("图片上传失败，请重试");
           }
         }
@@ -144,7 +135,7 @@ const _sfc_main = {
           common_vendor.index.switchTab({ url: "/pages/home/home" });
         }, 1500);
       } catch (err) {
-        common_vendor.index.__f__("error", "at pages/release/release.vue:270", "发布失败:", err);
+        common_vendor.index.__f__("error", "at pages/release/release.vue:253", "发布失败:", err);
         common_vendor.index.showToast({
           title: "发布失败: " + (err.message || "请检查网络"),
           icon: "none",

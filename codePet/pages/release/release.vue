@@ -134,7 +134,7 @@ const getTags = async() => {
         uni.showToast({ title: '标签加载失败', icon: 'none' })
     }
 }
-    
+
 //处理标签选择
 const handleTagSelect = (tagId) => {
     const MAX_TAGS = 3;
@@ -195,52 +195,35 @@ const handleRelease = async () => {
     uni.showLoading({ title: '发布中...', mask: true })
 
     try {
-        let imageUrls = []      //图片访问URL
         let imageFileIDs = []   //图片文件ID
+		let imageUrls = [] //最终可访问的图片URL
 
         //处理图片上传
         if (imageValue.value.length > 0) {
-            console.log('开始上传图片...', imageValue.value)
+			try {
+                //执行上传并等待返回结果
+                const uploadResult = await files.value.upload()
+                console.log('上传结果:', uploadResult)
 
-            try {
-                //触发上传
-                await files.value.upload()
+                //提取所有上传成功文件的fileID
+                const fileIDs = uploadResult.map(item => item.fileID || item.url)
+                console.log('提取的fileID:', fileIDs)
 
-                //获取上传结果
-                const uploadedFiles = files.value.getFiles ? 
-                files.value.getFiles() : 
-                imageValue.value
-
-                //提取有效的fileID
-                const validFiles = uploadedFiles.filter(item => {
-                    if (item.response && item.response.fileID) {
-                        //存储文件ID
-                        imageFileIDs.push(item.response.fileID)
-                        return true
-                    }
-                    if (item.path) {
-                        //使用临时路径作为替代
-                        imageUrls.push(item.path)
-                        return true
-                    }
-                    return false
+                //将fileID转换为可访问的URL
+                const tempURLsRes = await uniCloud.getTempFileURL({
+                    fileList: fileIDs
                 })
+                console.log('临时URL转换结果:', tempURLsRes)
 
-                //对于成功上传的文件，如果获取到fileID但无法生成临时URL
-                //使用fileID直接访问（可能需要前端特殊处理）
-                if (imageFileIDs.length > 0 && imageUrls.length === 0) {
-                    imageUrls = imageFileIDs.map(id => {
-                        //在fileID前添加前缀以便识别
-                        return `cloudfile:${id}`
-                    })
-                }
-
+                //提取成功的URL链接
+                imageUrls = tempURLsRes.fileList.map(item => item.tempFileURL)
+                console.log('转换后的图片URL:', imageUrls)
             } catch (uploadError) {
                 console.error('文件上传失败:', uploadError)
                 throw new Error('图片上传失败，请重试')
             }
         }
-
+		
         //构造提交数据
         const postData = {
             header: title.value,
