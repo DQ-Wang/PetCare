@@ -1,287 +1,305 @@
 <template>
-	<view class="pet-container">
-		<image class="back-arrow" src="/static/汪汪喵切图/发布/左箭头.png" @click="goBack"></image>
+  <view class="pet-container">
+    <image class="back-arrow" src="/static/汪汪喵切图/发布/左箭头.png" @click="goBack"></image>
 
-		<view class="edit-area">
-			<view class="pic-upload">
-				<uni-file-picker
-					v-model="imageValue"
-					fileMediatype="image"
-					mode="grid"
-					:limit="4"
-					:image-styles="imageStyles"
-					:autoUpload="false"
-					ref="files"
-					@select="select" 
-					@progress="progress" 
-					@success="success" 
-					@fail="fail"
-				/>
-			</view>
+    <view class="edit-area">
+      <view class="pic-upload">
+        <uni-file-picker v-model="imageValue" fileMediatype="image" mode="grid" :limit="4" :image-styles="imageStyles"
+          :autoUpload="false" ref="files" @select="select" @progress="progress" @success="success" @fail="fail" />
+      </view>
 
-			<view class="text-upload">
-				<input v-model="title" placeholder="添加标题" maxlength="10" placeholder-class="title-placeholder"
-					class="title-area" />
+      <view class="text-upload">
+        <input v-model="title" placeholder="添加标题" maxlength="10" placeholder-class="title-placeholder"
+          class="title-area" />
 
-				<textarea v-model="content" placeholder="添加正文" placeholder-class="main-placeholder" class="main-area"
-					auto-height :maxlength="-1" />
-			</view>
-		</view>
+        <textarea v-model="content" placeholder="添加正文" placeholder-class="main-placeholder" class="main-area"
+          auto-height :maxlength="-1" />
+      </view>
+    </view>
 
-		<view class="tag-container">
-			<view class="tag-title">
-				<image src="/static/汪汪喵切图/发布/标签.png" style="width: 28rpx; height: 28rpx;"></image>
-				<text>标签</text>
-			</view>
+    <view class="tag-container">
+      <view class="tag-title">
+        <image src="/static/汪汪喵切图/发布/标签.png" style="width: 28rpx; height: 28rpx;"></image>
+        <text>标签</text>
+      </view>
 
-			<view class="tags-wrap">
-				<view v-for="item in tagList" :key="item._id">
-					<view 
-						class="tag"
-						:class="{'tag-selected': selectedTags.includes(item._id)}"
-						@click="handleTagSelect(item._id)"
-					>
-						{{item.name}}
-					</view>
-				</view>
-			</view>
-		</view>
+      <view class="tags-wrap">
+        <view v-for="item in tagList" :key="item._id">
+          <view class="tag" :class="{'tag-selected': selectedTags.includes(item._id)}"
+            @click="handleTagSelect(item._id)">
+            {{item.name}}
+          </view>
+        </view>
+      </view>
+    </view>
 
-		<view class="divider-line"></view>
+    <view class="divider-line"></view>
 
-		<view class="location-container">
-			<view class="location-title">
-				<image src="/static/汪汪喵切图/发布/位置.png" style="width: 28rpx; height: 28rpx;"></image>
-				<text>位置</text>
-				<view class="spacer"></view>
-				<image class="right-arrow" src="/static/汪汪喵切图/发布/右箭头.png" style="width: 11.22rpx; height: 19.36rpx;"></image>
-			</view>
+    <view class="location-container">
+      <view class="location-title">
+        <image src="/static/汪汪喵切图/发布/位置.png" style="width: 28rpx; height: 28rpx;"></image>
+        <text>位置</text>
+        <view class="spacer"></view>
+        <image class="right-arrow" src="/static/汪汪喵切图/发布/右箭头.png" style="width: 11.22rpx; height: 19.36rpx;"></image>
+      </view>
 
-			<scroll-view class="locations-wrap" scroll-x enable-flex>
-				<view v-for="(loc,index) in locations" :key="index">
-					<view class="location" :class="{'location-selected': selectedLocation === loc}"
-						@click="handleLocationSelect(loc)">
-							{{loc}}
-					</view>
-				</view>
-			</scroll-view>
-		</view>
+      <scroll-view class="locations-wrap" scroll-x enable-flex>
+        <view v-for="(loc,index) in locations" :key="index">
+          <view class="location" :class="{'location-selected': selectedLocation === loc}"
+            @click="handleLocationSelect(loc)">
+            {{loc}}
+          </view>
+        </view>
+      </scroll-view>
+    </view>
 
-		<button class="release-button" @click="handleRelease">
-			<image src="/static/汪汪喵切图/发布/发布.png" style="width: 47rpx; height: 47rpx;"></image>
-			<view class="release-text">
-				发布笔记
-			</view>
-		</button>
-	</view>
+    <button class="release-button" @click="handleRelease">
+      <image src="/static/汪汪喵切图/发布/发布.png" style="width: 47rpx; height: 47rpx;"></image>
+      <view class="release-text">
+        发布笔记
+      </view>
+    </button>
+  </view>
 
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+  import {
+    ref,
+    onMounted
+  } from 'vue'
 
-const db = uniCloud.database();
-    
-//文件上传相关
-const files = ref(null)
-const imageValue = ref([])
-    
-//表单数据
-const title = ref('')
-const content = ref('')
-const selectedTags = ref([])
-const selectedLocation = ref('') 
-    
-//标签数据（从数据库获取）
-const tagList = ref([]) 
-    
-//位置数据
-const locations = ref([
+  const db = uniCloud.database();
+
+  //文件上传相关
+  const files = ref(null)
+  const imageValue = ref([])
+
+  //表单数据
+  const title = ref('')
+  const content = ref('')
+  const selectedTags = ref([])
+  const selectedLocation = ref('')
+
+  //标签数据（从数据库获取）
+  const tagList = ref([])
+
+  //位置数据
+  const locations = ref([
     '厦门大学翔安校区',
     '香山郊野公园',
     '厦门大学翔安校区丰庭食堂',
     '厦门大学信息学院',
     '查看更多'
-])
-    
-//图片上传的配置
-const imageStyles = ref({
+  ])
+
+  //图片上传的配置
+  const imageStyles = ref({
     width: 95,
     height: 95,
     border: {
-        color: "#eee", 
-        width: "1px",  
-        style: "solid",
-        radius: "13rpx"
+      color: "#eee",
+      width: "1px",
+      style: "solid",
+      radius: "13rpx"
     }
-})
-    
-//获取标签数据
-const getTags = async() => {
+  })
+
+  //获取标签数据
+  const getTags = async () => {
     try {
-        const res = await db.collection('opendb-news-categories')
-            .orderBy('sort', 'asc')
-            .get()
-        
-        if(res.result && res.result.data) {
-            tagList.value = res.result.data
-        } else {
-            console.error('标签数据获取失败', res)
-            uni.showToast({ title: '标签加载失败', icon: 'none' })
-        }
-    } catch(e) {
-        console.error('获取标签错误:', e)
-        uni.showToast({ title: '标签加载失败', icon: 'none' })
+      const res = await db.collection('opendb-news-categories')
+        .orderBy('sort', 'asc')
+        .get()
+
+      if (res.result && res.result.data) {
+        tagList.value = res.result.data
+      } else {
+        console.error('标签数据获取失败', res)
+        uni.showToast({
+          title: '标签加载失败',
+          icon: 'none'
+        })
+      }
+    } catch (e) {
+      console.error('获取标签错误:', e)
+      uni.showToast({
+        title: '标签加载失败',
+        icon: 'none'
+      })
     }
-}
-    
-//处理标签选择
-const handleTagSelect = (tagId) => {
+  }
+
+  //处理标签选择
+  const handleTagSelect = (tagId) => {
     const MAX_TAGS = 3;
-    const index = selectedTags.value.indexOf(tagId);
-    
-    if (index === -1) {
-        if (selectedTags.value.length >= MAX_TAGS) {
-            return uni.showToast({ title: `最多选择${MAX_TAGS}个标签`, icon: 'none' });
-        }
-        selectedTags.value.push(tagId);
-    } else {
-        selectedTags.value.splice(index, 1);
+    const index = selectedTags.value.indexOf(tagId); //判断该标签是否已经选中在selectedTags中
+
+    if (index === -1) { //不在
+      if (selectedTags.value.length >= MAX_TAGS) {
+        return uni.showToast({
+          title: `最多选择${MAX_TAGS}个标签`, //如果达到了可选择的上限，就弹出提示框，并中止执行；
+          icon: 'none'
+        });
+      }
+      selectedTags.value.push(tagId); //未达到就将其push到数组中
+    } else { //如果选中，则表示用户要取消选择，用splice从数组中删除该标签
+      selectedTags.value.splice(index, 1);
     }
-}
-    
-//处理位置选择
-const handleLocationSelect = (location) => {
+  }
+
+  //处理位置选择
+  const handleLocationSelect = (location) => {
     if (location === '查看更多') {
-        // 实际项目中接入位置API
-        uni.showToast({ title: '位置功能待实现', icon: 'none' });
+      // 实际项目中接入位置API
+      uni.showToast({
+        title: '位置功能待实现',
+        icon: 'none'
+      });
     } else {
-        selectedLocation.value = location;
+      selectedLocation.value = location;
     }
-}
-    
-//返回上一页
-const goBack = () => {
+  }
+
+  //返回上一页
+  const goBack = () => {
     uni.switchTab({
-        url: '/pages/home/home'
+      url: '/pages/home/home'
     })
-}
-    
-// 文件上传相关事件
-function select(e) {
+  }
+
+  // 文件上传相关事件
+  function select(e) {
     console.log('选择文件：', e)
     console.log(imageValue)
-}
+  }
 
-function progress(e) {
+  function progress(e) {
     console.log('上传进度：', e)
-}
+  }
 
-function success(e) {
+  function success(e) {
     console.log('上传成功', e)
-}
+  }
 
-function fail(e) {
+  function fail(e) {
     console.log('上传失败：', e)
-}
+  }
 
-//发布功能
-const handleRelease = async () => {
+  //发布功能
+  const handleRelease = async () => {
     //表单验证
-    if (!title.value.trim()) return uni.showToast({ title: '请输入标题', icon: 'none' })
-    if (!content.value.trim()) return uni.showToast({ title: '请输入正文内容', icon: 'none' })
-    if (selectedTags.value.length === 0) return uni.showToast({ title: '请选择至少一个标签', icon: 'none' })
+    if (!title.value.trim()) return uni.showToast({
+      title: '请输入标题',
+      icon: 'none'
+    })
+    if (!content.value.trim()) return uni.showToast({
+      title: '请输入正文内容',
+      icon: 'none'
+    })
+    if (selectedTags.value.length === 0) return uni.showToast({
+      title: '请选择至少一个标签',
+      icon: 'none'
+    })
 
-    uni.showLoading({ title: '发布中...', mask: true })
+    uni.showLoading({
+      title: '发布中...',
+      mask: true
+    })
 
     try {
-        let imageUrls = []      //图片访问URL
-        let imageFileIDs = []   //图片文件ID
+      let imageUrls = [] //图片访问URL
+      let imageFileIDs = [] //图片文件ID
 
-        //处理图片上传
-        if (imageValue.value.length > 0) {
-            console.log('开始上传图片...', imageValue.value)
+      //处理图片上传
+      if (imageValue.value.length > 0) {
+        console.log('开始上传图片...', imageValue.value)
 
-            try {
-                //触发上传
-                await files.value.upload()
+        try {
+          //触发上传
+          await files.value.upload()
 
-                //获取上传结果
-                const uploadedFiles = files.value.getFiles ? 
-                files.value.getFiles() : 
-                imageValue.value
+          //获取上传结果
+          const uploadedFiles = files.value.getFiles ?
+            files.value.getFiles() :
+            imageValue.value
 
-                //提取有效的fileID
-                const validFiles = uploadedFiles.filter(item => {
-                    if (item.response && item.response.fileID) {
-                        //存储文件ID
-                        imageFileIDs.push(item.response.fileID)
-                        return true
-                    }
-                    if (item.path) {
-                        //使用临时路径作为替代
-                        imageUrls.push(item.path)
-                        return true
-                    }
-                    return false
-                })
-
-                //对于成功上传的文件，如果获取到fileID但无法生成临时URL
-                //使用fileID直接访问（可能需要前端特殊处理）
-                if (imageFileIDs.length > 0 && imageUrls.length === 0) {
-                    imageUrls = imageFileIDs.map(id => {
-                        //在fileID前添加前缀以便识别
-                        return `cloudfile:${id}`
-                    })
-                }
-
-            } catch (uploadError) {
-                console.error('文件上传失败:', uploadError)
-                throw new Error('图片上传失败，请重试')
+          //提取有效的fileID
+          const validFiles = uploadedFiles.filter(item => {
+            if (item.response && item.response.fileID) {
+              //存储文件ID
+              imageFileIDs.push(item.response.fileID)
+              return true
             }
-        }
-
-        //构造提交数据
-        const postData = {
-            header: title.value,
-            content: content.value,
-            category_id: selectedTags.value,
-            images: imageUrls,
-        }
-
-        //添加位置信息
-        if (selectedLocation.value) {
-            postData.location = {
-                name: selectedLocation.value,
-                latitude: 0,
-                longitude: 0
+            if (item.path) {
+              //使用临时路径作为替代
+              imageUrls.push(item.path)
+              return true
             }
+            return false
+          })
+
+          //对于成功上传的文件，如果获取到fileID但无法生成临时URL
+          //使用fileID直接访问（可能需要前端特殊处理）
+          if (imageFileIDs.length > 0 && imageUrls.length === 0) {
+            imageUrls = imageFileIDs.map(id => {
+              //在fileID前添加前缀以便识别
+              return `cloudfile:${id}`
+            })
+          }
+
+        } catch (uploadError) {
+          console.error('文件上传失败:', uploadError)
+          throw new Error('图片上传失败，请重试')
         }
+      }
 
-        //提交到数据库
-        await db.collection('posts').add(postData)
+      //构造提交数据
+      const postData = {
+        header: title.value,
+        content: content.value,
+        category_id: selectedTags.value,
+        images: imageUrls,
+      }
 
-        uni.showToast({ title: '发布成功', icon: 'success' })
-        setTimeout(() => {
-            uni.switchTab({ url: '/pages/home/home' })
-        }, 1500)
+      //添加位置信息
+      if (selectedLocation.value) {
+        postData.location = {
+          name: selectedLocation.value,
+          latitude: 0,
+          longitude: 0
+        }
+      }
+
+      //提交到数据库
+      await db.collection('posts').add(postData)
+
+      uni.showToast({
+        title: '发布成功',
+        icon: 'success'
+      })
+      setTimeout(() => {
+        uni.switchTab({
+          url: '/pages/home/home'
+        })
+      }, 1500)
 
     } catch (err) {
-        console.error('发布失败:', err)
-        uni.showToast({ 
-            title: '发布失败: ' + (err.message || '请检查网络'), 
-            icon: 'none',
-            duration: 3000
-        })
+      console.error('发布失败:', err)
+      uni.showToast({
+        title: '发布失败: ' + (err.message || '请检查网络'),
+        icon: 'none',
+        duration: 3000
+      })
     } finally {
-        uni.hideLoading()
+      uni.hideLoading()
     }
-}
-    
-//页面加载时获取标签
-onMounted(() => {
+  }
+
+  //页面加载时获取标签
+  onMounted(() => {
     getTags()
-})
+  })
 </script>
 
 <style lang="scss">
@@ -299,29 +317,30 @@ onMounted(() => {
   }
 
   .pic-upload {
-	padding: 0 31rpx;
-	margin-top: 51rpx;
-	    
-	/* 自定义uni-file-picker样式 */
-	::v-deep .uni-file-picker {
-	    .uni-file-picker__header {
-			display: none; /* 隐藏标题 */
-	    }
-	      
-	    .uni-file-picker__container {
-	        margin-top: 0;
-	    }
-		
-		.file-picker__box-content {
-			background-color: #e5e5e5;
-		} 
-	      
-	    .icon-add {
-			width: 60rpx;
-	        background-color: #a6a6a6 !important;
-	        border-radius: 13rpx;
-	    }
-	}
+    padding: 0 31rpx;
+    margin-top: 51rpx;
+
+    /* 自定义uni-file-picker样式 */
+    ::v-deep .uni-file-picker {
+      .uni-file-picker__header {
+        display: none;
+        /* 隐藏标题 */
+      }
+
+      .uni-file-picker__container {
+        margin-top: 0;
+      }
+
+      .file-picker__box-content {
+        background-color: #e5e5e5;
+      }
+
+      .icon-add {
+        width: 60rpx;
+        background-color: #a6a6a6 !important;
+        border-radius: 13rpx;
+      }
+    }
   }
 
   .text-upload {
