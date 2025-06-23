@@ -2,5 +2,7 @@
   "navigationBarTitleText": "发布",
   "navigationStyle": "custom",
   "hideTabBar": true,
-  "usingComponents": {}
+  "usingComponents": {
+    "uni-file-picker": "../../uni_modules/uni-file-picker/components/uni-file-picker/uni-file-picker"
+  }
 }

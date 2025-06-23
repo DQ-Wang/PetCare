@@ -207,6 +207,7 @@
 		border: 1px #eee solid;
 		border-radius: 5px;
 		overflow: hidden;
+		background-color: #e5e5e5;
 	}
 
 	.file-picker__progress {
