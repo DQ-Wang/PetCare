@@ -17,7 +17,7 @@
             mode="widthFix" />
 
           <view class="card-info">
-            <text class="desc">{{ item.content }}</text>
+            <text class="desc">{{ item.header }}</text>
             <view class="stats">
               <view class="author">
                 <image class="avatar" :src="item.avatar" />

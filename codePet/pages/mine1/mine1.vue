@@ -69,11 +69,14 @@
       </view>
     </view>
     <view class="menu-list">
-      <view class="menu-item">
-        <view class="icon iconfont icon-qiandai"></view>
-        <text class="label">推广赚钱</text>
-        <text class="arrow iconfont icon-youjiantou"></text>
-      </view>
+      <!-- 6.23测试改 -->
+      <navigator url="/pages/posts/add">
+        <view class="menu-item">
+          <view class="icon iconfont icon-qiandai"></view>
+          <text class="label">推广赚钱</text>
+          <text class="arrow iconfont icon-youjiantou"></text>
+        </view>
+      </navigator>
       <view class="menu-item">
         <view class="icon iconfont icon-youhuiquan"></view>
         <text class="label">领券中心</text>
