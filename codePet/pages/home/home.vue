@@ -30,10 +30,15 @@
 
       <view class="feature">
         <view class="feature1">
+
           <view class="box reservation">
+
             <image src="../../static/汪汪喵切图/首页/洗护预约icon@3x.png" class="icon1" mode=""></image>
-            <text>洗护预约</text>
+            <navigator url="/pages/posts/list">
+              <text>洗护预约</text>
+            </navigator>
           </view>
+
           <view class="box door-to-door">
             <image src="../../static/汪汪喵切图/首页/一键上门icon@3x.png" class="icon1" mode=""></image>
             <text>一键上门</text>
