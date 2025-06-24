@@ -43,7 +43,7 @@
       "description": "所选标签的 ID 列表（可选）",
       "items": {
         "bsonType": "objectId",
-        "foreignKey": "categories._id"
+        "foreignKey": "opendb-news-categories._id"
       }
     },
     "create_date": {
