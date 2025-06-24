@@ -2,6 +2,9 @@
     "version" : "1.0",
     "configurations" : [
         {
+            "app-plus" : {
+                "launchtype" : "local"
+            },
             "default" : {
                 "launchtype" : "local"
             },

@@ -128,10 +128,13 @@
         icon: 'none'
       })
     }
-  }
 
-  //处理标签选择
-  const handleTagSelect = (tagId) => {
+
+//处理标签选择
+const handleTagSelect = (tagId) => {
+
+
+
     const MAX_TAGS = 3;
     const index = selectedTags.value.indexOf(tagId); //判断该标签是否已经选中在selectedTags中
 
@@ -208,33 +211,34 @@
     })
 
     try {
-      let imageUrls = [] //图片访问URL
-      let imageFileIDs = [] //图片文件ID
 
-      //处理图片上传
-      if (imageValue.value.length > 0) {
-        console.log('开始上传图片...', imageValue.value)
+        let imageFileIDs = []   //图片文件ID
+		let imageUrls = [] //最终可访问的图片URL
 
-        try {
-          //触发上传
-          await files.value.upload()
+        //处理图片上传
+        if (imageValue.value.length > 0) {
+			try {
+                //执行上传并等待返回结果
+                const uploadResult = await files.value.upload()
+                console.log('上传结果:', uploadResult)
 
-          //获取上传结果
-          const uploadedFiles = files.value.getFiles ?
-            files.value.getFiles() :
-            imageValue.value
+                //提取所有上传成功文件的fileID
+                const fileIDs = uploadResult.map(item => item.fileID || item.url)
+                console.log('提取的fileID:', fileIDs)
 
-          //提取有效的fileID
-          const validFiles = uploadedFiles.filter(item => {
-            if (item.response && item.response.fileID) {
-              //存储文件ID
-              imageFileIDs.push(item.response.fileID)
-              return true
-            }
-            if (item.path) {
-              //使用临时路径作为替代
-              imageUrls.push(item.path)
-              return true
+                //将fileID转换为可访问的URL
+                const tempURLsRes = await uniCloud.getTempFileURL({
+                    fileList: fileIDs
+                })
+                console.log('临时URL转换结果:', tempURLsRes)
+
+                //提取成功的URL链接
+                imageUrls = tempURLsRes.fileList.map(item => item.tempFileURL)
+                console.log('转换后的图片URL:', imageUrls)
+            } catch (uploadError) {
+                console.error('文件上传失败:', uploadError)
+                throw new Error('图片上传失败，请重试')
+
             }
             return false
           })
@@ -252,15 +256,16 @@
           console.error('文件上传失败:', uploadError)
           throw new Error('图片上传失败，请重试')
         }
-      }
 
-      //构造提交数据
-      const postData = {
-        header: title.value,
-        content: content.value,
-        category_id: selectedTags.value,
-        images: imageUrls,
-      }
+		
+        //构造提交数据
+        const postData = {
+            header: title.value,
+            content: content.value,
+            category_id: selectedTags.value,
+            images: imageUrls,
+        }
+
 
       //添加位置信息
       if (selectedLocation.value) {
