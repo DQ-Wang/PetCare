@@ -100,7 +100,7 @@
   });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   @import "../../petcareui/pet-global.css";
   @import "../../petcareui/master_list.css";
 
