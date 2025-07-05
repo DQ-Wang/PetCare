@@ -15,12 +15,11 @@
       "ignore": [],
       "disablePlugins": [],
       "outputPath": ""
-    },
-    "ignoreUploadUnusedFiles": true
+    }
   },
   "compileType": "miniprogram",
   "libVersion": "3.8.0",
-  "appid": "wx66834f7b53202fc1",
+  "appid": "touristappid",
   "projectname": "codePet",
   "condition": {
     "search": {

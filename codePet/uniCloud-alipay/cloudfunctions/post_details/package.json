@@ -1,0 +1,7 @@
+{
+  "name": "post_details",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

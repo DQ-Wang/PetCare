@@ -12,7 +12,7 @@ if (!Math) {
 const _sfc_main = {
   __name: "release",
   setup(__props) {
-    const db = common_vendor.nr.database();
+    const db = common_vendor.er.database();
     const files = common_vendor.ref(null);
     const imageValue = common_vendor.ref([]);
     const title = common_vendor.ref("");
@@ -43,12 +43,18 @@ const _sfc_main = {
         if (res.result && res.result.data) {
           tagList.value = res.result.data;
         } else {
-          common_vendor.index.__f__("error", "at pages/release/release.vue:129", "标签数据获取失败", res);
-          common_vendor.index.showToast({ title: "标签加载失败", icon: "none" });
+          common_vendor.index.__f__("error", "at pages/release/release.vue:118", "标签数据获取失败", res);
+          common_vendor.index.showToast({
+            title: "标签加载失败",
+            icon: "none"
+          });
         }
       } catch (e) {
-        common_vendor.index.__f__("error", "at pages/release/release.vue:133", "获取标签错误:", e);
-        common_vendor.index.showToast({ title: "标签加载失败", icon: "none" });
+        common_vendor.index.__f__("error", "at pages/release/release.vue:125", "获取标签错误:", e);
+        common_vendor.index.showToast({
+          title: "标签加载失败",
+          icon: "none"
+        });
       }
     };
     const handleTagSelect = (tagId) => {
@@ -56,7 +62,10 @@ const _sfc_main = {
       const index = selectedTags.value.indexOf(tagId);
       if (index === -1) {
         if (selectedTags.value.length >= MAX_TAGS) {
-          return common_vendor.index.showToast({ title: `最多选择${MAX_TAGS}个标签`, icon: "none" });
+          return common_vendor.index.showToast({
+            title: `最多选择${MAX_TAGS}个标签`,
+            icon: "none"
+          });
         }
         selectedTags.value.push(tagId);
       } else {
@@ -65,7 +74,10 @@ const _sfc_main = {
     };
     const handleLocationSelect = (location) => {
       if (location === "查看更多") {
-        common_vendor.index.showToast({ title: "位置功能待实现", icon: "none" });
+        common_vendor.index.showToast({
+          title: "位置功能待实现",
+          icon: "none"
+        });
       } else {
         selectedLocation.value = location;
       }
@@ -76,43 +88,55 @@ const _sfc_main = {
       });
     };
     function select(e) {
-      common_vendor.index.__f__("log", "at pages/release/release.vue:172", "选择文件：", e);
-      common_vendor.index.__f__("log", "at pages/release/release.vue:173", imageValue);
+      common_vendor.index.__f__("log", "at pages/release/release.vue:173", "选择文件：", e);
+      common_vendor.index.__f__("log", "at pages/release/release.vue:174", imageValue);
     }
     function progress(e) {
-      common_vendor.index.__f__("log", "at pages/release/release.vue:177", "上传进度：", e);
+      common_vendor.index.__f__("log", "at pages/release/release.vue:178", "上传进度：", e);
     }
     function success(e) {
-      common_vendor.index.__f__("log", "at pages/release/release.vue:181", "上传成功", e);
+      common_vendor.index.__f__("log", "at pages/release/release.vue:182", "上传成功", e);
     }
     function fail(e) {
-      common_vendor.index.__f__("log", "at pages/release/release.vue:185", "上传失败：", e);
+      common_vendor.index.__f__("log", "at pages/release/release.vue:186", "上传失败：", e);
     }
     const handleRelease = async () => {
       if (!title.value.trim())
-        return common_vendor.index.showToast({ title: "请输入标题", icon: "none" });
+        return common_vendor.index.showToast({
+          title: "请输入标题",
+          icon: "none"
+        });
       if (!content.value.trim())
-        return common_vendor.index.showToast({ title: "请输入正文内容", icon: "none" });
+        return common_vendor.index.showToast({
+          title: "请输入正文内容",
+          icon: "none"
+        });
       if (selectedTags.value.length === 0)
-        return common_vendor.index.showToast({ title: "请选择至少一个标签", icon: "none" });
-      common_vendor.index.showLoading({ title: "发布中...", mask: true });
+        return common_vendor.index.showToast({
+          title: "请选择至少一个标签",
+          icon: "none"
+        });
+      common_vendor.index.showLoading({
+        title: "发布中...",
+        mask: true
+      });
       try {
         let imageFileIDs = [];
         let imageUrls = [];
         if (imageValue.value.length > 0) {
           try {
             const uploadResult = await files.value.upload();
-            common_vendor.index.__f__("log", "at pages/release/release.vue:206", "上传结果:", uploadResult);
+            common_vendor.index.__f__("log", "at pages/release/release.vue:219", "上传结果:", uploadResult);
             const fileIDs = uploadResult.map((item) => item.fileID || item.url);
-            common_vendor.index.__f__("log", "at pages/release/release.vue:210", "提取的fileID:", fileIDs);
-            const tempURLsRes = await common_vendor.nr.getTempFileURL({
+            common_vendor.index.__f__("log", "at pages/release/release.vue:223", "提取的fileID:", fileIDs);
+            const tempURLsRes = await common_vendor.er.getTempFileURL({
               fileList: fileIDs
             });
-            common_vendor.index.__f__("log", "at pages/release/release.vue:216", "临时URL转换结果:", tempURLsRes);
+            common_vendor.index.__f__("log", "at pages/release/release.vue:229", "临时URL转换结果:", tempURLsRes);
             imageUrls = tempURLsRes.fileList.map((item) => item.tempFileURL);
-            common_vendor.index.__f__("log", "at pages/release/release.vue:220", "转换后的图片URL:", imageUrls);
+            common_vendor.index.__f__("log", "at pages/release/release.vue:233", "转换后的图片URL:", imageUrls);
           } catch (uploadError) {
-            common_vendor.index.__f__("error", "at pages/release/release.vue:222", "文件上传失败:", uploadError);
+            common_vendor.index.__f__("error", "at pages/release/release.vue:235", "文件上传失败:", uploadError);
             throw new Error("图片上传失败，请重试");
           }
         }
@@ -130,12 +154,17 @@ const _sfc_main = {
           };
         }
         await db.collection("posts").add(postData);
-        common_vendor.index.showToast({ title: "发布成功", icon: "success" });
+        common_vendor.index.showToast({
+          title: "发布成功",
+          icon: "success"
+        });
         setTimeout(() => {
-          common_vendor.index.switchTab({ url: "/pages/home/home" });
+          common_vendor.index.switchTab({
+            url: "/pages/home/home"
+          });
         }, 1500);
       } catch (err) {
-        common_vendor.index.__f__("error", "at pages/release/release.vue:253", "发布失败:", err);
+        common_vendor.index.__f__("error", "at pages/release/release.vue:271", "发布失败:", err);
         common_vendor.index.showToast({
           title: "发布失败: " + (err.message || "请检查网络"),
           icon: "none",
@@ -152,7 +181,7 @@ const _sfc_main = {
       return {
         a: common_assets._imports_0$3,
         b: common_vendor.o(goBack),
-        c: common_vendor.sr(files, "4c7048b1-0", {
+        c: common_vendor.sr(files, "4179b125-0", {
           "k": "files"
         }),
         d: common_vendor.o(select),
