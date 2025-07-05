@@ -94,18 +94,18 @@
     },
     {
 
-    	"path" : "pages/post_details/post_details",
-    	"style" : 
-    	{
-    		"navigationBarTitleText" : "帖子详情"
-    	}
+      "path": "pages/post_details/post_details",
+      "style": {
+        "navigationBarTitleText": "帖子详情"
+      }
     },
     {
-    	"path" : "pages/id_test/id_test",
-    	"style" : 
-    	{
-    		"navigationBarTitleText" : ""
-    	}
+      "path": "pages/id_test/id_test",
+      "style": {
+        "navigationBarTitleText": ""
+      }
+    },
+    {
 
       "path": "pages/Checkout/In-Store",
       "style": {
