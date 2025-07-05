@@ -91,7 +91,26 @@
       "style": {
         "navigationBarTitleText": "详情"
       }
+    },
+    {
+      "path": "pages/Checkout/In-Store",
+      "style": {
+        "navigationBarTitleText": "确认订单"
+      }
+    },
+    {
+      "path": "pages/index/template",
+      "style": {
+        "navigationBarTitleText": "确认订单"
+      }
+    },
+    {
+      "path": "pages/Checkout/Home-service",
+      "style": {
+        "navigationBarTitleText": ""
+      }
     }
+
 
 
   ],
