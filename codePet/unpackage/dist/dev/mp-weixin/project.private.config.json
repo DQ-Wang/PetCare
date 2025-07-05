@@ -9,6 +9,13 @@
     "miniprogram": {
       "list": [
         {
+          "name": "pages/post_details/post_details",
+          "pathName": "pages/post_details/post_details",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "pages/release/release",
           "pathName": "pages/release/release",
           "query": "",
