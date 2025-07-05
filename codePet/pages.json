@@ -93,6 +93,7 @@
       }
     },
     {
+
     	"path" : "pages/post_details/post_details",
     	"style" : 
     	{
@@ -105,7 +106,26 @@
     	{
     		"navigationBarTitleText" : ""
     	}
+
+      "path": "pages/Checkout/In-Store",
+      "style": {
+        "navigationBarTitleText": "确认订单"
+      }
+    },
+    {
+      "path": "pages/index/template",
+      "style": {
+        "navigationBarTitleText": "确认订单"
+      }
+    },
+    {
+      "path": "pages/Checkout/Home-service",
+      "style": {
+        "navigationBarTitleText": ""
+      }
+
     }
+
 
 
   ],

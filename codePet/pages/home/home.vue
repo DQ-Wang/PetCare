@@ -31,12 +31,9 @@
       <view class="feature">
         <view class="feature1">
 
-          <view class="box reservation">
-
+          <view class="box reservation" @click="gotoMaster">
             <image src="../../static/汪汪喵切图/首页/洗护预约icon@3x.png" class="icon1" mode=""></image>
-            <navigator url="/pages/posts/list">
-              <text>洗护预约</text>
-            </navigator>
+            <text>洗护预约</text>
           </view>
 
           <view class="box door-to-door">
@@ -76,16 +73,12 @@
   </view>
 </template>
 
-<script>
-  export default {
-    data() {
-      return {
+<script setup>
+  function gotoMaster() {
+    uni.switchTab({
+      url: '/pages/master-list/master-list'
+    })
 
-      }
-    },
-    methods: {
-
-    }
   }
 </script>
 
