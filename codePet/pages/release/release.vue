@@ -187,97 +187,95 @@
   }
 
   //发布功能
+
   const handleRelease = async () => {
-    //表单验证
     if (!title.value.trim()) return uni.showToast({
       title: '请输入标题',
       icon: 'none'
-    })
+    });
     if (!content.value.trim()) return uni.showToast({
       title: '请输入正文内容',
       icon: 'none'
-    })
+    });
     if (selectedTags.value.length === 0) return uni.showToast({
       title: '请选择至少一个标签',
       icon: 'none'
-    })
+    });
 
     uni.showLoading({
       title: '发布中...',
       mask: true
-    })
+    });
 
     try {
-      let imageFileIDs = [] //图片文件ID
-      let imageUrls = [] //最终可访问的图片URL
+      let imageFileIDs = [];
 
-      //处理图片上传
+      // 上传文件（不再获取临时 URL）
+      let uploadResult = [];
       if (imageValue.value.length > 0) {
-        try {
-          //执行上传并等待返回结果
-          const uploadResult = await files.value.upload()
-          console.log('上传结果:', uploadResult)
+        uploadResult = await files.value.upload();
+        console.log('upload result:', JSON.stringify(uploadResult, null, 2))
+        console.log('上传结果:', uploadResult);
 
-          //提取所有上传成功文件的fileID
-          const fileIDs = uploadResult.map(item => item.fileID || item.url)
-          console.log('提取的fileID:', fileIDs)
-
-          //将fileID转换为可访问的URL
-          const tempURLsRes = await uniCloud.getTempFileURL({
-            fileList: fileIDs
-          })
-          console.log('临时URL转换结果:', tempURLsRes)
-
-          //提取成功的URL链接
-          imageUrls = tempURLsRes.fileList.map(item => item.tempFileURL)
-          console.log('转换后的图片URL:', imageUrls)
-        } catch (uploadError) {
-          console.error('文件上传失败:', uploadError)
-          throw new Error('图片上传失败，请重试')
-        }
+        // 提取上传成功的 fileID
+        imageFileIDs = uploadResult.map(item => item.fileID || item.url).filter(id => typeof id === 'string' && id
+          .startsWith('cloud://'));
+        console.log('上传的 fileID:', imageFileIDs);
       }
-
-      //构造提交数据
+      if (imageFileIDs.length !== uploadResult.length) {
+        throw new Error('有图片上传失败或 fileID 非法')
+      }
       const postData = {
         header: title.value,
         content: content.value,
         category_id: selectedTags.value,
-        images: imageUrls,
-      }
+        images: imageFileIDs, // ✅ 只存 fileID
+      };
 
-      //添加位置信息
       if (selectedLocation.value) {
         postData.location = {
-          name: selectedLocation.value,
-          latitude: 0,
-          longitude: 0
-        }
+          address: selectedLocation.value
+        };
       }
 
-      //提交到数据库
-      await db.collection('posts').add(postData)
+      await db.collection('posts').add(postData);
 
       uni.showToast({
         title: '发布成功',
         icon: 'success'
-      })
+      });
+      // // 清空表单信息
+      // title.value = ''; // 清空标题
+      // content.value = ''; // 清空正文
+      // selectedTags.value = []; // 清空标签选择
+      // selectedLocation.value = ''; // 清空位置选择
+      // imageValue.value = []; // 清空图片选择
+
+      // // 手动清空 uni-file-picker 中的图片
+      // if (files.value && files.value.clear) {
+      //   files.value.clear();
+      // }
+      uni.reLaunch({
+        url: '/pages/release/release' // 重新加载当前页面
+      });
+
       setTimeout(() => {
         uni.switchTab({
-          url: '/pages/home/home'
-        })
-      }, 1500)
+          url: '/pages/Commity/Commity'
+        });
+      }, 1500);
 
     } catch (err) {
-      console.error('发布失败:', err)
+      console.error('发布失败:', err);
       uni.showToast({
         title: '发布失败: ' + (err.message || '请检查网络'),
         icon: 'none',
         duration: 3000
-      })
+      });
     } finally {
-      uni.hideLoading()
+      uni.hideLoading();
     }
-  }
+  };
 
   //页面加载时获取标签
   onMounted(() => {

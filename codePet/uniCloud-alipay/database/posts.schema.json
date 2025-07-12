@@ -2,10 +2,10 @@
   "bsonType": "object",
   "required": ["header", "content"],
   "permission": {
-    "read": true,
-    "create": true,
-    "update": true,
-    "delete": true
+    "read": "auth.uid != null", //必须登录
+    "create": "auth.uid!=null",
+    "update": "auth.uid==doc.user_id", //只可以自己修改
+    "delete": "auth.uid==doc.user_id"
   },
   "properties": {
     "_id": {
@@ -16,8 +16,11 @@
     "user_id": {
       "bsonType": "string",
       "title": "用户id",
-      "foreignKey": "users._id",
-      "description": "发布用户 ID（外键，关联 users._id）"
+      "foreignKey": "uni-id-users._id",
+      "description": "发布用户 ID（外键，关联 uni-id-users._id）",
+      "defaultValue": {
+        "$env": "uid"
+      }
     },
     "images": {
       "bsonType": "array",

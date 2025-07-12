@@ -9,6 +9,13 @@
     "miniprogram": {
       "list": [
         {
+          "name": "uni_modules/uni-id-pages/pages/login/login-withoutpwd",
+          "pathName": "uni_modules/uni-id-pages/pages/login/login-withoutpwd",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
           "name": "pages/post_details/post_details",
           "pathName": "pages/post_details/post_details",
           "query": "",

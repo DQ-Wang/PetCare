@@ -12,7 +12,7 @@ if (!Math) {
 const _sfc_main = {
   __name: "release",
   setup(__props) {
-    const db = common_vendor.er.database();
+    const db = common_vendor.nr.database();
     const files = common_vendor.ref(null);
     const imageValue = common_vendor.ref([]);
     const title = common_vendor.ref("");
@@ -129,7 +129,7 @@ const _sfc_main = {
             common_vendor.index.__f__("log", "at pages/release/release.vue:219", "上传结果:", uploadResult);
             const fileIDs = uploadResult.map((item) => item.fileID || item.url);
             common_vendor.index.__f__("log", "at pages/release/release.vue:223", "提取的fileID:", fileIDs);
-            const tempURLsRes = await common_vendor.er.getTempFileURL({
+            const tempURLsRes = await common_vendor.nr.getTempFileURL({
               fileList: fileIDs
             });
             common_vendor.index.__f__("log", "at pages/release/release.vue:229", "临时URL转换结果:", tempURLsRes);
@@ -181,7 +181,7 @@ const _sfc_main = {
       return {
         a: common_assets._imports_0$3,
         b: common_vendor.o(goBack),
-        c: common_vendor.sr(files, "4179b125-0", {
+        c: common_vendor.sr(files, "2f810819-0", {
           "k": "files"
         }),
         d: common_vendor.o(select),

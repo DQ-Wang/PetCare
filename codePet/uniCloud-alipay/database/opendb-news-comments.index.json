@@ -1,26 +1,21 @@
-[
-	{
-		"IndexName": "article_id_",
-		"MgoKeySchema": {
-			"MgoIndexKeys": [
-				{
-					"Name": "article_id",
-					"Direction": "1"
-				}
-			],
-			"MgoIsUnique": false
-		}
-	},
-	{
-		"IndexName": "user_id_",
-		"MgoKeySchema": {
-			"MgoIndexKeys": [
-				{
-					"Name": "user_id",
-					"Direction": "1"
-				}
-			],
-			"MgoIsUnique": false
-		}
-	}
+[{
+    "IndexName": "post_id_",
+    "MgoKeySchema": {
+      "MgoIndexKeys": [{
+        "Name": "post_id",
+        "Direction": "1"
+      }],
+      "MgoIsUnique": false
+    }
+  },
+  {
+    "IndexName": "user_id_",
+    "MgoKeySchema": {
+      "MgoIndexKeys": [{
+        "Name": "user_id",
+        "Direction": "1"
+      }],
+      "MgoIsUnique": false
+    }
+  }
 ]

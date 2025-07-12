@@ -1,32 +1,33 @@
 {
   "bsonType": "object",
   "required": [
-    "article_id",
-    "user_id",
-    "comment_content",
-    "like_count",
-    "comment_type",
-    "reply_user_id",
-    "reply_comment_id"
+    "post_id", //必填，表示该评论属于哪一篇帖子
+    "user_id", //必填，评论者的用户 ID
+    "comment_content", //必填，评论的正文内容
+    // "like_count", //必填，初始值可为 0，用于统计点赞数
+    "comment_type" //必填，标记评论类型（0=评论帖子，1=回复评论）
+    // "reply_user_id", //回复类型为 1 时需要，表示被回复的用户
+    // "reply_comment_id" //回复类型为 1 时需要，表示被回复的评论
   ],
   "permission": {
-    "read": true,
-    "create": "auth.uid != null",
-    "update": "doc.user_id == auth.uid",
-    "delete": "doc.user_id == auth.uid"
+    "read": true, //所有人都可以读取评论
+    "create": "auth.uid != null", //只有登录用户（auth.uid 不为 null）才能发表评论
+    "update": "doc.user_id == auth.uid", //只有评论作者本人可以编辑评论
+    "delete": "doc.user_id == auth.uid" //只有评论作者本人可以删除评论
+
   },
   "properties": {
     "_id": {
-      "description": "存储文档 ID（文章 ID），系统自动生成"
+      "description": "评论的唯一 ID，系统自动生成"
     },
-    "article_id": {
+    "post_id": {
       "bsonType": "string",
-      "description": "文章ID，posts 表中的`_id`字段",
+      "description": "帖子 ID，posts 表中的 `_id` 字段",
       "foreignKey": "posts._id"
     },
     "user_id": {
       "bsonType": "string",
-      "description": "评论者ID，参考`users` 表",
+      "description": "评论者 ID，参考 `users` 表",
       "forceDefaultValue": {
         "$env": "uid"
       },
@@ -40,32 +41,33 @@
     },
     "like_count": {
       "bsonType": "int",
-      "description": "评论喜欢数、点赞数"
+      "description": "评论的点赞数",
+      "forceDefaultValue": 0
     },
     "comment_type": {
       "bsonType": "int",
-      "description": "回复类型： 0 针对文章的回复  1 针对评论的回复"
+      "description": "评论类型：0 表示评论帖子，1 表示回复其他评论"
     },
     "reply_user_id": {
       "bsonType": "string",
-      "description": "被回复的评论用户ID，comment_type为1时有效",
+      "description": "被回复用户的 ID（仅当为回复时有效）",
       "foreignKey": "users._id"
     },
     "reply_comment_id": {
       "bsonType": "string",
-      "description": "被回复的评论ID，comment_type为1时有效",
-      "foreignKey": "opendb-news-comments._id"
+      "description": "被回复评论的 ID（仅当为回复时有效）",
+      "foreignKey": "comments._id"
     },
     "comment_date": {
       "bsonType": "timestamp",
-      "description": "评论发表时间",
+      "description": "评论时间",
       "forceDefaultValue": {
         "$env": "now"
       }
     },
     "comment_ip": {
       "bsonType": "string",
-      "description": "评论发表时 IP 地址",
+      "description": "发表评论时的 IP 地址",
       "forceDefaultValue": {
         "$env": "clientIP"
       }

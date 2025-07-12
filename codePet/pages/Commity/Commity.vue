@@ -2,48 +2,25 @@
   <view class="pet-container">
     <!-- 顶部导航 -->
     <scroll-view class="nav-scroll" scroll-x>
-      <view v-for="(item, index) in categories" :key="index" class="nav-item" :class="{ active: currentTab === item }"
-        @click="switchCategory(item)">
-        {{ item }}
+      <view v-for="(item, index) in categories" :key="item._id" class="nav-item"
+        :class="{ active: currentTab && currentTab._id === item._id }" @click="switchCategory(item)">
+        {{ item.name }}
       </view>
     </scroll-view>
 
     <!-- 瀑布流主体 -->
     <view class="waterfall">
-      <!-- 左边 -->
-      <view class="column">
-        <view v-for="(item, index) in dataList" :key="item._id" class="card">
-          <image class="card-image" :src="item.images && item.images.length > 0 ? item.images[0] : ''"
-            mode="widthFix" />
+      <view v-for="(item, index) in dataList" :key="item._id" class="card" @click="goDetail(item._id)">
+        <image v-if="item.images && item.images.length" class="card-image" :src="item.imageTempUrl" mode="widthFix" />
 
-          <view class="card-info">
-            <text class="desc">{{ item.header }}</text>
-            <view class="stats">
-              <view class="author">
-                <image class="avatar" :src="item.avatar" />
-                <text class="name">{{ item.author }}</text>
-              </view>
-              <text class="like" :class="{ liked: item.liked }" @click="toggleLike(item)">♥ {{ item.like_count }}</text>
-
+        <view class="card-info">
+          <text class="desc">{{ item.header }}</text>
+          <view class="stats">
+            <view class="author">
+              <image class="avatar" :src="item.userInfo.avatarTempUrl" />
+              <text class="name">{{ item.userInfo.nickname }}</text>
             </view>
-          </view>
-        </view>
-      </view>
-      <!-- 右边 -->
-      <view class="column">
-        <view v-for="(item, index) in dataList" :key="item._id" class="card">
-          <image class="card-image" :src="item.images && item.images.length > 0 ? item.images[0] : ''"
-            mode="widthFix" />
-
-          <view class="card-info">
-            <text class="desc">{{ item.header }}</text>
-            <view class="stats">
-              <view class="author">
-                <image class="avatar" :src="item.avatar" />
-                <text class="name">{{ item.author }}</text>
-              </view>
-              <text class="like" :class="{ liked: item.liked }" @click="toggleLike(item)">♥ {{ item.like_count }}</text>
-            </view>
+            <text class="like" :class="{ liked: item.liked }" @click="toggleLike(item)">♥ {{ item.like_count }}</text>
           </view>
         </view>
       </view>
@@ -56,63 +33,137 @@
     ref,
     computed
   } from 'vue';
-  //连接到云端数据库，可以在本地查看posts表的结构：uniCloud/database/posts.schema.json
+  import {
+    onShow
+  } from '@dcloudio/uni-app';
+
+  onShow(async () => {
+    await loadCategories();
+    await getPostsByCategory(currentTab.value._id);
+  })
+
   const db = uniCloud.database();
-  const dataList = ref([])
-  const getData = async () => {
-    let res = await db.collection("posts").get()
-    let data = res.result.data
-    // 直接使用数据库中 images 数组的 HTTP 图片链接
-    dataList.value = data
-  };
-  getData();
+  const dbCmd = db.command;
+  const dataList = ref([]);
+  const categories = ref([]);
+  const currentTab = ref(null);
 
-
-  // 分类数据
-  const categories = ref(['推荐', '日常', '宠粮', '洗护', '代看', '救助']);
-  const currentTab = ref('推荐');
-
-  // // 切换分类后显示的数据，根据实际修改
-  // const localData = ref({
-  //   '推荐': MockData(10),
-  //   '日常': MockData(2),
-  //   '宠粮': MockData(3),
-  //   '洗护': MockData(4),
-  //   '代看': MockData(5),
-  //   '救助': MockData(6),
-  //   // 其他分类的数据略
-  // });
-
-  // 切换分类
-  function switchCategory(category) {
-    currentTab.value = category;
+  // 加载分类
+  async function loadCategories() {
+    const res = await db.collection('opendb-news-categories').get();
+    categories.value = res.result.data;
+    currentTab.value = categories.value[0];
   }
 
-  // // 瀑布流分列处理
-  // const currentList = computed(() => localData.value[currentTab.value]);
-  // const leftColumn = computed(() => currentList.value.filter((_, i) => i % 2 === 0));
-  // const rightColumn = computed(() => currentList.value.filter((_, i) => i % 2 !== 0));
+  // 获取帖子
+  async function getPostsByCategory(categoryId) {
+    const queryCondition = categoryId ? {
+      category_id: dbCmd.in([categoryId])
+    } : {
+      category_id: dbCmd.exists(true)
+    };
 
-  // // 点赞功能
-  // function toggleLike(item) {
-  //   item.like_count += item.liked ? -1 : 1;
-  //   // item.liked = !item.liked;
-  // }
+    const res = await db.collection('posts')
+      .where(queryCondition)
+      .orderBy('create_date', 'desc')
+      .get();
 
-  // 编的填充的数据,用来设置卡片内的文案/头像/名称/点赞数，实际应该接入api
-  // function MockData(count) {
-  //   return Array.from({
-  //     length: count
-  //   }, (_, i) => ({
-  //     id: Date.now() + i,
-  //     image: `/static/汪汪喵切图/社区示例图片/示例${i % 3 + 1}.jpg`, // 张示例图片
-  //     avatar: `/static/汪汪喵切图/我的/头像.png`,
-  //     author: ['懒羊羊大王', '喜羊羊大王', '沸羊羊大王'][i % 3],
-  //     desc: ['是谁家的小猫呀', '喵喵喵', '低价出猫粮，毛孩子吃不完了~'][i % 3],
-  //     likes: Math.floor(Math.random() * 1000) + 500,
-  //     liked: false
-  //   }));
-  // }
+    if (res.result && res.result.data) {
+      const posts = res.result.data;
+
+      // 获取用户信息
+      const postsWithUserInfo = await Promise.all(
+        posts.map(async (post) => {
+          if (post.user_id) {
+            try {
+              const userRes = await db.collection('uni-id-users')
+                .doc(post.user_id)
+                .field('nickname,avatar_file')
+                .get();
+
+              if (userRes.result && userRes.result.data && userRes.result.data.length > 0) {
+                post.userInfo = userRes.result.data[0];
+              } else {
+                post.userInfo = {
+                  nickname: '匿名用户',
+                  avatar_file: ''
+                };
+              }
+            } catch (userErr) {
+              post.userInfo = {
+                nickname: '匿名用户',
+                avatar_file: ''
+              };
+            }
+          } else {
+            post.userInfo = {
+              nickname: '匿名用户',
+              avatar_file: ''
+            };
+          }
+          return post;
+        })
+      );
+
+      // 获取头像和图片的临时 URL
+      const fileIDList = postsWithUserInfo
+        .map(p => p.userInfo?.avatar_file?.url)
+        .filter(Boolean);
+      const imageFileIDList = postsWithUserInfo
+        .map(p => p.images && p.images[0])
+        .filter(Boolean);
+
+      const allFileIDList = [...fileIDList, ...imageFileIDList];
+      let tempUrlMap = {};
+
+      if (allFileIDList.length > 0) {
+        const urlRes = await uniCloud.getTempFileURL({
+          fileList: allFileIDList
+        });
+
+        urlRes.fileList.forEach(item => {
+          tempUrlMap[item.fileID] = item.tempFileURL;
+        });
+      }
+
+      postsWithUserInfo.forEach(post => {
+        const fileID = post.userInfo?.avatar_file?.url;
+        post.userInfo.avatarTempUrl = tempUrlMap[fileID] || '/static/default-avatar.png';
+
+        const imageFileID = post.images && post.images[0];
+        post.imageTempUrl = tempUrlMap[imageFileID] || '/static/default-image.png';
+      });
+
+      dataList.value = postsWithUserInfo;
+      console.log('获取的帖子', dataList.value)
+    } else {
+      dataList.value = [];
+    }
+  }
+
+  // 分类切换
+  function switchCategory(category) {
+    currentTab.value = category;
+    getPostsByCategory(category._id);
+  }
+
+  // 点赞功能
+  /**
+   * 切换点赞状态（toggleLike）
+   * - 判断用户是否已点赞
+   *   - 若已点赞：取消点赞（删除记录、like_count -1）
+   *   - 若未点赞：添加记录、like_count +1
+   * - 实时更新页面上的点赞状态（♥ 变色 + 数字变化）
+   */
+
+  const toggleLike = async (item) => {}
+
+  //跳转到详情页
+  const goDetail = (postId) => {
+    uni.navigateTo({
+      url: `/pages/post_details/post_details?postId=${postId}` //太细了，用反引号而不是单引号传参
+    })
+  }
 </script>
 
 <style lang="scss">
@@ -121,10 +172,12 @@
   .nav-scroll {
     white-space: nowrap;
     height: 80rpx;
+    display: flex;
+    justify-content: space-around;
 
     .nav-item {
       display: inline-block;
-      padding: 0 30rpx;
+      padding: 0 45rpx;
       line-height: 80rpx;
       font-size: 32rpx;
       color: #666;
@@ -149,65 +202,63 @@
   }
 
   .waterfall {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300rpx, 1fr));
+    /* 自动分配列 */
+    gap: 20rpx;
+    /* 列与列之间的间距 */
     margin-top: 20rpx;
-    margin: 10rpx 20rpx;
+    padding: 10rpx;
 
-    .column {
-      width: 345rpx;
+    .card {
+      background: #fff;
+      border-radius: 16rpx;
+      overflow: hidden;
 
-      .card {
-        background: #fff;
-        border-radius: 16rpx;
-        margin-bottom: 20rpx;
-        overflow: hidden;
+      .card-image {
+        width: 100%;
+        height: auto;
+      }
 
-        &-image {
-          width: 100%;
-          height: auto;
+      .card-info {
+        padding: 20rpx;
+
+        .author {
+          display: flex;
+          align-items: center;
+
+          .avatar {
+            width: 50rpx;
+            height: 50rpx;
+            border-radius: 50%;
+            margin-right: 10rpx;
+          }
+
+          .name {
+            margin-top: -5rpx;
+            font-size: 16rpx;
+            color: #333;
+          }
         }
 
-        &-info {
-          padding: 20rpx;
+        .desc {
+          display: block;
+          margin: -10rpx 0 10rpx 0;
+          font-size: 28rpx;
+          color: #222;
+        }
 
-          .author {
-            display: flex;
-            align-items: center;
+        .stats {
+          display: flex;
+          justify-content: space-between;
+          font-size: 24rpx;
+          color: #999;
 
-            .avatar {
-              width: 50rpx;
-              height: 50rpx;
-              border-radius: 50%;
-              margin-right: 10rpx;
-            }
+          .like {
+            font-size: 30rpx;
 
-            .name {
-              margin-top: -5rpx;
-              font-size: 16rpx;
-              color: #333;
-            }
-          }
-
-          .desc {
-            display: block;
-            margin: -10rpx 0 10rpx 0;
-            font-size: 28rpx;
-            color: #222;
-          }
-
-          .stats {
-            display: flex;
-            justify-content: space-between;
-            font-size: 24rpx;
-            color: #999;
-
-            .like {
-              font-size: 30rpx;
-
-              &.liked {
-                color: #ff6a6c !important;
-              }
+            &.liked {
+              color: #ff6a6c !important;
             }
           }
         }
