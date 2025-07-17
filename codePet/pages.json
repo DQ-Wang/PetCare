@@ -152,7 +152,7 @@
     }, {
       "path": "uni_modules/uni-id-pages/pages/login/login-withoutpwd",
       "style": {
-        "navigationBarTitleText": "登录"
+         "navigationStyle": "custom"
       }
     }, {
       "path": "uni_modules/uni-id-pages/pages/login/login-withpwd",

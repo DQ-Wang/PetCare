@@ -1,41 +1,114 @@
 <!-- 用户资料页 -->
 <template>
 	<view class="uni-content">
-		<view class="avatar">
-			<uni-id-pages-avatar width="260rpx" height="260rpx"></uni-id-pages-avatar>
+		
+		<view class="section">
+			<view class="section-item">
+				<view class="item-label">头像</view>
+				<view class="right-align-container"> 
+				    <view class="avatar-container">
+				        <view class="circular-avatar">
+							<uni-id-pages-avatar width="100rpx" height="100rpx"></uni-id-pages-avatar>
+			            </view>
+					</view>
+			        <uni-icons type="arrowright" size="18" color="#999"></uni-icons>
+	            </view>
+			</view>
+			<view class="divider"></view>
+			<view class="section-item" @click="setNickname('')">
+				<view class="item-label">昵称</view>
+				<view class="item-value">
+					{{ userInfo.nickname || '未设置' }}
+					<uni-icons type="arrowright" size="18" color="#999"></uni-icons>
+				</view>
+			</view>
 		</view>
-		<uni-list>
-			<uni-list-item class="item" @click="setNickname('')" title="昵称" :rightText="userInfo.nickname||'未设置'" link>
-			</uni-list-item>
-			<uni-list-item class="item" @click="bindMobile" title="手机号" :rightText="userInfo.mobile||'未绑定'" link>
-			</uni-list-item>
-			<uni-list-item v-if="userInfo.email" class="item" title="电子邮箱" :rightText="userInfo.email">
-			</uni-list-item>
-			<!-- #ifdef APP -->
-      <!-- 如未开通实人认证服务，可以将实名认证入口注释 -->
-			<uni-list-item class="item" @click="realNameVerify" title="实名认证" :rightText="realNameStatus !== 2 ? '未认证': '已认证'" link>
-			</uni-list-item>
-			<!-- #endif -->
-			<uni-list-item v-if="hasPwd" class="item" @click="changePassword" title="修改密码" link>
-			</uni-list-item>
-		</uni-list>
-		<!-- #ifndef MP -->
-		<uni-list class="mt10">
-			<uni-list-item @click="deactivate" title="注销账号" link="navigateTo"></uni-list-item>
-		</uni-list>
-		<!-- #endif -->
+		
+		<view class="section">
+		    <view class="section-item" @click="setGender">
+		      <view class="item-label">性别</view>
+		      <view class="item-value">
+		        {{ genderText || '未知' }}
+		        <uni-icons type="arrowright" size="18" color="#999"></uni-icons>
+		      </view>
+		    </view>
+		    <view class="divider"></view>
+		    
+		    <view class="section-item" @click="setAge">
+		      <view class="item-label">年龄</view>
+		      <view class="item-value">
+				{{ ageDisplay }}
+		        <uni-icons type="arrowright" size="18" color="#999"></uni-icons>
+		      </view>
+		    </view>
+		  </view>
+		
+		<view class="section">
+			<view class="section-item" @click="bindMobile">
+				<view class="item-label">手机号</view>
+				<view class="item-value">
+					{{ userInfo.mobile || '未绑定' }}
+					<uni-icons type="arrowright" size="18" color="#999"></uni-icons>
+				</view>
+			</view>
+			<view class="divider"></view>
+			<view class="section-item" v-if="hasPwd" @click="changePassword">
+				<view class="item-label">修改密码</view>
+				<view class="item-value">
+					<uni-icons type="arrowright" size="18" color="#999"></uni-icons>
+				</view>
+			</view>
+			<view class="divider" v-if="hasPwd"></view>
+			<view class="section-item" @click="deactivate">
+				<view class="item-label">注销账号</view>
+				<view class="item-value">
+					<uni-icons type="arrowright" size="18" color="#999"></uni-icons>
+				</view>
+			</view>
+		</view>
+		
 		<uni-popup ref="dialog" type="dialog">
 			<uni-popup-dialog mode="input" :value="userInfo.nickname" @confirm="setNickname" :inputType="setNicknameIng?'nickname':'text'"
 				title="设置昵称" placeholder="请输入要设置的昵称">
 			</uni-popup-dialog>
 		</uni-popup>
+		
 		<uni-id-pages-bind-mobile ref="bind-mobile-by-sms" @success="bindMobileSuccess"></uni-id-pages-bind-mobile>
+		
+		<uni-popup ref="genderPopup" type="dialog">
+			<uni-popup-dialog mode="base" title="选择性别" 
+				@confirm="confirmGender">
+				<view class="gender-options">
+					<view v-for="item in genderOptions" :key="item.value" 
+						class="gender-option" :class="{selected: selectedGender === item.value}"
+						@click="selectedGender = item.value">
+						{{ item.label }}
+					</view>
+				</view>
+			</uni-popup-dialog>
+		</uni-popup>
+		
+		<uni-popup ref="agePopup" type="dialog">
+		    <uni-popup-dialog 
+				mode="input" 
+				:value="tempAge" 
+				@confirm="confirmAge"
+				inputType="number"
+				title="设置年龄" 
+				placeholder="请输入您的年龄"
+				:maxlength="3">
+		    </uni-popup-dialog>
+		</uni-popup>
+		
+		<uni-id-pages-bind-mobile ref="bind-mobile-by-sms" @success="bindMobileSuccess"></uni-id-pages-bind-mobile>
+		
 		<template v-if="showLoginManage">
 			<button v-if="userInfo._id" @click="logout">退出登录</button>
 			<button v-else @click="login">去登录</button>
 		</template>
 	</view>
 </template>
+
 <script>
 const uniIdCo = uniCloud.importObject("uni-id-co")
   import {
@@ -44,16 +117,23 @@ const uniIdCo = uniCloud.importObject("uni-id-co")
   } from '@/uni_modules/uni-id-pages/common/store.js'
 	export default {
     computed: {
-      userInfo() {
-        return store.userInfo
-      },
-	  realNameStatus () {
-		  if (!this.userInfo.realNameAuth) {
-			  return 0
-		  }
+		userInfo() {
+			return store.userInfo
+		},
+		realNameStatus () {
+			  if (!this.userInfo.realNameAuth) {
+				  return 0
+			  }
 
-		  return this.userInfo.realNameAuth.authStatus
-	  }
+			  return this.userInfo.realNameAuth.authStatus
+		},
+		genderText() {
+		  const genderMap = { 0: '未知', 1: '男', 2: '女' };
+		  return genderMap[this.userInfo.gender] || '未知';
+		},
+		ageDisplay() {
+		   return this.userInfo.age ? parseInt(this.userInfo.age) : '未设置';
+		}
     },
 		data() {
 			return {
@@ -71,7 +151,15 @@ const uniIdCo = uniCloud.importObject("uni-id-co")
 				// },
 				hasPwd: false,
 				showLoginManage: false ,//通过页面传参隐藏登录&退出登录按钮
-				setNicknameIng:false
+				setNicknameIng:false,
+				
+				selectedGender: '',
+				genderOptions: [
+					{ label: '未知', value: 0},
+					{ label: '男', value: 1 },
+					{ label: '女', value: 2 }
+				],
+				tempAge: ''
 			}
 		},
 		async onShow() {
@@ -85,6 +173,9 @@ const uniIdCo = uniCloud.importObject("uni-id-co")
 			//判断当前用户是否有密码，否则就不显示密码修改功能
 			let res = await uniIdCo.getAccountInfo()
 			this.hasPwd = res.isPasswordSet
+			
+			this.selectedGender = this.userInfo.gender
+			this.tempBirthday = this.userInfo.birthday
 		},
 		methods: {
 			login() {
@@ -213,7 +304,45 @@ const uniIdCo = uniCloud.importObject("uni-id-co")
 				uni.navigateTo({
 					url: "/uni_modules/uni-id-pages/pages/userinfo/realname-verify/realname-verify"
 				})
-			}
+			},
+			setGender() {
+				this.selectedGender = this.userInfo.gender
+				this.$refs.genderPopup.open()
+			},
+			
+			confirmGender() {
+				 mutations.updateUserInfo({
+					gender: parseInt(this.selectedGender) 
+				  });
+				  this.$refs.genderPopup.close();
+			},
+			
+			setAge() {
+				this.tempAge = this.userInfo.age || '';
+				this.$refs.agePopup.open();
+			},
+			
+			confirmAge(value) {
+				  if (value === '') {
+					mutations.updateUserInfo({ age: null });
+					this.$refs.agePopup.close();
+					return;
+				  }
+				  
+				  const age = parseInt(value);
+				  if (isNaN(age) || age < 0 || age > 150) {
+					uni.showToast({
+					  title: '请输入0-150之间的有效年龄',
+					  icon: 'none',
+					  duration: 3000
+					});
+					return;
+				  }
+				  
+				  mutations.updateUserInfo({ age: age.toString() });
+				  this.$refs.agePopup.close();
+			},
+			
 		}
 	}
 </script>
@@ -223,50 +352,93 @@ const uniIdCo = uniCloud.importObject("uni-id-co")
 	.uni-content {
 		padding: 0;
 	}
+	
+	.section {
+		width:625rpx;
+		border-radius:23.44rpx;
+		box-shadow:0rpx 1.56rpx 7.81rpx rgba(0,0,0,0.1);
+		padding: 20rpx;
+		margin:35rpx auto;
+		background-color: #FFFFFF;
+		
+		.section-item {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			min-height: 80rpx;
+			margin: 10rpx 0;
+		
+			.item-label {
+				font-size: 28.13rpx;
+				font-weight: 500;
+				line-height: 40.72rpx;
+				color: rgba(84, 75, 79, 1);
+			}
+			
+			
+			.item-value {
+				display: flex;
+				align-items: center;
+				
+				font-size: 26.56rpx;
+				font-weight: 500;
+				line-height: 65.63rpx;
+				color: rgba(84, 75, 79, 1);
+				margin-right: 20rpx;
+				
+				uni-icons {
+					margin-left: 15rpx;
+				}
+			}
+			
+			.right-align-container {
+				display: flex;
+		        justify-content: flex-end;
+		        align-items: center;
+		        flex: 1;
+			
+				.avatar-container {
+				    display: flex;
+				    justify-content: center;
+			        align-items: center;
+			        width: 109rpx;
+			        height: 109rpx;
+			        margin-right: 20rpx;
+				        
+				    .circular-avatar {
+				        border-radius: 50%;
+			            overflow: hidden;
+			        }
+			    }
+			}
+		}
+		
+		.divider {
+			width: 562.5rpx;
+			height: 1.56rpx;
+			background: rgba(204, 204, 204, 1);
+			display: flex;
+			
 
-	/* #ifndef APP-NVUE */
-	view {
-		display: flex;
-		box-sizing: border-box;
-		flex-direction: column;
-	}
-
-	@media screen and (min-width: 690px) {
-		.uni-content {
-			padding: 0;
-			max-width: 690px;
-			margin-left: calc(50% - 345px);
-			border: none;
-			max-height: none;
-			border-radius: 0;
-			box-shadow: none;
 		}
 	}
-
-	/* #endif */
-	.avatar {
-		align-items: center;
-		justify-content: center;
-		margin: 22px 0;
-		width: 100%;
-	}
-
-	.item {
-		flex: 1;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: center;
-	}
-
-	button {
-		margin: 10%;
-		margin-top: 40px;
-		border-radius: 0;
-		background-color: #FFFFFF;
-		width: 80%;
-	}
-
-	.mt10 {
-		margin-top: 10px;
-	}
+	
+	.gender-options {
+			display: flex;
+			justify-content: space-around;
+			padding: 30rpx 0;
+		}
+		
+		.gender-option {
+			padding: 15rpx 30rpx;
+			border: 1px solid #e0e0e0;
+			border-radius: 8rpx;
+			font-size: 30rpx;
+			
+			&.selected {
+				border-color: #007AFF;
+				color: #007AFF;
+				background-color: rgba(0, 122, 255, 0.1);
+			}
+		}
 </style>
