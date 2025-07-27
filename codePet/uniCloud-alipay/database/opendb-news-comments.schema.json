@@ -12,7 +12,7 @@
   "permission": {
     "read": true, //所有人都可以读取评论
     "create": "auth.uid != null", //只有登录用户（auth.uid 不为 null）才能发表评论
-    "update": "doc.user_id == auth.uid", //只有评论作者本人可以编辑评论
+    "update": "doc.user_id == auth.uid || doc.like_count != null", //只有评论作者本人可以编辑评论
     "delete": "doc.user_id == auth.uid" //只有评论作者本人可以删除评论
 
   },
