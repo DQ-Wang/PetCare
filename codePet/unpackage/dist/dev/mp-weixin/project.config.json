@@ -9,11 +9,19 @@
     "postcss": false,
     "minified": true,
     "newFeature": true,
-    "bigPackageSizeSupport": true
+
+    "bigPackageSizeSupport": true,
+    "ignoreUploadUnusedFiles": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
   },
   "compileType": "miniprogram",
-  "libVersion": "",
-  "appid": "wxbf4e34cdc137ae21",
+  "libVersion": "3.8.9",
+ "appid": "wxbf4e34cdc137ae21",
+
   "projectname": "codePet",
   "condition": {
     "search": {

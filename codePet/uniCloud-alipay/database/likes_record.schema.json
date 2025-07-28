@@ -1,7 +1,6 @@
-// 文档教程: https://uniapp.dcloud.net.cn/uniCloud/schema
 {
   "bsonType": "object",
-  "required": ["user_id", "post_id", "target_type"],
+  "required": ["user_id", "target_type", "target_id"],
   "permission": {
     "read": true,
     "create": "auth.uid != null",
@@ -24,27 +23,32 @@
       "bsonType": "string",
       "description": "被点赞对象的ID，如某个帖子或评论"
     },
+    "post_id": {
+      "bsonType": "string",
+      "description": "关联的帖子ID（可选）"
+    },
     "create_date": {
       "bsonType": "timestamp",
       "description": "发布时间",
       "forceDefaultValue": {
         "$env": "now"
       }
-    },
-    "indexs": [{
-        "name": "user_post_unique",
-        "unique": true,
-        "keys": {
-          "user_id": 1,
-          "post_id": 1
-        }
-      },
-      {
-        "name": "post_id_index",
-        "keys": {
-          "post_id": 1
-        }
+    }
+  },
+  "indexes": [
+    {
+      "name": "user_target_unique",
+      "unique": true,
+      "keys": {
+        "user_id": 1,
+        "target_id": 1
       }
-    ]
-  }
+    },
+    {
+      "name": "post_id_index",
+      "keys": {
+        "post_id": 1
+      }
+    }
+  ]
 }
