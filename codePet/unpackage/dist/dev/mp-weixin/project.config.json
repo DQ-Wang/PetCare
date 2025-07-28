@@ -1,8 +1,7 @@
 {
   "description": "项目配置文件。",
   "packOptions": {
-    "ignore": [],
-    "include": []
+    "ignore": []
   },
   "setting": {
     "urlCheck": false,
@@ -10,6 +9,7 @@
     "postcss": false,
     "minified": true,
     "newFeature": true,
+
     "bigPackageSizeSupport": true,
     "ignoreUploadUnusedFiles": true,
     "babelSetting": {
@@ -20,6 +20,8 @@
   },
   "compileType": "miniprogram",
   "libVersion": "3.8.9",
+ "appid": "wxbf4e34cdc137ae21",
+
   "projectname": "codePet",
   "condition": {
     "search": {
@@ -38,9 +40,5 @@
       "current": -1,
       "list": []
     }
-  },
-  "editorSetting": {
-    "tabIndent": "insertSpaces",
-    "tabSize": 2
   }
 }

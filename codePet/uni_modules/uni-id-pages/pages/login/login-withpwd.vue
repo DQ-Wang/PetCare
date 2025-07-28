@@ -19,7 +19,7 @@
 		<uni-captcha v-if="needCaptcha" focus ref="captcha" scene="login-by-pwd" v-model="captcha" />
 		<!-- 带选择框的隐私政策协议组件 -->
 		<uni-id-pages-agreements scope="login" ref="agreements"></uni-id-pages-agreements>
-		<button class="uni-btn" type="primary" @click="pwdLogin">登录</button>
+		<button class="uni-btn" type="primary" @click="pwdLogin" >登录</button>
 		<!-- 忘记密码 -->
 		<view class="link-box">
 			<view v-if="!config.isAdmin">
@@ -158,7 +158,7 @@
 
 	.forget {
 		font-size: 12px;
-		color: #8a8f8b;
+		color: $p-text-secondary;
 	}
 
 	.link-box {
@@ -172,5 +172,9 @@
 
 	.link {
 		font-size: 12px;
+	}
+	
+	.uni-btn{
+		background-color: $p-primary-color;
 	}
 </style>
