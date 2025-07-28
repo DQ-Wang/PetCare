@@ -1,0 +1,7 @@
+{
+  "name": "uploadFileObj",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}
