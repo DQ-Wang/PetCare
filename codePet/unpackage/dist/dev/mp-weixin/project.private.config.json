@@ -12,6 +12,34 @@
           "name": "uni_modules/uni-id-pages/pages/login/login-withoutpwd",
           "pathName": "uni_modules/uni-id-pages/pages/login/login-withoutpwd",
           "query": "",
+          "scene": null,
+          "launchMode": "default"
+        },
+        {
+          "name": "uni_modules/uni-id-pages/pages/login/login-withpwd",
+          "pathName": "uni_modules/uni-id-pages/pages/login/login-withpwd",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "uni_modules\\uni-id-pages\\pages\\userinfo\\userinfo",
+          "pathName": "uni_modules/uni-id-pages/pages/userinfo/userinfo",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/settings/settings",
+          "pathName": "pages/settings/settings",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "uni_modules/uni-id-pages/pages/login/login-withoutpwd",
+          "pathName": "uni_modules/uni-id-pages/pages/login/login-withoutpwd",
+          "query": "",
           "launchMode": "default",
           "scene": null
         },

@@ -122,35 +122,27 @@ const _sfc_main = {
       });
       try {
         let imageFileIDs = [];
-        let imageUrls = [];
+        let uploadResult = [];
         if (imageValue.value.length > 0) {
-          try {
-            const uploadResult = await files.value.upload();
-            common_vendor.index.__f__("log", "at pages/release/release.vue:219", "上传结果:", uploadResult);
-            const fileIDs = uploadResult.map((item) => item.fileID || item.url);
-            common_vendor.index.__f__("log", "at pages/release/release.vue:223", "提取的fileID:", fileIDs);
-            const tempURLsRes = await common_vendor.nr.getTempFileURL({
-              fileList: fileIDs
-            });
-            common_vendor.index.__f__("log", "at pages/release/release.vue:229", "临时URL转换结果:", tempURLsRes);
-            imageUrls = tempURLsRes.fileList.map((item) => item.tempFileURL);
-            common_vendor.index.__f__("log", "at pages/release/release.vue:233", "转换后的图片URL:", imageUrls);
-          } catch (uploadError) {
-            common_vendor.index.__f__("error", "at pages/release/release.vue:235", "文件上传失败:", uploadError);
-            throw new Error("图片上传失败，请重试");
-          }
+          uploadResult = await files.value.upload();
+          common_vendor.index.__f__("log", "at pages/release/release.vue:217", "upload result:", JSON.stringify(uploadResult, null, 2));
+          common_vendor.index.__f__("log", "at pages/release/release.vue:218", "上传结果:", uploadResult);
+          imageFileIDs = uploadResult.map((item) => item.fileID || item.url).filter((id) => typeof id === "string" && id.startsWith("cloud://"));
+          common_vendor.index.__f__("log", "at pages/release/release.vue:223", "上传的 fileID:", imageFileIDs);
+        }
+        if (imageFileIDs.length !== uploadResult.length) {
+          throw new Error("有图片上传失败或 fileID 非法");
         }
         const postData = {
           header: title.value,
           content: content.value,
           category_id: selectedTags.value,
-          images: imageUrls
+          images: imageFileIDs
+          // ✅ 只存 fileID
         };
         if (selectedLocation.value) {
           postData.location = {
-            name: selectedLocation.value,
-            latitude: 0,
-            longitude: 0
+            address: selectedLocation.value
           };
         }
         await db.collection("posts").add(postData);
@@ -158,13 +150,17 @@ const _sfc_main = {
           title: "发布成功",
           icon: "success"
         });
+        common_vendor.index.reLaunch({
+          url: "/pages/release/release"
+          // 重新加载当前页面
+        });
         setTimeout(() => {
           common_vendor.index.switchTab({
-            url: "/pages/home/home"
+            url: "/pages/Commity/Commity"
           });
         }, 1500);
       } catch (err) {
-        common_vendor.index.__f__("error", "at pages/release/release.vue:271", "发布失败:", err);
+        common_vendor.index.__f__("error", "at pages/release/release.vue:269", "发布失败:", err);
         common_vendor.index.showToast({
           title: "发布失败: " + (err.message || "请检查网络"),
           icon: "none",
@@ -181,7 +177,7 @@ const _sfc_main = {
       return {
         a: common_assets._imports_0$3,
         b: common_vendor.o(goBack),
-        c: common_vendor.sr(files, "2f810819-0", {
+        c: common_vendor.sr(files, "4c7048b1-0", {
           "k": "files"
         }),
         d: common_vendor.o(select),

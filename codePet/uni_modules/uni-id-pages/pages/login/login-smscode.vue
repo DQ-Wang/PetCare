@@ -117,4 +117,8 @@
 	.popup-captcha .uni-btn {
 		margin: 0;
 	}
+	
+	.uni-btn[type=primary] {
+	  background-color: $p-primary-color !important;
+	}
 </style>
