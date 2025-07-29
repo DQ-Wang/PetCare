@@ -54,6 +54,16 @@
     ref,
     computed
   } from 'vue';
+  import {
+    onLoad
+  } from '@dcloudio/uni-app'
+  const type = ref('')
+  onLoad((options) => {
+    type.value = options.type
+    console.log('类型', type.value)
+    currentTab.value = type.value
+  })
+
 
   // 导航分类
   const categories = ref(['全部', '待付款', '待接单', '服务中', '评价']);

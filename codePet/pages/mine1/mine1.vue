@@ -3,10 +3,12 @@
     <view class="top-gradient">
     </view>
     <view class="user-card">
-      <view class="avatar" @click=""></view>
+      <view class="avatar" :style="{ backgroundImage: 'url(' + (avatarTempUrl || '/static/汪汪喵切图/分类/图.png') + ')' }"
+        @click="toDetail()">
+      </view>
       <view>
         <view class="member-wrap">
-          <text class="name">授权昵称</text>
+          <text class="name">{{ currentUser.nickname || '未命名' }}</text>
           <text class="tag">初级会员</text>
         </view>
         <view style="font-size: small;">您已达到等级上限</view>
@@ -46,19 +48,19 @@
     <view class="order-menu">
       <view class="order-title">我的订单</view>
       <view class="order-grid">
-        <view class="order-item">
+        <view class="order-item" @click="gotoDetail('待付款')">
           <view class="icon iconfont icon-licai"></view>
-          <view class="label">代付款</view>
+          <view class="label">待付款</view>
         </view>
-        <view class="order-item">
+        <view class="order-item" @click="gotoDetail('待接单')">
           <view class="icon iconfont icon-hezi"></view>
-          <view class="label">待服务</view>
+          <view class="label">待接单</view>
         </view>
-        <view class="order-item">
+        <view class="order-item" @click="gotoDetail('服务中')">
           <view class="icon iconfont icon-yiwancheng3"></view>
-          <view class="label">已服务</view>
+          <view class="label">服务中</view>
         </view>
-        <view class="order-item">
+        <view class="order-item" @click="gotoDetail('评价')">
           <view class="icon iconfont icon-pingjia"></view>
           <view class="label">评价</view>
         </view>
@@ -87,12 +89,12 @@
         <text class="label">直接付款</text>
         <view class="icon arrow iconfont icon-youjiantou"></view>
       </view>
-      <view class="menu-item">
+      <view class="menu-item" @click="toPostDetail()">
         <view class="icon iconfont icon-yinhangka"></view>
-        <text class="label">我的次卡</text>
+        <text class="label">帖子列表</text>
         <view class="icon arrow iconfont icon-youjiantou"></view>
       </view>
-      <view class="menu-item">
+      <view class="menu-item" @click="toLocationDetail()">
         <view class="icon iconfont icon-dizhi"></view>
         <text class="label">地址管理</text>
         <view class="icon arrow iconfont icon-youjiantou"></view>
@@ -100,6 +102,78 @@
     </view>
   </view>
 </template>
+<script setup>
+  import {
+    ref
+  } from 'vue'
+  import {
+    onLoad
+  } from '@dcloudio/uni-app'
+
+  const db = uniCloud.database()
+  const currentUser = ref({}) // 保存用户信息
+  const avatarTempUrl = ref('') // 用来存储临时链接
+
+  const getUserInfo = async () => {
+    const uid = uniCloud.getCurrentUserInfo().uid
+    if (!uid) {
+      console.log('未登录')
+      return
+    }
+
+    const res = await db.collection('uni-id-users')
+      .doc(uid)
+      .field('nickname,avatar_file')
+      .get()
+
+    const userData = res.result?.data?.[0] // 拿数组第一项
+    if (userData) {
+      currentUser.value = userData
+
+      const urlRes = await uniCloud.getTempFileURL({
+        fileList: [currentUser.value.avatar_file.url]
+      })
+
+      if (urlRes.fileList && urlRes.fileList.length > 0) {
+        avatarTempUrl.value = urlRes.fileList[0].tempFileURL
+      }
+      console.log('用户信息：', currentUser.value)
+    } else {
+      console.log('用户不存在')
+    }
+  }
+  const gotoDetail = (type) => {
+    uni.navigateTo({
+      url: `/pages/OrderPage/OrderPage?type=${type}`
+    })
+
+    const toLocationDetail = () => {
+      uni.navigateTo({
+        url: ''
+      })
+
+    }
+
+  }
+  const toDetail = () => {
+    uni.navigateTo({
+      url: "/uni_modules/uni-id-pages/pages/userinfo/userinfo"
+    })
+  }
+
+  const toPostDetail = () => {
+    uni.navigateTo({
+      url: "/pages/index/index"
+    })
+  }
+
+  // 页面加载时调用
+  onLoad(() => {
+    getUserInfo()
+  })
+</script>
+
+
 
 <style lang="scss" scoped>
   @import '@/static/iconfont/iconfont.css';

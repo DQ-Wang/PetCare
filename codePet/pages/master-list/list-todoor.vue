@@ -55,6 +55,7 @@
   } from '@dcloudio/uni-app'
 
 
+
   // 分类数据
   const categories = ref(['服务范围', '服务时间', '更多筛选', '北京 西城']);
   const currentTab = ref('服务范围');
@@ -104,7 +105,9 @@
 
   const goToDetail = (providerId) => {
     let targetUrl = '';
-    targetUrl = `/pages/Washcare_details/Washcare_details?providerId=${providerId}&type=wash`;
+
+    targetUrl = `/pages/category/category?providerId=${providerId}`;
+
 
     uni.navigateTo({
       url: targetUrl

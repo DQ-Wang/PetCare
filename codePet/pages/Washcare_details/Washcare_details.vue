@@ -103,10 +103,28 @@
 </template>
 
 <script setup>
-  function gotoCheckout() { //需要传参数：师傅详情，服务详情，用户详情
-    uni.navigateTo({
-      url: "/pages/Checkout/In-Store"
-    })
+  import {
+    onLoad
+  } from '@dcloudio/uni-app'
+  let type = ''
+  onLoad((options) => {
+    type = options.type
+    console.log('来源', type)
+
+  })
+
+  function gotoCheckout() {
+    //需要传参数：师傅详情，服务详情，用户详情
+    if (type === 'wash') {
+      uni.navigateTo({
+        url: "/pages/Checkout/In-Store"
+      })
+
+    } else if (type === 'door') {
+      uni.navigateTo({
+        url: '/pages/Checkout/Home-service'
+      })
+    }
   }
 </script>
 

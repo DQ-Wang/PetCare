@@ -7,11 +7,12 @@
     <view class="main-area">
       <view class="box user-info">
         <view class="left-section">
-          <image class="pet-avatar" src="../../static/汪汪喵切图/首页/头像@3x.png" mode="aspectFill" />
+          <image class="pet-avatar" :src='avatarTempUrl' mode="aspectFill" />
         </view>
 
         <view class="middle-section">
-          <text style="font-size: 28rpx; font-weight: bold; letter-spacing: 2rpx;">授权昵称</text>
+          <text
+            style="font-size: 28rpx; font-weight: bold; letter-spacing: 2rpx;">{{ currentUser.nickname || '未命名' }}</text>
           <text class="title" style="font-size: 20rpx; font-weight: bold;">初级会员</text>
           <view class="level">
             <text style="font-size: 24rpx; color: #585858;">您已达等级上限</text>
@@ -31,12 +32,12 @@
       <view class="feature">
         <view class="feature1">
 
-          <view class="box reservation" @click="gotoMaster">
+          <view class="box reservation" @click="gotoMaster('wash')">
             <image src="../../static/汪汪喵切图/首页/洗护预约icon@3x.png" class="icon1" mode=""></image>
             <text>洗护预约</text>
           </view>
 
-          <view class="box door-to-door">
+          <view class="box door-to-door " @click="gotoMaster('door')">
             <image src="../../static/汪汪喵切图/首页/一键上门icon@3x.png" class="icon1" mode=""></image>
             <text>一键上门</text>
           </view>
@@ -74,10 +75,82 @@
 </template>
 
 <script setup>
-  function gotoMaster() {
-    uni.switchTab({
-      url: '/pages/master-list/master-list'
-    })
+  // import {
+  //   onMounted,
+  //   ref
+  // } from 'vue';
+  // const nickname = ref(' ')
+  // const avatarURL = ref(' ')
+  // //获取用户信息
+  // const getUserInfo = async () => {
+  //   try {
+  //     const userRes = await uniCloud.importObject('getUserInfo').getCurrentUserInfo()
+  //     nickname.value = userRes.nickname
+  //     avatarURL.value = userRes.avatarTempURL
+  //   } catch (e) {
+  //     console.error('获取用户信息失败', e.message)
+  //   }
+  // }
+
+  // onMounted(() => {
+  //    getUserInfo()
+  // })
+
+  import {
+    ref
+  } from 'vue'
+  import {
+    onLoad
+  } from '@dcloudio/uni-app'
+
+  const db = uniCloud.database()
+  const currentUser = ref({}) // 保存用户信息
+  const avatarTempUrl = ref('') // 用来存储临时链接
+
+  const getUserInfo = async () => {
+    const uid = uniCloud.getCurrentUserInfo().uid
+    if (!uid) {
+      console.log('未登录')
+      return
+    }
+
+    const res = await db.collection('uni-id-users')
+      .doc(uid)
+      .field('nickname,avatar_file')
+      .get()
+
+    const userData = res.result?.data?.[0] // 拿数组第一项
+    if (userData) {
+      currentUser.value = userData
+
+      const urlRes = await uniCloud.getTempFileURL({
+        fileList: [currentUser.value.avatar_file.url]
+      })
+
+      if (urlRes.fileList && urlRes.fileList.length > 0) {
+        avatarTempUrl.value = urlRes.fileList[0].tempFileURL
+      }
+      console.log('用户信息：', currentUser.value)
+    } else {
+      console.log('用户不存在')
+    }
+  }
+
+  onLoad(() => {
+    getUserInfo()
+  })
+  //根据不同的路径传参
+  function gotoMaster(from) {
+    if (from === 'wash') {
+      uni.switchTab({
+        url: `/pages/master-list/master-list`
+      });
+    } else if (from === 'door') {
+      uni.navigateTo({
+        url: '/pages/master-list/list-todoor'
+
+      })
+    }
 
   }
 </script>

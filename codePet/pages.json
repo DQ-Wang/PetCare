@@ -16,7 +16,7 @@
     {
       "path": "pages/index/index",
       "style": {
-        "navigationBarTitleText": "模版"
+        "navigationBarTitleText": "帖子列表"
       }
     },
     {
@@ -54,13 +54,6 @@
       }
     },
     {
-      "path": "pages/login/login",
-      "style": {
-        "navigationBarTitleText": "",
-        "navigationStyle": "custom"
-      }
-    },
-    {
       "path": "pages/OrderPage/OrderPage",
       "style": {
         "navigationBarTitleText": "我的订单"
@@ -71,26 +64,6 @@
       "style": {
         "navigationBarTitleText": "个人设置"
       }
-    }, {
-      "path": "pages/posts/add",
-      "style": {
-        "navigationBarTitleText": "新增"
-      }
-    }, {
-      "path": "pages/posts/edit",
-      "style": {
-        "navigationBarTitleText": "编辑"
-      }
-    }, {
-      "path": "pages/posts/list",
-      "style": {
-        "navigationBarTitleText": "列表"
-      }
-    }, {
-      "path": "pages/posts/detail",
-      "style": {
-        "navigationBarTitleText": "详情"
-      }
     },
     {
 
@@ -99,12 +72,7 @@
         "navigationBarTitleText": "帖子详情"
       }
     },
-    {
-      "path": "pages/id_test/id_test",
-      "style": {
-        "navigationBarTitleText": ""
-      }
-    },
+
     {
 
       "path": "pages/Checkout/In-Store",
@@ -125,26 +93,6 @@
       }
 
     }, {
-      "path": "pages/opendb-news-comments/add",
-      "style": {
-        "navigationBarTitleText": "新增"
-      }
-    }, {
-      "path": "pages/opendb-news-comments/edit",
-      "style": {
-        "navigationBarTitleText": "编辑"
-      }
-    }, {
-      "path": "pages/opendb-news-comments/list",
-      "style": {
-        "navigationBarTitleText": "列表"
-      }
-    }, {
-      "path": "pages/opendb-news-comments/detail",
-      "style": {
-        "navigationBarTitleText": "详情"
-      }
-    }, {
       "path": "uni_modules/uni-id-pages/pages/register/register",
       "style": {
         "navigationBarTitleText": "注册"
@@ -152,7 +100,7 @@
     }, {
       "path": "uni_modules/uni-id-pages/pages/login/login-withoutpwd",
       "style": {
-         "navigationStyle": "custom"
+        "navigationStyle": "custom"
       }
     }, {
       "path": "uni_modules/uni-id-pages/pages/login/login-withpwd",
@@ -228,6 +176,12 @@
       "style": {
         "enablePullDownRefresh": false,
         "navigationBarTitleText": "实名认证"
+      }
+    },
+    {
+      "path": "pages/master-list/list-todoor",
+      "style": {
+        "navigationBarTitleText": "师傅列表（上门）"
       }
     }
   ],
