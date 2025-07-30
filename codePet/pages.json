@@ -60,12 +60,6 @@
       }
     },
     {
-      "path": "pages/settings/settings",
-      "style": {
-        "navigationBarTitleText": "个人设置"
-      }
-    },
-    {
 
       "path": "pages/post_details/post_details",
       "style": {
