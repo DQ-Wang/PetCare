@@ -332,9 +332,35 @@
 	   }
 	   
 	   .bottom-like-icon {
-	     width: 30rpx;
-		 height:26rpx;
+	     width: 40rpx;
+		 height:34rpx;
 	     margin-left: 24rpx;
 		 margin-bottom: 42rpx;
 	   }
+	   
+	   .bottom-send-icon {
+	     width: 40rpx;
+	   	 height:34rpx;
+	     margin: 0 16rpx;
+	   }
+	}
+	
+	// 在 post_details.scss 中添加
+	.like-area-bottom {
+	  display: flex;
+	  align-items: center;
+	  margin-left: 10rpx;
+	  cursor: pointer;
+	  
+	  .bottom-like-icon {
+		margin-left: 5rpx;
+	    width: 40rpx;
+	    height: 40rpx;
+	  }
+	  
+	  .like-count-bottom {
+	    font-size: 24rpx;
+	    color: #666;
+	    margin-top: 6rpx;
+	  }
 	}
