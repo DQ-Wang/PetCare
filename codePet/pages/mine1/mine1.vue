@@ -2,9 +2,8 @@
   <view class="content">
     <view class="top-gradient">
     </view>
-    <view class="user-card">
-      <view class="avatar" :style="{ backgroundImage: 'url(' + (avatarTempUrl || '/static/汪汪喵切图/分类/图.png') + ')' }"
-        @click="toDetail()">
+    <view class="user-card" @click="toDetail()">
+      <view class="avatar" :style="{ backgroundImage: 'url(' + (avatarTempUrl || '/static/汪汪喵切图/分类/图.png') + ')' }">
       </view>
       <view>
         <view class="member-wrap">

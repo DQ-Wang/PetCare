@@ -25,73 +25,73 @@ page {
   border-radius: 10rpx;
   box-shadow: 0 0 30rpx rgba(0, 0, 0, 0.05);
 }
-.pet-container{
-		padding: 20rpx;
+.pet-container {
+    padding: 20rpx;
 }
 .location {
-		margin-top: calc(var(--status-bar-height) + 40rpx);
-		margin-left: 20rpx;
+    margin-top: calc(var(--status-bar-height) + 40rpx);
+    margin-left: 20rpx;
 }
-.enter-icon{
-		width: 20rpx;
-		height: 20rpx;
-		margin-left: 10rpx;
+.enter-icon {
+    width: 20rpx;
+    height: 20rpx;
+    margin-left: 10rpx;
 }
 .segmented-control-wrap {
-		width: 500rpx;
-		margin: 30rpx auto;
+    width: 500rpx;
+    margin: 30rpx auto;
 }
  .segmented-control {
-		width: 500rpx;
-		height: 80rpx !important;
-		border: none;
-		border-radius: 60rpx;
-		background-color: #fff;
+    width: 500rpx;
+    height: 80rpx !important;
+    border: none;
+    border-radius: 60rpx;
+    background-color: #fff;
 }
  .segmented-control__item {
-		border: none !important;
-		border-radius: 60rpx;
+    border: none !important;
+    border-radius: 60rpx;
 }
  .segmented-control__item--button {
-		transition: all 0.3s ease;
+    transition: all 0.3s ease;
 }
  .segmented-control__item--button.segmented-control__item--active {
-		background-color: #b2d76e;
+    background-color: #b2d76e;
 }
  .segmented-control__text {
-		font-size: 30rpx;
-		color: #000 !important;
-		font-weight: bold;
+    font-size: 30rpx;
+    color: #000 !important;
+    font-weight: bold;
 }
-.category-body{
-	    display: flex;
-	    flex-wrap: wrap;
-	    justify-content:space-between;
-		margin: 0 10rpx;
+.category-body {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0 10rpx;
 }
-.category-card{
-		display: flex;
-		flex-direction: column;
-		margin-bottom: 20rpx;
+.category-card {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20rpx;
 }
-.pic{
-		width: 330rpx;
-		height: 300rpx;
+.pic {
+    width: 330rpx;
+    height: 300rpx;
 }
-.title{
-		display: flex;
-		flex-direction: column;
-		margin: 15rpx 10rpx;
-		font-weight: bold;
-		font-size: 28rpx;
+.title {
+    display: flex;
+    flex-direction: column;
+    margin: 15rpx 10rpx;
+    font-weight: bold;
+    font-size: 28rpx;
 }
-.price{
-		color: #e74040;
+.price {
+    color: #e74040;
 }
 .no-result {
-		width: 100%;
-		text-align: center;
-		padding: 40rpx;
-		color: #999;
-		font-size: 28rpx;
+    width: 100%;
+    text-align: center;
+    padding: 40rpx;
+    color: #999;
+    font-size: 28rpx;
 }

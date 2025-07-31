@@ -134,7 +134,7 @@
       "title": "性别",
       "permission": {
         "read": "doc._id == auth.uid || 'READ_UNI_ID_USERS' in auth.permission",
-        "write": "'CREATE_UNI_ID_USERS' in auth.permission || 'UPDATE_UNI_ID_USERS' in auth.permission"
+        "write": "doc._id == auth.uid || 'UPDATE_UNI_ID_USERS' in auth.permission"
       }
     },
     "invite_time": {

@@ -73,7 +73,7 @@ const _sfc_main = {
     },
     enterService(e) {
       common_vendor.index.navigateTo({
-        url: "service/service"
+        url: `/pages/Washcare_details/Washcare_details?&type=door`
       });
     }
   }

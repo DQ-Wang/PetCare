@@ -12,8 +12,8 @@
           "name": "uni_modules/uni-id-pages/pages/login/login-withoutpwd",
           "pathName": "uni_modules/uni-id-pages/pages/login/login-withoutpwd",
           "query": "",
-          "scene": null,
-          "launchMode": "default"
+          "launchMode": "default",
+          "scene": null
         },
         {
           "name": "uni_modules/uni-id-pages/pages/login/login-withpwd",
