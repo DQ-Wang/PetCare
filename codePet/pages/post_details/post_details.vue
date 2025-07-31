@@ -66,10 +66,31 @@
 			<div class="input-bottom">
 				<div class="input-wrapper">
 					<img src="../../static/汪汪喵切图/帖子详情页/Vector@3x.png" alt="输入框图标" class="input-inner-icon">
-					<input type="text" placeholder="说点什么..." class="comment-input">
+					<input 
+					          type="text" 
+					          placeholder="说点什么..." 
+					          class="comment-input"
+					          v-model="commentContent"
+					          @confirm="sendComment"
+							  style="color: #333;"
+					        >
+					 <img 
+					          src="../../static/汪汪喵切图/帖子详情页/发送.png" 
+					          alt="输入框图标" 
+					          class="bottom-send-icon"
+					          @click="sendComment"
+					        >
 				</div>
-				<img src="../../static/汪汪喵切图/帖子详情页/Vector (Stroke)@3x.png" alt="输入框图标" class="bottom-like-icon">
-				<span class="like-count-bottom">{{ post.like_count }}</span>
+				<div class="like-area-bottom" @click="togglePostLike">
+					 <img 
+					      :src="isPostLiked 
+					        ? '../../static/汪汪喵切图/帖子详情页/爱心.png' 
+					        : '../../static/汪汪喵切图/帖子详情页/爱心 (1).png'" 
+					      alt="点赞" 
+					      class="bottom-like-icon"
+					    >
+					<span class="like-count-bottom">{{ postLikeCount }}</span>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -92,6 +113,8 @@
 	const currentIndex = ref(0);
 	const user = ref(null); // 修改：从对象改为null，准备存储用户数据
 	const bannerImages = ref([]); // 初始化为空数组
+	const isPostLiked = ref(false); // 当前用户是否已点赞该帖子
+	const postLikeCount = ref(0);   // 帖子的点赞数
 
 	// 新增：获取用户信息函数
 	async function fetchUserInfo(userId) {
@@ -160,7 +183,19 @@
 	      if (postDetail.value.user_id) {
 	        user.value = await fetchUserInfo(postDetail.value.user_id);
 	      }
-	
+		
+		// 帖子点赞情况获取
+		postLikeCount.value = postDetail.value.like_count || 0;
+		if (userId.value) {
+		        const likeRes = await db.collection('likes_record').where({
+		          target_id: postId.value,
+		          user_id: userId.value,
+		          target_type: "post"
+		        }).get();
+		        
+		        isPostLiked.value = likeRes.result.data.length > 0;
+		      }
+		
 	      // 处理帖子图片
 	      if (postDetail.value.images && postDetail.value.images.length > 0) {
 	        try {
@@ -200,7 +235,6 @@
 	  }
 	})
 	
-	// 在 script 中添加
 	const postFormattedDate = computed(() => {
 	  if (!postDetail.value || !postDetail.value.create_date) return '';
 	  return formatDate(postDetail.value.create_date);
@@ -325,8 +359,67 @@
 	    comments.value = [];
 	  }
 	};
+	
+	// 帖子点赞/取消点赞
+	const togglePostLike = async () => {
+	  if (!userId.value) {
+	    uni.showToast({
+	      title: '请先登录',
+	      icon: 'none'
+	    });
+	    return;
+	  }
+	
+	  try {
+	    const newLikeCount = isPostLiked.value ? 
+	      postLikeCount.value - 1 : 
+	      postLikeCount.value + 1;
+	      
+	    const newIsLiked = !isPostLiked.value;
+	
+	    // 更新UI状态（立即响应）
+	    isPostLiked.value = newIsLiked;
+	    postLikeCount.value = newLikeCount;
+	
+	    // 数据库操作
+	    if (newIsLiked) {
+	      // 添加点赞记录（移除 create_date）
+	      await db.collection('likes_record').add({
+	        target_id: postId.value,
+	        user_id: userId.value,
+	        target_type: "post"
+	        // 移除 create_date: Date.now()
+	      });
+	    } else {
+	      // 删除点赞记录
+	      await db.collection('likes_record').where({
+	        target_id: postId.value,
+	        user_id: userId.value,
+	        target_type: "post"
+	      }).remove();
+	    }
+	
+	    // 更新帖子的点赞计数
+	    await db.collection('posts').doc(postId.value).update({
+	      like_count: newLikeCount
+	    });
+	
+	  } catch (error) {
+	    console.error('操作失败', error);
+	    uni.showToast({
+	      title: '操作失败',
+	      icon: 'none'
+	    });
+	
+	    // 恢复UI状态
+	    isPostLiked.value = !isPostLiked.value;
+	    postLikeCount.value = isPostLiked.value ? 
+	      postLikeCount.value + 1 : 
+	      postLikeCount.value - 1;
+	  }
+	};
 
-	// 点赞/取消点赞功能
+	// 评论点赞/取消点赞功能
 	const toggleLike = async (comment) => {
 		if (!userId.value) {
 			uni.showToast({
@@ -384,12 +477,56 @@
 			}
 		}
 	};
+	
+	// 新增评论内容变量
+	  const commentContent = ref('');
+	
+	  // 发送评论函数
+	    const sendComment = async () => {
+	        if (!userId.value) {
+	          uni.showToast({ title: '请先登录', icon: 'none' });
+	          return;
+	        }
+	        
+	        if (!commentContent.value.trim()) {
+	          uni.showToast({ title: '评论内容不能为空', icon: 'none' });
+	          return;
+	        }
+	        
+	        try {
+	          // 使用更简单的数据库操作方式
+	          const db = uniCloud.database();
+	          
+	          // 构造评论数据
+	          const commentData = {
+	            post_id: postId.value,
+	            user_id: userId.value,
+	            comment_content: commentContent.value,
+	            comment_type: 0, // 0表示评论帖子
+	            like_count: 0
+	          };
+	          
+	          // 发送到云端 - 省略时间戳，让数据库自动生成
+	          await db.collection('opendb-news-comments').add(commentData);
+	          
+	          // 清空输入框
+	          commentContent.value = '';
+	          
+	          // 重新获取评论列表（刷新评论）
+	          await fetchComments();
+	          
+	          uni.showToast({ title: '评论成功' });
+	          
+	        } catch (e) {
+	          console.error('评论失败', e);file:///C:/Users/HP/Desktop/img/发送.png
+	          uni.showToast({ title: '评论失败: ' + e.message, icon: 'none' });
+	        }
+	      };
 
 
 	const post = ref({
 		tags: ['日常', '救助'],
 		region: '福建',
-		like_count: 120
 	});
 </script>
 
