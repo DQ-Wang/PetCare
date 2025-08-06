@@ -35,7 +35,7 @@
 
     <view class="divider-line"></view>
 
-    <view class="location-container">
+    <view class="location-container" @click="gotoLocationList">
       <view class="location-title">
         <image src="/static/汪汪喵切图/发布/位置.png" style="width: 28rpx; height: 28rpx;"></image>
         <text>位置</text>
@@ -43,14 +43,17 @@
         <image class="right-arrow" src="/static/汪汪喵切图/发布/右箭头.png" style="width: 11.22rpx; height: 19.36rpx;"></image>
       </view>
 
-      <scroll-view class="locations-wrap" scroll-x enable-flex>
-        <view v-for="(loc,index) in locations" :key="index">
-          <view class="location" :class="{'location-selected': selectedLocation === loc}"
-            @click="handleLocationSelect(loc)">
-            {{loc}}
-          </view>
-        </view>
-      </scroll-view>
+			 <scroll-view class="locations-wrap" scroll-x enable-flex>
+				 <view v-for="(loc,index) in visibleLocations" :key="index">
+					 <view 
+						 class="location" 
+						 :class="{'location-selected': selectedLocation === loc.title}"
+						 @click.stop="handleLocationSelect(loc.title)"
+					 >
+						 {{loc.title}}
+					 </view>
+				 </view>
+			 </scroll-view>
     </view>
 
     <button class="release-button" @click="handleRelease">
@@ -64,9 +67,12 @@
 </template>
 
 <script setup>
+  import QQMapWX from '../../js_sdk/qqmap-wx-jssdk1.2/qqmap-wx-jssdk.js'
   import {
     ref,
-    onMounted
+    onMounted,
+		onUnmounted,
+		computed
   } from 'vue'
 
   const db = uniCloud.database();
@@ -84,14 +90,195 @@
   //标签数据（从数据库获取）
   const tagList = ref([])
 
-  //位置数据
-  const locations = ref([
-    '厦门大学翔安校区',
-    '香山郊野公园',
-    '厦门大学翔安校区丰庭食堂',
-    '厦门大学信息学院',
-    '查看更多'
-  ])
+	//位置相关
+  const qqmapsdk = ref(null)
+  const currentLocation = ref(null)
+  const locations = ref([]) //存储位置标签列表
+  const locationLoaded = ref(false)
+	const visibleLocations = computed(() => {
+    return locations.value.slice(0, 4)
+  })
+  
+  onMounted(() => {
+    getTags()
+    initMap()
+
+		uni.$on('locationSelected', (locationData) => {
+			console.log('收到位置选择事件', locationData)
+			addNewLocation(locationData)
+		})
+  })
+
+	const initMap = () => {
+		qqmapsdk.value = new QQMapWX({
+			key: 'NJDBZ-3U5KT-VVCXD-VKCO5-M6M33-6WFDR'
+		})
+		
+		wx.getSetting({
+			success: (res) => {
+				if (res.authSetting['scope.userLocation']) {
+					//已有权限，直接获取位置
+					getCurrentLocation()
+				} else {
+					//请求位置授权
+					wx.authorize({
+						scope: 'scope.userLocation',
+						success: () => {
+							console.log('位置授权成功')
+							getCurrentLocation()
+						},
+						fail: (err) => {
+							console.log('位置授权失败', err)
+							showLocationAuthDialog()
+						}
+					})
+				}
+			},
+			fail: (err) => {
+				console.error('获取设置失败', err)
+				showLocationAuthDialog()
+			}
+		})
+	}
+  
+  //显示位置授权提示弹窗
+	const showLocationAuthDialog = () => {
+		wx.showModal({
+			title: '位置权限请求',
+			content: '需要您的位置信息来查找附近地点',
+			success(res) {
+				if (res.confirm) {
+					wx.openSetting({
+						success(settingRes) {
+							if (settingRes.authSetting['scope.userLocation']) {
+								getCurrentLocation()
+							} else {
+								wx.showToast({ title: '权限请求被拒绝', icon: 'none' })
+							}
+						}
+					})
+				}
+			}
+		})
+	}
+  
+  //获取当前位置
+  const getCurrentLocation = () => {
+    wx.getLocation({
+      type: 'gcj02',
+      success: (res) => {
+        console.log('获取位置成功', res)
+        currentLocation.value = {
+          latitude: res.latitude,
+          longitude: res.longitude
+        }
+        getNearbyPOI()
+      },
+      fail: (err) => {
+				console.error('获取位置失败', err)
+				uni.showModal({
+					title: '定位失败',
+					content: '请检查位置权限设置',
+					showCancel: false,
+					success: () => {
+						wx.openSetting()
+					}
+				})
+      }
+    })
+  }
+  
+  //获取附近地点
+  const getNearbyPOI = () => {
+    if (!currentLocation.value) return
+    
+    qqmapsdk.value.reverseGeocoder({
+      location: {
+        latitude: currentLocation.value.latitude,
+        longitude: currentLocation.value.longitude
+      },
+      get_poi: 1,
+      poi_options: "radius=150;page_size=8;policy=2;orderby=_distance",
+      success: (res) => {
+        if (res.result?.pois?.length > 0) {
+          const sortedPois = res.result.pois.sort((a, b) => a._distance - b._distance)
+          
+          const nearbyLocations = sortedPois.map(poi => ({
+            title: poi.title,
+            distance: poi._distance,
+            poi: poi
+          }))
+          
+          if (nearbyLocations[0].distance > 200) {
+            nearbyLocations.unshift({
+              title: '当前位置',
+              distance: 0,
+              poi: null
+            })
+          }
+          
+          locations.value = nearbyLocations
+        } else {
+          locations.value = [
+            {title: '当前位置', distance: 0, poi: null}
+          ]
+        }
+        locationLoaded.value = true
+      },
+      fail: (err) => {
+        console.error('获取地点失败', err)
+        locations.value = [
+          {title: '当前位置', distance: 0, poi: null}
+        ]
+        locationLoaded.value = true
+      }
+    })
+  }
+  
+  //跳转到位置选择列表页
+  const gotoLocationList = () => {
+    if (!locationLoaded.value) {
+      return uni.showToast({ title: '地点信息尚未加载完成', icon: 'none' })
+    }
+    
+    if (currentLocation.value) {
+      uni.navigateTo({
+        url: `/pages/release/locationList?lat=${currentLocation.value.latitude}&lng=${currentLocation.value.longitude}`
+      })
+    } else {
+      uni.showToast({ title: '位置信息未获取，请稍后再试', icon: 'none' })
+    }
+  }
+  
+  // 添加新位置到标签列表并选中
+  const addNewLocation = (locationData) => {
+    console.log('[发布页] 添加新位置:', locationData.title)
+    
+    const exists = visibleLocations.value.some(loc => {
+      if (loc.poi && locationData.poi && loc.poi.id) {
+        return loc.poi.id === locationData.poi.id
+      }
+
+      return loc.title.trim().toLowerCase() === locationData.title.trim().toLowerCase()
+    })
+    
+    if (!exists) {
+      console.log('位置不存在，添加新位置')
+      locations.value.unshift({
+        title: locationData.title,
+        poi: locationData.poi
+      })
+    } else {
+      console.log('位置已存在:', locationData.title)
+    }
+    
+    selectedLocation.value = locationData.title
+  }
+	
+  //修改位置选择处理方法
+  const handleLocationSelect = (location) => {
+		selectedLocation.value = location
+  }
 
   //图片上传的配置
   const imageStyles = ref({
@@ -148,19 +335,6 @@
     }
   }
 
-  //处理位置选择
-  const handleLocationSelect = (location) => {
-    if (location === '查看更多') {
-      // 实际项目中接入位置API
-      uni.showToast({
-        title: '位置功能待实现',
-        icon: 'none'
-      });
-    } else {
-      selectedLocation.value = location;
-    }
-  }
-
   //返回上一页
   const goBack = () => {
     uni.switchTab({
@@ -187,7 +361,6 @@
   }
 
   //发布功能
-
   const handleRelease = async () => {
     if (!title.value.trim()) return uni.showToast({
       title: '请输入标题',
@@ -276,11 +449,6 @@
       uni.hideLoading();
     }
   };
-
-  //页面加载时获取标签
-  onMounted(() => {
-    getTags()
-  })
 </script>
 
 <style lang="scss">
@@ -361,7 +529,7 @@
 
   .tag-container,
   .location-container {
-    padding: 0 38rpx;
+    padding: 10rpx 38rpx;
 
     .tag-title,
     .location-title {
@@ -397,6 +565,7 @@
       display: flex;
       flex-wrap: wrap;
       margin-top: 36rpx;
+			padding: 10rpx 0;
 
       .tag,
       .location {
