@@ -92,7 +92,7 @@ if (!Math) {
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return common_vendor.e({
-    a: common_assets._imports_0$4,
+    a: common_assets._imports_0$5,
     b: common_vendor.o((...args) => $options.locate && $options.locate(...args)),
     c: common_vendor.p({
       color: "#bababa",

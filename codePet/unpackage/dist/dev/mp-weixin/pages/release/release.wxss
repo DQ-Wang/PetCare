@@ -110,7 +110,7 @@ page {
 }
 .tag-container,
 .location-container {
-  padding: 0 38rpx;
+  padding: 10rpx 38rpx;
 }
 .tag-container .tag-title,
 .tag-container .location-title,
@@ -151,6 +151,7 @@ page {
   display: flex;
   flex-wrap: wrap;
   margin-top: 36rpx;
+  padding: 10rpx 0;
 }
 .tag-container .tags-wrap .tag,
 .tag-container .tags-wrap .location,
