@@ -1,6 +1,10 @@
 {
   "bsonType": "object",
-  "required": ["user_id", "target_type", "target_id"],
+  "required": [
+    "user_id",
+    "target_type",
+    "target_id"
+  ],
   "permission": {
     "read": true,
     "create": "auth.uid != null",
