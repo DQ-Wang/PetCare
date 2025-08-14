@@ -177,6 +177,13 @@
       "style": {
         "navigationBarTitleText": "师傅列表（上门）"
       }
+    },
+    {
+    	"path" : "pages/release/locationList",
+    	"style" : 
+    	{
+    		"navigationBarTitleText" : "地点"
+    	}
     }
   ],
   "globalStyle": {
