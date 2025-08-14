@@ -317,9 +317,7 @@
   }
 
   // 点赞功能
-  const toggleLike = async (item) => {
-    // 点赞逻辑实现...
-  }
+
 
   // 跳转到详情页
   const goDetail = (postId) => {
