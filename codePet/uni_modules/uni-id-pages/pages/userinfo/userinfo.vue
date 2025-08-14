@@ -76,7 +76,7 @@
     <uni-id-pages-bind-mobile ref="bind-mobile-by-sms" @success="bindMobileSuccess"></uni-id-pages-bind-mobile>
 
     <uni-popup ref="genderPopup" type="dialog">
-      <uni-popup-dialog mode="base" title="选择性别" @confirm="confirmGender">
+      <uni-popup-dialog mode="input" title="选择性别" @confirm="confirmGender">
         <view class="gender-options">
           <view v-for="item in genderOptions" :key="item.value" class="gender-option"
             :class="{selected: selectedGender === item.value}" @click="selectedGender = item.value">
@@ -356,7 +356,11 @@
 </script>
 <style lang="scss" scoped>
   @import "@/uni_modules/uni-id-pages/common/login-page.scss";
-
+  
+  ::v-deep .uni-button-color {
+	color: rgba(178, 215, 110, 1) !important;
+  }
+  
   .uni-content {
     padding: 0;
   }

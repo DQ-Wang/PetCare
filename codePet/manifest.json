@@ -55,6 +55,16 @@
       "urlCheck": false,
       "minified": true
     },
+		"permission": {
+				"scope.userLocation": {
+					"desc": "您的位置信息将用于查找附近地点"
+			}
+		},
+		"requiredPrivateInfos": [
+			"getLocation", 
+			"onLocationChange", 
+			"chooseLocation"
+		],
     "usingComponents": true
   },
   "mp-alipay": {
