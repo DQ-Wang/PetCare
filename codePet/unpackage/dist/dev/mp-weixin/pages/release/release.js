@@ -321,7 +321,7 @@ const _sfc_main = {
       return {
         a: common_assets._imports_0$3,
         b: common_vendor.o(goBack),
-        c: common_vendor.sr(files, "4c7048b1-0", {
+        c: common_vendor.sr(files, "2f810819-0", {
           "k": "files"
         }),
         d: common_vendor.o(select),

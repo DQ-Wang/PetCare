@@ -179,11 +179,10 @@
       }
     },
     {
-    	"path" : "pages/release/locationList",
-    	"style" : 
-    	{
-    		"navigationBarTitleText" : "地点"
-    	}
+      "path": "pages/release/locationList",
+      "style": {
+        "navigationBarTitleText": "选择地点"
+      }
     }
   ],
   "globalStyle": {

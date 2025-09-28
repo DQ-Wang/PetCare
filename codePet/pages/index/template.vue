@@ -1,6 +1,6 @@
 <template>
   <view class="pet-container">
-    <button @click="addPost">新增文章</button>
+    <button @click="addPost">新增</button>
 
 
   </view>
