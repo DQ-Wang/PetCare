@@ -1,7 +1,7 @@
 <template>
   <view class="pet-container">
     <view class="banner">
-      <image src="../../static/汪汪喵切图/首页/banner@3x.png" style="width: 100vw;" mode="widthFix"></image>
+      <image src="../../static/汪汪喵切图/首页/banner.png" style="width: 100vw;" mode="widthFix"></image>
     </view>
 
     <view class="main-area">
