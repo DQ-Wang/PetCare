@@ -3,7 +3,7 @@
   <view class="pet-container">
     <!-- 顶部背景图 -->
     <view class="banner">
-      <image src="../../../../static/汪汪喵切图/首页/banner@3x.png" mode="widthFix" />
+      <image src="../../../../static/汪汪喵切图/首页/banner.png" mode="widthFix" />
     </view>
 
     <view class="login-container">
