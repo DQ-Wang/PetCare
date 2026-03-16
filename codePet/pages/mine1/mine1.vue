@@ -145,14 +145,12 @@
     uni.navigateTo({
       url: `/pages/OrderPage/OrderPage?type=${type}`
     })
+  }
 
-    const toLocationDetail = () => {
-      uni.navigateTo({
-        url: ''
-      })
-
-    }
-
+  const toLocationDetail = () => {
+    uni.navigateTo({
+      url: '/pages/address/address'
+    })
   }
   const toDetail = () => {
     uni.navigateTo({

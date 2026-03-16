@@ -60,6 +60,12 @@
       }
     },
     {
+      "path": "pages/address/address",
+      "style": {
+        "navigationBarTitleText": "地址管理"
+      }
+    },
+    {
 
       "path": "pages/post_details/post_details",
       "style": {
